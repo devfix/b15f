@@ -23,6 +23,7 @@ LOAD main.o
 LOAD spi.o
 LOAD c:/avr8-gnu-toolchain-win32_x86/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a
 LOAD c:/avr8-gnu-toolchain-win32_x86/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a
+LOAD c:/avr8-gnu-toolchain-win32_x86/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libc.a
 START GROUP
 LOAD c:/avr8-gnu-toolchain-win32_x86/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a
 LOAD c:/avr8-gnu-toolchain-win32_x86/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a
@@ -371,31 +372,32 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x7dc
+.debug_info     0x00000000      0x833
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x792 c:/avr8-gnu-toolchain-win32_x86/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51/crtatmega1284.o
- .debug_info    0x00000792       0x4a main.o
+ .debug_info    0x00000792       0xa1 main.o
 
-.debug_abbrev   0x00000000      0x762
+.debug_abbrev   0x00000000      0x79a
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x729 c:/avr8-gnu-toolchain-win32_x86/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51/crtatmega1284.o
- .debug_abbrev  0x00000729       0x39 main.o
+ .debug_abbrev  0x00000729       0x71 main.o
 
-.debug_line     0x00000000       0x55
+.debug_line     0x00000000       0x61
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000       0x1a c:/avr8-gnu-toolchain-win32_x86/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51/crtatmega1284.o
- .debug_line    0x0000001a       0x3b main.o
- .debug_line    0x00000055        0x0 spi.o
+ .debug_line    0x0000001a       0x47 main.o
+ .debug_line    0x00000061        0x0 spi.o
 
 .debug_frame    0x00000000       0x24
  *(.debug_frame)
  .debug_frame   0x00000000       0x24 main.o
 
-.debug_str      0x00000000      0x37a
+.debug_str      0x00000000      0x3b8
  *(.debug_str)
  .debug_str     0x00000000      0x296 c:/avr8-gnu-toolchain-win32_x86/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51/crtatmega1284.o
- .debug_str     0x00000296       0xd9 main.o
- .debug_str     0x0000036f        0xb spi.o
+ .debug_str     0x00000296      0x117 main.o
+                                0x14b (size before relaxing)
+ .debug_str     0x000003ad        0xb spi.o
                                  0xd5 (size before relaxing)
 
 .debug_loc
