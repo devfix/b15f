@@ -15,8 +15,11 @@
 #define DMUX3 D4
 
 enum SPIADR {
+	AA0 = 0,
+	AA1 = 1,
 	BEBA0 = 2,
 	BEBA1 = 3,
+	SWITCH = 5,
 	NONE = 7,
 };
 
