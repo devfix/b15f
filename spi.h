@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include "pio.h"
 
+#define SLSL B4
 #define MOSI B5
 #define MISO B6
 #define SCLK B7
@@ -16,6 +17,7 @@
 enum SPIADR {
 	BEBA0 = 2,
 	BEBA1 = 3,
+	NONE = 7,
 };
 
 class SPI

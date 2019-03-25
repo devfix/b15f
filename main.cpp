@@ -9,12 +9,11 @@ MCP23S17 beba0(spi, SPIADR::BEBA0);
 
 int main() {
 	spi.init();
+	beba0.setDirA(0x00); // alle Ausgang
+	beba0.setDirB(0xFF); // alle Eingang
 	
 	while(1) {
-	
-		SPDR = 8;
-		while(!(SPSR & _BV(SPIF)));
-		//spi.pushByte(8);
+		beba0.writePortA(beba0.readPortB());
 	}
 
 	return 0;
