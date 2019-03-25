@@ -12,7 +12,7 @@ OUTPUT  = B15F.elf
 HEX		= B15F.hex
 CFLAGS  = -std=c++14 -O3 -mmcu=atmega1284 -DF_CPU=20000000 -DPIO_DISABLE_I2C
 LDFLAGS = 
-OBJECTS = main.o spi.o mcp23s17.o tlc5615.o
+OBJECTS = main.o spi.o mcp23s17.o tlc5615.o adu.o
 
 
 COMPILE = $(COMPILER_PATH) $(CFLAGS)

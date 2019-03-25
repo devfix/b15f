@@ -19,6 +19,7 @@ enum SPIADR {
 	AA1 = 1,
 	BEBA0 = 2,
 	BEBA1 = 3,
+	EXT = 4,
 	SWITCH = 5,
 	NONE = 7,
 };
