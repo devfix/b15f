@@ -1,19 +1,17 @@
-#ifndef SPI_H
-#define SPI_H
+#ifndef SPI_MASTER_H
+#define SPI_MASTER_H
 
 #include <util/delay.h>
+#include "pio.h"
+
+#define MOSI B5
+#define MISO B6
+#define SCLK B7
 
 class SPI {
 public:
-	SPI(void) {
-		DDRB |= _BV(PB0);
-		while(1) {
-			PORTB ^= _BV(PB0);
-			_delay_ms(1);
-		}
-	}
-
-	private: int d;
+	SPI(void);
+	void init(void) const;
 
 };
 

@@ -8,11 +8,11 @@ COMPILER_PATH = C:\avr8-gnu-toolchain-win32_x86\bin\avr-g++.exe
 OBJCOPY_PATH = C:\avr8-gnu-toolchain-win32_x86\bin\avr-objcopy.exe
 
 
-OUTPUT = B15F.elf
+OUTPUT  = B15F.elf
 HEX		= B15F.hex
-CFLAGS  = -std=c++14 -mmcu=atmega1284 -DF_CPU=20000000
+CFLAGS  = -std=c++14 -O3 -mmcu=atmega1284 -DF_CPU=20000000 -DPIO_DISABLE_I2C
 LDFLAGS = 
-OBJECTS =  main.o spi.o
+OBJECTS = main.o spi.o
 
 
 COMPILE = $(COMPILER_PATH) $(CFLAGS)
@@ -24,13 +24,13 @@ B15F: $(OBJECTS)
 	$(OBJCOPY_PATH) -O ihex -R .eeprom -R .fuse -R .lock -R .signature $(OUTPUT) $(HEX)
 
 help:
-	@echo "This Makefile has the following rules. Use one of the following:"
+	@echo "This Makefile has the following rules:"
 	@echo "make B15F .... to compile (default)"
-	@echo "make clean ... to delete objects and hex file"
+	@echo "make clean ... to delete objects, elf and hex file"
 	
 clean:
 	@echo "Cleaning..."
-	rm -f $(OBJECTS) $(OUTPUT)
+	rm -f $(OBJECTS) $(OUTPUT) $(HEX)
 
 .cpp.o:
 	$(COMPILE) -c $< -o $@
