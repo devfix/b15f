@@ -12,7 +12,6 @@ CFLAGS  = -std=c++14 -O3
 LDFLAGS = 
 OBJECTS = main.o drv/b15f.o
 
-
 COMPILE = $(COMPILER_PATH) $(CFLAGS)
 
 B15F: $(OBJECTS)

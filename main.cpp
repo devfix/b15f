@@ -5,5 +5,5 @@ int main()
 {
 	B15F& drv = B15F::getInstance();
 	drv.init();
-	std::cout << "heelol" << std::endl;
+	std::cout << "Schluss." << std::endl;
 }
