@@ -8,3 +8,5 @@ TLC5615 dac0(spi, SPIADR::AA0);
 TLC5615 dac1(spi, SPIADR::AA1);
 ADU adu;
 USART usart;
+
+bool ACK_MODE = 1;

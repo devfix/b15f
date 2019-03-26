@@ -1,6 +1,7 @@
 #ifndef SELFTEST_H
 #define SELFTEST_H
 
+#include <avr/wdt.h>
 #include "global_vars.h"
 
 void testAll(void);

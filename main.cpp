@@ -7,20 +7,21 @@
 #include "requests.h"
 
 
-#define LED PB0
+
 
 ISR(WDT_vect)
 {
-	while(1)
-	{
-		PORTB ^= _BV(LED);
-		_delay_ms(200);
-	}
 	WDTCSR |= _BV(WDIE);
 }
 
 void initAll()
 {
+	// Konfiguriere WDT
+	WDTCSR = _BV(WDIE);
+	wdt_enable(WDTO_1S);
+	wdt_reset();
+	//wdt_disable();
+
 	spi.init();
 
 	beba0.setDirA(0x00); // alle Ausgang
@@ -31,6 +32,9 @@ void initAll()
 
 	adu.init();
 	usart.init();
+
+	// aktiviere Interrupts
+	sei();
 }
 
 void handleRequest()
@@ -54,6 +58,34 @@ void handleRequest()
 			rqTestIntConv();
 			break;
 
+		case RQ_BA0:
+			rqDigitalWrite0();
+			break;
+
+		case RQ_BA1:
+			rqDigitalWrite1();
+			break;
+
+		case RQ_BE0:
+			rqDigitalRead0();
+			break;
+
+		case RQ_BE1:
+			rqDigitalRead1();
+			break;
+
+		case RQ_AA0:
+			rqAnalogWrite0();
+			break;
+
+		case RQ_AA1:
+			rqAnalogWrite1();
+			break;
+
+		case RQ_ADC:
+			rqAnalogRead();
+			break;
+
 		default:
 			break;
 	}
@@ -61,17 +93,23 @@ void handleRequest()
 
 int main()
 {
-	/*WDTCSR = _BV(WDIE) | _BV(WDP3) | _BV(WDP0);
-	DDRB |= _BV(LED);
-	PORTB &= ~_BV(LED);
-	wdt_reset();
-	sei();*/
 
 	initAll();
-	
+
+	// DEBUGGING, spaeter entfernen!
+	for(int i = 0; i < 3; i++)
+	{
+		beba0.writePortA(0xFF);
+		_delay_ms(100);
+		beba0.writePortA(0x00);
+		_delay_ms(100);
+		wdt_reset();
+	}
+
 	while(1)
 	{
 		handleRequest();
+		wdt_reset();
 	}
 
 	return 0;

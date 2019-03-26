@@ -55,6 +55,10 @@ void testDAC1(void)
 
 void testMirror()
 {
+	// deaktiviere WDT
+	wdt_disable();
+
+	// Endlosschleife
 	while(1)
 	{
 		dac0.setValue(adu.getValue(0));

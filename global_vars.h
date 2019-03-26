@@ -15,4 +15,6 @@ extern TLC5615 dac1;
 extern ADU adu;
 extern USART usart;
 
+extern bool ACK_MODE;
+
 #endif // GLOBAL_VARS_H
