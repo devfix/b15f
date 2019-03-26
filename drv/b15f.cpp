@@ -35,17 +35,26 @@ void B15F::init()
 	// Verbindungstest muss dreimal erfolgreich sein
 	std::cout << PRE << "Teste Verbindung... " << std::flush;
 	for(uint8_t i = 0; i < 3; i++)
-	{
 		if(!testConnection())
-		{
 			throw DriverException("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
-		}
-	}
 	std::cout << "OK" << std::endl;
 
-	std::cout << "int: " << testIntConv() << std::endl;
-	std::cout << "int: " << testIntConv() << std::endl;
-	std::cout << "int: " << testIntConv() << std::endl;
+
+	std::cout << PRE << "Teste Integer Konvertierung... " << std::flush;
+	for(uint8_t i = 0; i < 3; i++)
+		if(!testIntConv())
+			throw DriverException("Konvertierung fehlgeschlagen.");
+	std::cout << "OK" << std::endl;
+	
+	while(1)
+	{
+		for(uint16_t i = 0; i < 1024; )
+		{
+			i = analogeEingabe(0);
+			analogeAusgabe0(i);
+			delay(0);
+		}
+	}
 	
 }
 
@@ -86,6 +95,65 @@ bool B15F::testIntConv()
 	return aw == dummy * 3;
 }
 
+
+
+bool B15F::digitaleAusgabe0(uint8_t port)
+{
+	writeByte(RQ_BA0);
+	writeByte(port);
+	
+	uint8_t aw = readByte();	
+	return aw == MSG_OK;
+}
+
+bool B15F::digitaleAusgabe1(uint8_t port)
+{
+	writeByte(RQ_BA1);
+	writeByte(port);
+	
+	uint8_t aw = readByte();	
+	return aw == MSG_OK;
+}
+
+uint8_t B15F::digitaleEingabe0()
+{
+	writeByte(RQ_BE0);
+	return readByte();
+}
+
+uint8_t B15F::digitaleEingabe1()
+{
+	writeByte(RQ_BE1);
+	return readByte();
+}
+
+bool B15F::analogeAusgabe0(uint16_t value)
+{
+	writeByte(RQ_AA0);
+	writeInt(value);
+	
+	uint8_t aw = readByte();	
+	return aw == MSG_OK;
+}
+
+bool B15F::analogeAusgabe1(uint16_t value)
+{
+	writeByte(RQ_AA1);
+	writeInt(value);
+	
+	uint8_t aw = readByte();	
+	return aw == MSG_OK;
+}
+
+uint16_t B15F::analogeEingabe(uint8_t channel)
+{
+	writeByte(RQ_ADC);
+	writeByte(channel);
+	return readInt();
+}
+
+
+
 void B15F::writeByte(uint8_t b)
 {
 	if(write(usart, &b, 1) != 1)
@@ -109,13 +177,6 @@ uint8_t B15F::readByte()
 		int n = read(usart, &b, 1);
 		if (n > 0)
 			return static_cast<uint8_t>(b);
-		/*else if(n < -1)
-		{
-			std::string msg = "Fehler bei der seriellen Verbindung. (Code: ";
-			msg += std::to_string(n);
-			msg += ")";
-			throw DriverException(msg);
-		}*/
 			
 		end = std::chrono::steady_clock::now();
 		elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
