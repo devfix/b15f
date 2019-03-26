@@ -20,16 +20,16 @@ private:
 	B15F(void); // privater Konstruktor
 public:
 	void init(void);
+	void discard(void);
 	bool testConnection(void);
+	bool testIntConv(void);
 	
 	inline void writeByte(uint8_t);
 	inline void writeInt(uint16_t);
-	inline void writeLong(uint32_t);
 	inline uint8_t readByte(void);
 	inline uint16_t readInt(void);
-	inline uint32_t readLong(void);
 	
-	void sleep(uint16_t);
+	void delay(uint16_t);
 	
 	static B15F& getInstance(void);
 
@@ -45,6 +45,12 @@ private:
 	const std::string SERIAL_DEVICE = "/dev/ttyUSB0";
 	constexpr static uint8_t MSG_OK = 0xFF;
 	constexpr static uint8_t MSG_FAIL = 0xFE;
+	
+// REQUESTS
+	constexpr static uint8_t RQ_DISC = 0;
+	constexpr static uint8_t RQ_TEST = 1;
+	constexpr static uint8_t RQ_INFO = 2;
+	constexpr static uint8_t RQ_INT  = 3;
 };
 
 #endif // B15F_h

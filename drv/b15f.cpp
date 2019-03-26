@@ -6,10 +6,10 @@ B15F::B15F()
 {
 }
 
-void B15F::init(void)
+void B15F::init()
 {
 	
-	std::cout << PRE << "Stelle Verbindung mit Adapter her... ";
+	std::cout << PRE << "Stelle Verbindung mit Adapter her... " << std::flush;
 	int code = system(std::string("stty 38400 -F " + SERIAL_DEVICE).c_str());
 	if(code)
 	{
@@ -29,9 +29,11 @@ void B15F::init(void)
 	
 	std::cout << "OK" << std::endl;
 	
+	// verwerfe Daten, die µC noch hat
+	discard();
 
 	// Verbindungstest muss dreimal erfolgreich sein
-	std::cout << PRE << "Teste Verbindung... ";
+	std::cout << PRE << "Teste Verbindung... " << std::flush;
 	for(uint8_t i = 0; i < 3; i++)
 	{
 		if(!testConnection())
@@ -40,21 +42,30 @@ void B15F::init(void)
 		}
 	}
 	std::cout << "OK" << std::endl;
+
+	std::cout << "int: " << testIntConv() << std::endl;
+	std::cout << "int: " << testIntConv() << std::endl;
+	std::cout << "int: " << testIntConv() << std::endl;
 	
-	writeByte(0xFF);
-	writeByte(0x01);
-	writeByte(0x02);
-	std::cout << readByte() << std::endl;
-	std::cout << readByte() << std::endl;
 }
 
-bool B15F::testConnection(void)
+void B15F::discard(void)
+{
+	for(uint8_t i = 0; i < 8; i++)
+	{
+		writeByte(RQ_DISC);	// sende discard Befehl (verwerfe input)
+		delay(1);
+		tcflush(usart, TCIFLUSH); // leere Puffer
+	}
+}
+
+bool B15F::testConnection()
 {
 	// erzeuge zufälliges Byte
-	srand (time(NULL));
+	srand(time(NULL));
 	uint8_t dummy = rand() % 256;
 	
-	writeByte(0); // echo / dummy command for testing
+	writeByte(RQ_TEST);
 	writeByte(dummy);
 	
 	uint8_t aw = readByte();
@@ -63,25 +74,28 @@ bool B15F::testConnection(void)
 	return aw == MSG_OK && mirror == dummy;
 }
 
+bool B15F::testIntConv()
+{
+	srand(time(NULL));
+	uint16_t dummy = rand() % (0xFFFF / 3);
+	
+	writeByte(RQ_INT);
+	writeInt(dummy);
+	
+	uint16_t aw = readInt();
+	return aw == dummy * 3;
+}
+
 void B15F::writeByte(uint8_t b)
 {
 	if(write(usart, &b, 1) != 1)
-		throw DriverException("Fehler beim Senden.");
+		throw DriverException("Fehler beim Senden. (byte)");
 }
 
 void B15F::writeInt(uint16_t v)
 {
-	// static_cast<char*>(static_cast<void*>(&x));
-	writeByte((v >> 8) & 0xFF);
-	writeByte((v >> 0) & 0xFF);
-}
-
-void B15F::writeLong(uint32_t v)
-{
-	writeByte((v >> 24) & 0xFF);
-	writeByte((v >> 16) & 0xFF);
-	writeByte((v >> 8) & 0xFF);
-	writeByte((v >> 0) & 0xFF);
+	if(write(usart, reinterpret_cast<char*>(&v), 2) != 2)
+		throw DriverException("Fehler beim Senden. (int)");
 }
 
 uint8_t B15F::readByte()
@@ -113,15 +127,10 @@ uint8_t B15F::readByte()
 
 uint16_t B15F::readInt()
 {
-	return readByte() << 8 | readByte();
+	return readByte() | readByte() << 8;
 }
 
-uint32_t B15F::readLong()
-{
-	return readByte() << 24 | readByte() << 16 | readByte() << 8 | readByte();
-}
-
-void B15F::sleep(uint16_t ms)
+void B15F::delay(uint16_t ms)
 {
 	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
