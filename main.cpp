@@ -2,19 +2,17 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <avr/wdt.h>
-#include "vars.h"
+#include "global_vars.h"
 #include "selftest.h"
 
 
-#define LED B0
+#define LED PB0
 
 ISR(WDT_vect)
 {
 	while(1)
 	{
-		dWrite(LED, HIGH);
-		_delay_ms(200);
-		dWrite(LED, LOW);
+		PORTB ^= _BV(LED);
 		_delay_ms(200);
 	}
 	WDTCSR |= _BV(WDIE);
@@ -36,8 +34,8 @@ void initAll()
 int main()
 {
 	/*WDTCSR = _BV(WDIE) | _BV(WDP3) | _BV(WDP0);
-	dMode(LED, OUT);
-	dWrite(LED, LOW);
+	DDRB |= _BV(LED);
+	PORTB &= ~_BV(LED);
 	wdt_reset();
 	sei();*/
 

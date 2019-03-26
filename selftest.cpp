@@ -6,6 +6,7 @@ void testAll(void)
 	testBEBA1();
 	testDAC0();
 	testDAC1();
+	testMirror();
 }
 
 void testBEBA0(void)
@@ -37,6 +38,8 @@ void testDAC0(void)
 		dac0.setValue(i);
 		_delay_ms(1);
 	}
+	_delay_ms(100);
+	dac0.setValue(0);
 }
 
 void testDAC1(void)
@@ -45,5 +48,18 @@ void testDAC1(void)
 	{
 		dac1.setValue(i);
 		_delay_ms(1);
+	}
+	_delay_ms(100);
+	dac1.setValue(0);
+}
+
+void testMirror()
+{
+	while(1)
+	{
+		dac0.setValue(adu.getValue(0));
+		dac1.setValue(adu.getValue(1));
+		beba0.writePortA(beba0.readPortB());
+		beba1.writePortA(sw.readPortB());
 	}
 }

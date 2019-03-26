@@ -1,4 +1,4 @@
-#include "vars.h"
+#include "global_vars.h"
 
 SPI spi;
 MCP23S17 beba0(spi, SPIADR::BEBA0);

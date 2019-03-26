@@ -1,5 +1,5 @@
-#ifndef VARS_H
-#define VARS_H
+#ifndef GLOBAL_VARS_H
+#define GLOBAL_VARS_H
 
 #include "mcp23s17.h"
 #include "tlc5615.h"
@@ -13,4 +13,4 @@ extern TLC5615 dac0;
 extern TLC5615 dac1;
 extern ADU adu;
 
-#endif // VARS_H
+#endif // GLOBAL_VARS_H

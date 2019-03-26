@@ -2,17 +2,17 @@
 #define SPI_H
 
 #include <util/delay.h>
+#include <avr/io.h>
 #include <stdint.h>
-#include "pio.h"
 
-#define SLSL B4
-#define MOSI B5
-#define MISO B6
-#define SCLK B7
+#define SLSL PB4
+#define MOSI PB5
+#define MISO PB6
+#define SCLK PB7
 
-#define DMUX1 D2
-#define DMUX2 D3
-#define DMUX3 D4
+#define DMUX1 PD2
+#define DMUX2 PD3
+#define DMUX3 PD4
 
 enum SPIADR {
 	AA0 = 0,
@@ -29,7 +29,6 @@ class SPI
 public:
 	SPI(void);
 	void init(void) const;
-	//void setFreq(uint32_t) const;
 	void setAdr(uint8_t) const;
 	uint8_t pushByte(uint8_t) const;
 
