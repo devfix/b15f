@@ -1,0 +1,26 @@
+#include "usart.h"
+
+void USART::init()
+{
+	UCSR0B = _BV(RXEN0) | _BV(TXEN0);
+
+	// Einstellen des Datenformats: 8 Datenbits, 1 Stoppbit
+	UCSR0C = _BV(UCSZ00) |_BV(UCSZ01);// (1<<URSEL0)|(1<<UCSZ10)|(1<<UCSZ00);
+
+	// setze Baudrate
+	UBRR0H = (((F_CPU / (16UL * BAUDRATE))-1) >> 8) & 0xFF;
+	UBRR0L =  ((F_CPU / (16UL * BAUDRATE))-1) & 0xFF;
+
+}
+
+void USART::writeByte(uint8_t b)
+{
+	UDR0 = b;
+	while(!(UCSR0A & _BV(TXC0)));
+}
+
+uint8_t USART::readByte()
+{
+	while (!(UCSR0A & (1<<RXC0)));
+    return UDR0;
+}

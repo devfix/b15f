@@ -29,6 +29,15 @@ void initAll()
 	sw.setDirB(0xFF); // alle Eingang
 
 	adu.init();
+	usart.init();
+}
+
+void handleRequest()
+{
+	const uint8_t req = usart.readByte();
+	uint8_t dummy = usart.readByte();
+	usart.writeByte(USART::MSG_OK);
+	usart.writeByte(dummy);
 }
 
 int main()
@@ -43,7 +52,7 @@ int main()
 	
 	while(1)
 	{
-		testAll();
+		handleRequest();
 	}
 
 	return 0;

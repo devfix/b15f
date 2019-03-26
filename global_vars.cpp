@@ -7,3 +7,4 @@ MCP23S17 sw(spi, SPIADR::SWITCH);
 TLC5615 dac0(spi, SPIADR::AA0);
 TLC5615 dac1(spi, SPIADR::AA1);
 ADU adu;
+USART usart;
