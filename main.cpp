@@ -4,6 +4,7 @@
 #include <avr/wdt.h>
 #include "global_vars.h"
 #include "selftest.h"
+#include "requests.h"
 
 
 #define LED PB0
@@ -35,9 +36,27 @@ void initAll()
 void handleRequest()
 {
 	const uint8_t req = usart.readByte();
-	uint8_t dummy = usart.readByte();
-	usart.writeByte(USART::MSG_OK);
-	usart.writeByte(dummy);
+
+	switch(req)
+	{
+		case RQ_DISC:
+			break;
+
+		case RQ_TEST:
+			rqTestConnection();
+			break;
+		
+		case RQ_INFO:
+			rqBoardInfo();
+			break;
+		
+		case RQ_INT:
+			rqTestIntConv();
+			break;
+
+		default:
+			break;
+	}
 }
 
 int main()
