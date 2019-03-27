@@ -48,14 +48,39 @@ void B15F::init()
 	
 	while(1)
 	{
-		for(uint16_t i = 0; i < 1024; )
+		digitaleAusgabe0(0xFF);
+		digitaleAusgabe0(0x00);
+		//analogeEingabe(0);
+		/*for(uint16_t i = 0; i < 1024; )
 		{
 			i = analogeEingabe(0);
 			analogeAusgabe0(i);
 			delay(0);
-		}
+		}*/
 	}
 	
+}
+
+void B15F::reconnect()
+{
+	std::cout << PRE << "Verbindung unterbrochen, stelle Verbindung neu her: " << std::flush;
+		
+	uint8_t tries = RECONNECT_TRIES;		
+	while(tries--)
+	{
+		delay(RECONNECT_TIMEOUT);
+		
+		discard();
+		
+		if(testConnection())
+		{
+			std::cout << "OK" << std::endl << std::flush;
+			return;
+		}
+			
+	}
+	
+	throw DriverException("Verbindung kann nicht repariert werden");
 }
 
 void B15F::discard(void)
@@ -99,57 +124,113 @@ bool B15F::testIntConv()
 
 bool B15F::digitaleAusgabe0(uint8_t port)
 {
-	writeByte(RQ_BA0);
-	writeByte(port);
-	
-	uint8_t aw = readByte();	
-	return aw == MSG_OK;
+	try
+	{
+		writeByte(RQ_BA0);
+		writeByte(port);
+		
+		uint8_t aw = readByte();	
+		return aw == MSG_OK;
+	}
+	catch(DriverException& de)
+	{
+		reconnect();
+		return digitaleAusgabe0(port);
+	}
 }
 
 bool B15F::digitaleAusgabe1(uint8_t port)
 {
-	writeByte(RQ_BA1);
-	writeByte(port);
-	
-	uint8_t aw = readByte();	
-	return aw == MSG_OK;
+	try
+	{
+		writeByte(RQ_BA1);
+		writeByte(port);
+		
+		uint8_t aw = readByte();	
+		return aw == MSG_OK;
+	}
+	catch(DriverException& de)
+	{
+		reconnect();
+		return digitaleAusgabe1(port);
+	}
 }
 
 uint8_t B15F::digitaleEingabe0()
 {
-	writeByte(RQ_BE0);
-	return readByte();
+	try
+	{
+		writeByte(RQ_BE0);
+		return readByte();
+	}
+	catch(DriverException& de)
+	{
+		reconnect();
+		return digitaleEingabe0();
+	}
 }
 
 uint8_t B15F::digitaleEingabe1()
 {
-	writeByte(RQ_BE1);
-	return readByte();
+	try
+	{
+		writeByte(RQ_BE1);
+		return readByte();
+	}
+	catch(DriverException& de)
+	{
+		reconnect();
+		return digitaleEingabe1();
+	}
 }
 
 bool B15F::analogeAusgabe0(uint16_t value)
 {
-	writeByte(RQ_AA0);
-	writeInt(value);
-	
-	uint8_t aw = readByte();	
-	return aw == MSG_OK;
+	try
+	{
+		writeByte(RQ_AA0);
+		writeInt(value);
+		
+		uint8_t aw = readByte();	
+		return aw == MSG_OK;
+	}
+	catch(DriverException& de)
+	{
+		reconnect();
+		return analogeAusgabe0(value);
+	}
 }
 
 bool B15F::analogeAusgabe1(uint16_t value)
 {
-	writeByte(RQ_AA1);
-	writeInt(value);
-	
-	uint8_t aw = readByte();	
-	return aw == MSG_OK;
+	try
+	{
+		writeByte(RQ_AA1);
+		writeInt(value);
+		
+		uint8_t aw = readByte();	
+		return aw == MSG_OK;
+	}
+	catch(DriverException& de)
+	{
+		reconnect();
+		return analogeAusgabe1(value);
+	}
 }
 
 uint16_t B15F::analogeEingabe(uint8_t channel)
 {
-	writeByte(RQ_ADC);
-	writeByte(channel);
-	return readInt();
+	try
+	{
+		writeByte(RQ_ADC);
+		writeByte(channel);
+		return readInt();
+	}
+	catch(DriverException& de)
+	{
+		reconnect();
+		return analogeEingabe(channel);
+	}
 }
 
 

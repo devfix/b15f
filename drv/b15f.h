@@ -21,6 +21,7 @@ private:
 public:
 	// Grundfunktionen
 	void init(void);
+	void reconnect(void);
 	void discard(void);
 	bool testConnection(void);
 	bool testIntConv(void);
@@ -57,6 +58,8 @@ private:
 	const std::string SERIAL_DEVICE = "/dev/ttyUSB0";
 	constexpr static uint8_t MSG_OK = 0xFF;
 	constexpr static uint8_t MSG_FAIL = 0xFE;
+	constexpr static uint16_t RECONNECT_TIMEOUT = 32; // ms
+	constexpr static uint8_t RECONNECT_TRIES = 3;
 	
 	// REQUESTS
 	constexpr static uint8_t RQ_DISC = 0;
