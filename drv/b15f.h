@@ -27,13 +27,14 @@ public:
 	bool testIntConv(void);
 	
 	// Board Befehle
-	inline bool digitaleAusgabe0(uint8_t);
-	inline bool digitaleAusgabe1(uint8_t);
-	inline uint8_t digitaleEingabe0(void);
-	inline uint8_t digitaleEingabe1(void);
-	inline bool analogeAusgabe0(uint16_t);
-	inline bool analogeAusgabe1(uint16_t);
-	inline uint16_t analogeEingabe(uint8_t);
+	bool digitaleAusgabe0(uint8_t);
+	bool digitaleAusgabe1(uint8_t);
+	uint8_t digitaleEingabe0(void);
+	uint8_t digitaleEingabe1(void);
+	bool analogeAusgabe0(uint16_t);
+	bool analogeAusgabe1(uint16_t);
+	uint16_t analogeEingabe(uint8_t);
+	bool analogEingabeSequenz(uint16_t*, uint16_t*, uint32_t, uint32_t, uint16_t, uint16_t, uint16_t);
 	
 	// Serielle Verbindung
 	inline void writeByte(uint8_t);
@@ -73,6 +74,7 @@ private:
 	constexpr static uint8_t RQ_AA0  = 9;
 	constexpr static uint8_t RQ_AA1  = 10;
 	constexpr static uint8_t RQ_ADC  = 11;
+	constexpr static uint8_t RQ_ADC_DAC_STROKE  = 12;
 };
 
 #endif // B15F_h

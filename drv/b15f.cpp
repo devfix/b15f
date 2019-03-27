@@ -45,20 +45,6 @@ void B15F::init()
 		if(!testIntConv())
 			throw DriverException("Konvertierung fehlgeschlagen.");
 	std::cout << "OK" << std::endl;
-	
-	while(1)
-	{
-		digitaleAusgabe0(0xFF);
-		digitaleAusgabe0(0x00);
-		//analogeEingabe(0);
-		/*for(uint16_t i = 0; i < 1024; )
-		{
-			i = analogeEingabe(0);
-			analogeAusgabe0(i);
-			delay(0);
-		}*/
-	}
-	
 }
 
 void B15F::reconnect()
@@ -233,6 +219,38 @@ uint16_t B15F::analogeEingabe(uint8_t channel)
 	}
 }
 
+bool B15F::analogEingabeSequenz(uint16_t* buffer_a, uint16_t* buffer_b, uint32_t offset_a, uint32_t offset_b, uint16_t start, uint16_t delta, uint16_t count)
+{
+	try
+	{
+		writeByte(RQ_ADC_DAC_STROKE);		
+		writeInt(start);
+		writeInt(delta);
+		writeInt(count);		
+		uint8_t aw = readByte();
+		
+		if(aw != MSG_OK)
+		{
+			std::cout << "nein: " << (int) aw << std::endl;
+			throw DriverException("Mikrocontroller nicht synchronisiert");
+		}
+			
+		for(uint16_t i = 0; i < count; i++)
+		{
+			buffer_a[offset_a + i] = readInt();
+			buffer_b[offset_b + i] = readInt();
+			std::cout << "(" << i << ")   " << buffer_a[offset_a + i] << " \t| " << buffer_b[offset_b + i] << std::endl;
+		}
+		
+		aw = readByte();		
+		return aw == MSG_OK;
+	}
+	catch(DriverException& de)
+	{
+		reconnect();
+		return analogEingabeSequenz(buffer_a, buffer_b, offset_a, offset_b, start, delta, count);
+	}
+}
 
 
 void B15F::writeByte(uint8_t b)
