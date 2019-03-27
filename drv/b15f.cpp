@@ -10,7 +10,7 @@ void B15F::init()
 {
 	
 	std::cout << PRE << "Stelle Verbindung mit Adapter her... " << std::flush;
-	int code = system(std::string("stty 38400 -F " + SERIAL_DEVICE).c_str());
+	int code = system(std::string("stty " + std::to_string(BAUDRATE) + " -F " + SERIAL_DEVICE).c_str());
 	if(code)
 	{
 		throw DriverException("Konnte serielle Verbindung nicht initialisieren. Ist der Adapter angeschlossen?");
@@ -19,11 +19,11 @@ void B15F::init()
 	usart = open(SERIAL_DEVICE.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 	struct termios options;
 	tcgetattr(usart, &options);
-	options.c_cflag = baudrate | CS8 | CLOCAL | CREAD; 
 	options.c_iflag = IGNPAR;
 	options.c_oflag = 0;
 	options.c_lflag = 0;
-	options.c_cc[VTIME]=30;
+	options.c_cc[VTIME]=1; // timeout in Dezisekunden
+    cfsetspeed(&options, BAUDRATE);	
 	tcsetattr(usart, TCSANOW, &options);
 	tcflush(usart, TCIFLUSH);
 	

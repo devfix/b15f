@@ -49,7 +49,6 @@ public:
 
 private:
 	int usart = -1;
-	uint32_t baudrate = 38400;
 	uint16_t timeout = 1000;
 
 	static B15F* instance;
@@ -61,6 +60,7 @@ private:
 	constexpr static uint8_t MSG_FAIL = 0xFE;
 	constexpr static uint16_t RECONNECT_TIMEOUT = 32; // ms
 	constexpr static uint8_t RECONNECT_TRIES = 3;
+	constexpr static uint32_t BAUDRATE = 115200;
 	
 	// REQUESTS
 	constexpr static uint8_t RQ_DISC = 0;
