@@ -50,6 +50,10 @@ void B15F::init()
 	if(tries == 0)
 			throw DriverException("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
 	std::cout << "OK" << std::endl;
+	
+	// Gib board info aus
+	std::vector<std::string> info = getBoardInfo();
+	std::cout << PRE << "AVR Firmware Version: " << info[0] << " um " << info[1] << " Uhr (" << info[2] << ")" << std::endl;
 
 }
 
@@ -115,6 +119,38 @@ bool B15F::testIntConv()
 }
 
 
+std::vector<std::string> B15F::getBoardInfo(void)
+{
+	try
+	{
+		std::vector<std::string> info;
+		
+		writeByte(RQ_INFO);
+		uint8_t n = readByte();
+		while(n--)
+		{
+			uint8_t len = readByte();			
+			std::string str;
+			
+			while(len--)
+				str += static_cast<char>(readByte());
+				
+			info.push_back(str);
+		}
+		
+		uint8_t aw = readByte();
+		
+		if(aw != MSG_OK)
+			throw DriverException("Board Info fehlerhalft");
+		
+		return info;
+	}
+	catch(DriverException& de)
+	{
+		reconnect();
+		return getBoardInfo();
+	}
+}
 
 bool B15F::digitaleAusgabe0(uint8_t port)
 {

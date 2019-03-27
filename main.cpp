@@ -1,5 +1,6 @@
 #include <iostream>
 #include "drv/b15f.h"
+#include "drv/plottyfile.h"
 
 int main()
 {
@@ -21,7 +22,10 @@ int main()
 	uint16_t bb[1024];
 	drv.analogEingabeSequenz(1, &ba[0], 0, 0, &bb[0], 0, 1023, -1, 1023);
 	
-	system("./plotty --in graph");
+	PlottyFile pf;
+	pf.writeToFile("test_plot");
+	
+	system("./plotty --in test_plot");
 	
 	std::cout << "Schluss." << std::endl;
 }

@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <chrono>
 #include <cstdint>
+#include <vector>
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -25,6 +26,7 @@ public:
 	void discard(void);
 	bool testConnection(void);
 	bool testIntConv(void);
+	std::vector<std::string> getBoardInfo(void);
 	
 	// Board Befehle
 	bool digitaleAusgabe0(uint8_t);
