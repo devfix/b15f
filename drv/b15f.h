@@ -34,7 +34,7 @@ public:
 	bool analogeAusgabe0(uint16_t);
 	bool analogeAusgabe1(uint16_t);
 	uint16_t analogeEingabe(uint8_t);
-	bool analogEingabeSequenz(uint16_t*, uint16_t*, uint32_t, uint32_t, uint16_t, uint16_t, uint16_t);
+	bool analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count);
 	
 	// Serielle Verbindung
 	inline void writeByte(uint8_t);

@@ -28,15 +28,17 @@ void B15F::init()
 	tcflush(usart, TCIFLUSH);
 	
 	std::cout << "OK" << std::endl;
-	
-	// verwerfe Daten, die µC noch hat
-	discard();
 
 	// Verbindungstest muss dreimal erfolgreich sein
 	std::cout << PRE << "Teste Verbindung... " << std::flush;
 	for(uint8_t i = 0; i < 3; i++)
+	{
+		// verwerfe Daten, die µC noch hat
+		discard();
+		
 		if(!testConnection())
 			throw DriverException("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
+	}
 	std::cout << "OK" << std::endl;
 
 
@@ -219,21 +221,20 @@ uint16_t B15F::analogeEingabe(uint8_t channel)
 	}
 }
 
-bool B15F::analogEingabeSequenz(uint16_t* buffer_a, uint16_t* buffer_b, uint32_t offset_a, uint32_t offset_b, uint16_t start, uint16_t delta, uint16_t count)
+bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
 	try
 	{
-		writeByte(RQ_ADC_DAC_STROKE);		
+		writeByte(RQ_ADC_DAC_STROKE);
+		writeByte(channel_a);
+		writeByte(channel_b);
 		writeInt(start);
-		writeInt(delta);
+		writeInt(static_cast<uint16_t>(delta));
 		writeInt(count);		
 		uint8_t aw = readByte();
 		
 		if(aw != MSG_OK)
-		{
-			std::cout << "nein: " << (int) aw << std::endl;
 			throw DriverException("Mikrocontroller nicht synchronisiert");
-		}
 			
 		for(uint16_t i = 0; i < count; i++)
 		{
@@ -248,7 +249,7 @@ bool B15F::analogEingabeSequenz(uint16_t* buffer_a, uint16_t* buffer_b, uint32_t
 	catch(DriverException& de)
 	{
 		reconnect();
-		return analogEingabeSequenz(buffer_a, buffer_b, offset_a, offset_b, start, delta, count);
+		return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 	}
 }
 
