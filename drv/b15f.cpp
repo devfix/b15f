@@ -19,6 +19,7 @@ void B15F::init()
 	usart = open(SERIAL_DEVICE.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 	struct termios options;
 	tcgetattr(usart, &options);
+	options.c_cflag = CS8 | CLOCAL | CREAD; 
 	options.c_iflag = IGNPAR;
 	options.c_oflag = 0;
 	options.c_lflag = 0;
@@ -28,25 +29,28 @@ void B15F::init()
 	tcflush(usart, TCIFLUSH);
 	
 	std::cout << "OK" << std::endl;
+	
+	delay(1);
 
-	// Verbindungstest muss dreimal erfolgreich sein
-	std::cout << PRE << "Teste Verbindung... " << std::flush;
-	for(uint8_t i = 0; i < 3; i++)
+	std::cout << PRE << "Teste Verbindung... " << std::flush;	
+	uint8_t tries = 3;
+	while(tries--)
 	{
 		// verwerfe Daten, die µC noch hat
 		discard();
 		
 		if(!testConnection())
-			throw DriverException("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
-	}
-	std::cout << "OK" << std::endl;
-
-
-	std::cout << PRE << "Teste Integer Konvertierung... " << std::flush;
-	for(uint8_t i = 0; i < 3; i++)
+			continue;
+		
 		if(!testIntConv())
-			throw DriverException("Konvertierung fehlgeschlagen.");
+			continue;
+			
+		break;
+	}
+	if(tries == 0)
+			throw DriverException("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
 	std::cout << "OK" << std::endl;
+
 }
 
 void B15F::reconnect()
@@ -73,12 +77,14 @@ void B15F::reconnect()
 
 void B15F::discard(void)
 {
+	tcflush(usart, TCIFLUSH); // leere Puffer
 	for(uint8_t i = 0; i < 8; i++)
 	{
 		writeByte(RQ_DISC);	// sende discard Befehl (verwerfe input)
-		delay(1);
-		tcflush(usart, TCIFLUSH); // leere Puffer
+		delay(10);
 	}
+	delay(100);
+	tcflush(usart, TCIFLUSH); // leere Puffer
 }
 
 bool B15F::testConnection()
@@ -240,7 +246,7 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 		{
 			buffer_a[offset_a + i] = readInt();
 			buffer_b[offset_b + i] = readInt();
-			std::cout << "(" << i << ")   " << buffer_a[offset_a + i] << " \t| " << buffer_b[offset_b + i] << std::endl;
+			//std::cout << "(" << i << ")   " << buffer_a[offset_a + i] << " \t| " << buffer_b[offset_b + i] << std::endl;
 		}
 		
 		aw = readByte();		

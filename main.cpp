@@ -19,7 +19,9 @@ int main()
 	
 	uint16_t ba[1024];
 	uint16_t bb[1024];
-	drv.analogEingabeSequenz(1, &ba[0], 0, 0, &bb[0], 0, 1000, -10, 101);
+	drv.analogEingabeSequenz(1, &ba[0], 0, 0, &bb[0], 0, 1023, -1, 1023);
+	
+	system("./plotty --in graph");
 	
 	std::cout << "Schluss." << std::endl;
 }
