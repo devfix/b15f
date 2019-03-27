@@ -74,6 +74,9 @@ void rqAnalogRead()
 
 void rqAdcDacStroke()
 {	
+	uint8_t channel_a = usart.readByte();
+	uint8_t channel_b = usart.readByte();
+	
 	int16_t start = static_cast<int16_t>(usart.readInt());
 	int16_t delta = static_cast<int16_t>(usart.readInt());
 	int16_t count = static_cast<int16_t>(usart.readInt());
@@ -85,8 +88,8 @@ void rqAdcDacStroke()
 	for(int16_t i = start; i != count; i += delta)
 	{
 		dac0.setValue(i);
-		uint16_t a = adu.getValue(0);
-		uint16_t b = adu.getValue(1);
+		uint16_t a = adu.getValue(channel_a);
+		uint16_t b = adu.getValue(channel_b);
 		usart.writeInt(a);
 		usart.writeInt(b);
 	}
