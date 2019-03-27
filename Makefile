@@ -10,7 +10,7 @@ COMPILER_PATH = g++
 OUTPUT  = main
 CFLAGS  = -std=c++14 -O3
 LDFLAGS = 
-OBJECTS = main.o drv/b15f.o drv/plottyfile.o
+OBJECTS = main.o drv/b15f.o drv/plottyfile.o drv/dot.o
 
 COMPILE = $(COMPILER_PATH) $(CFLAGS)
 

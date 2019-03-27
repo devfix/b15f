@@ -1,5 +1,10 @@
 #include "plottyfile.h"
 
+void PlottyFile::addDot(Dot& dot)
+{
+	dots.push_back(dot);
+}
+
 void PlottyFile::prepStr(std::string& str, uint8_t len)
 {
 	if(str.length() > len)
@@ -64,20 +69,12 @@ void PlottyFile::writeToFile(std::string filename)
 	while(file.tellp() < 256)
 		file.put(0);
 		
-	for(uint16_t i = 0; i < 1023; i++)
+	for(Dot& dot : dots)
 	{
-		file.put(i >> 8);
-		file.put(i & 0xFF);
-		file.put(1);
-		file.put(0);
-	}
-		
-	for(uint16_t i = 0; i < 1023; i++)
-	{
-		file.put((i >> 8) | 128);
-		file.put(i & 0xFF);
-		file.put(2);
-		file.put(0);
+		file.put((dot.getX() >> 8) | (static_cast<uint8_t>(dot.getColor()) << 2));
+		file.put(dot.getX() & 0xFF);
+		file.put(dot.getY() >> 8);
+		file.put(dot.getY() & 0xFF);
 	}
 	
 	file.close();

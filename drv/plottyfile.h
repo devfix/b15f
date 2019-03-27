@@ -4,13 +4,18 @@
 #include <iostream>
 #include <fstream>
 #include <exception>
+#include <vector>
+#include "dot.h"
 
 class PlottyFile
 {
 public:
+	void addDot(Dot& dot);
 	void writeToFile(std::string filename);
 private:
 	void prepStr(std::string& str, uint8_t len);
+
+	std::vector<Dot> dots;
 
 	int8_t command;
 	std::string title;

@@ -23,6 +23,13 @@ int main()
 	drv.analogEingabeSequenz(1, &ba[0], 0, 0, &bb[0], 0, 1023, -1, 1023);
 	
 	PlottyFile pf;
+	
+		
+	for(uint16_t i = 0; i < 1023; i++)
+	{
+		Dot d(i,i, DotColor::PURPLE);
+		pf.addDot(d);
+	}
 	pf.writeToFile("test_plot");
 	
 	system("./plotty --in test_plot");
