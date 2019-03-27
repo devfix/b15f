@@ -7,20 +7,19 @@
 #include "requests.h"
 
 
+#define WDT_TIMEOUT WDTO_15MS
 
-
+/*
 ISR(WDT_vect)
 {
 	WDTCSR |= _BV(WDIE);
-}
+}*/
 
 void initAll()
 {
-	// Konfiguriere WDT
-	WDTCSR = _BV(WDIE);
-	wdt_enable(WDTO_1S);
-	wdt_reset();
-	//wdt_disable();
+	// deaktiviere WDT, da er bei Neustart erhalten bleiben kann
+	WDTCSR = 0;
+	wdt_disable();
 
 	spi.init();
 
@@ -39,7 +38,15 @@ void initAll()
 
 void handleRequest()
 {
+	// stoppe WDT
+	wdt_disable();
+	
 	const uint8_t req = usart.readByte();
+	
+	// starte WDT
+	wdt_enable(WDT_TIMEOUT);
+	WDTCSR = _BV(WDIE);
+	wdt_reset();
 
 	switch(req)
 	{
@@ -96,7 +103,9 @@ int main()
 
 	initAll();
 
+	
 	// DEBUGGING, spaeter entfernen!
+	/*
 	for(int i = 0; i < 3; i++)
 	{
 		beba0.writePortA(0xFF);
@@ -104,12 +113,11 @@ int main()
 		beba0.writePortA(0x00);
 		_delay_ms(100);
 		wdt_reset();
-	}
+	}*/
 
 	while(1)
 	{
 		handleRequest();
-		wdt_reset();
 	}
 
 	return 0;
