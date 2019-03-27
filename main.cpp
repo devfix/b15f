@@ -8,6 +8,7 @@
 
 
 #define WDT_TIMEOUT WDTO_15MS
+const uint8_t CDUMMY __attribute__((used)) = 0;
 
 
 ISR(WDT_vect)
@@ -45,6 +46,13 @@ void handleRequest()
 	switch(req)
 	{
 		case RQ_DISC:
+			{
+				// sinnlose Abfrage, damit Compiler nicht nervt
+				uint8_t dummy = 0xFF;
+				if(dummy)
+					// leere Puffer
+					while(UCSR0A & (1<<RXC0)) dummy = UDR0;
+			}
 			break;
 
 		case RQ_TEST:

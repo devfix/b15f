@@ -1,6 +1,6 @@
 #include "TLC5615.h"
 
-TLC5615::TLC5615(SPI& api, uint8_t adr) : spi(spi), adr(adr)
+TLC5615::TLC5615(SPI& spi, uint8_t adr) : spi(spi), adr(adr)
 {
 }
 

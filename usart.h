@@ -15,6 +15,7 @@ public:
 	void writeByte(uint8_t);
 	void writeInt(uint16_t);
 	void writeLong(uint32_t);
+	void writeStr(const char*, uint8_t);
 	uint8_t readByte(void);
 	uint16_t readInt(void);
 	uint32_t readLong(void);

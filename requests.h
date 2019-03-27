@@ -1,7 +1,9 @@
 #ifndef REQUESTS_H
 #define REQUESTS_H
 
+#include <avr/wdt.h>
 #include "global_vars.h"
+#include "boardinfo.h"
 
 constexpr static uint8_t RQ_DISC = 0;
 constexpr static uint8_t RQ_TEST = 1;

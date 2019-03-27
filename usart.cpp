@@ -36,6 +36,13 @@ void USART::writeInt(uint16_t v)
 	//while(!(UCSR0A & _BV(TXC0)));
 }
 
+void USART::writeStr(const char* str, uint8_t len)
+{
+	writeByte(len);
+	while(len--)
+		writeByte(*str++);
+}
+
 uint8_t USART::readByte()
 {
 	while (!(UCSR0A & (1<<RXC0)));

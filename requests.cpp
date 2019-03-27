@@ -9,7 +9,14 @@ void rqTestConnection()
 
 void rqBoardInfo()
 {
-
+	usart.writeByte(3); // Anzahl an Strings
+	
+	usart.writeStr(DATE, sizeof(DATE));
+	usart.writeStr(TIME, sizeof(TIME));
+	usart.writeStr(FSRC, sizeof(FSRC));
+	
+	if(ACK_MODE)
+		usart.writeByte(USART::MSG_OK);
 }
 
 void rqTestIntConv()
@@ -88,10 +95,11 @@ void rqAdcDacStroke()
 	for(int16_t i = start; i != count; i += delta)
 	{
 		dac0.setValue(i);
+		wdt_reset();
 		uint16_t a = adu.getValue(channel_a);
 		uint16_t b = adu.getValue(channel_b);
 		usart.writeInt(a);
-		usart.writeInt(b);
+		usart.writeInt(b);	
 	}
 	
 	usart.writeByte(USART::MSG_OK);
