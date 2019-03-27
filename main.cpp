@@ -9,18 +9,14 @@
 
 #define WDT_TIMEOUT WDTO_15MS
 
-/*
+
 ISR(WDT_vect)
 {
-	WDTCSR |= _BV(WDIE);
-}*/
+	WDTCSR = _BV(WDIE) | _BV(WDE);
+}
 
 void initAll()
 {
-	// deaktiviere WDT, da er bei Neustart erhalten bleiben kann
-	WDTCSR = 0;
-	wdt_disable();
-
 	spi.init();
 
 	beba0.setDirA(0x00); // alle Ausgang
@@ -34,18 +30,16 @@ void initAll()
 
 	// aktiviere Interrupts
 	sei();
-}
-
-void handleRequest()
-{
-	// stoppe WDT
-	wdt_disable();
-	
-	const uint8_t req = usart.readByte();
 	
 	// starte WDT
 	wdt_enable(WDT_TIMEOUT);
-	WDTCSR = _BV(WDIE);
+	WDTCSR = _BV(WDIE) | _BV(WDE);
+	wdt_reset();
+}
+
+void handleRequest()
+{	
+	const uint8_t req = usart.readByte();	
 	wdt_reset();
 
 	switch(req)
@@ -92,6 +86,10 @@ void handleRequest()
 		case RQ_ADC:
 			rqAnalogRead();
 			break;
+			
+		case RQ_ADC_DAC_STROKE:
+			rqAdcDacStroke();
+			break;
 
 		default:
 			break;
@@ -102,18 +100,6 @@ int main()
 {
 
 	initAll();
-
-	
-	// DEBUGGING, spaeter entfernen!
-	/*
-	for(int i = 0; i < 3; i++)
-	{
-		beba0.writePortA(0xFF);
-		_delay_ms(100);
-		beba0.writePortA(0x00);
-		_delay_ms(100);
-		wdt_reset();
-	}*/
 
 	while(1)
 	{

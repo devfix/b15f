@@ -17,6 +17,7 @@ void USART::writeByte(uint8_t b)
 {
 	UDR0 = b;
 	while(!(UCSR0A & _BV(TXC0)));
+	_delay_us(100);
 }
 
 
@@ -26,6 +27,7 @@ void USART::writeInt(uint16_t v)
 	v >>= 8;
 	UDR0 = v & 0xFF;
 	while(!(UCSR0A & _BV(TXC0)));
+	_delay_ms(1);
 }
 
 uint8_t USART::readByte()

@@ -14,6 +14,7 @@ constexpr static uint8_t RQ_BE1  = 8;
 constexpr static uint8_t RQ_AA0  = 9;
 constexpr static uint8_t RQ_AA1  = 10;
 constexpr static uint8_t RQ_ADC  = 11;
+constexpr static uint8_t RQ_ADC_DAC_STROKE  = 12;
 
 void rqTestConnection(void);
 void rqBoardInfo(void);
@@ -26,5 +27,6 @@ void rqDigitalRead1(void);
 void rqAnalogWrite0(void);
 void rqAnalogWrite1(void);
 void rqAnalogRead(void);
+void rqAdcDacStroke(void);
 
 #endif // REQUESTS_H

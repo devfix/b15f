@@ -2,6 +2,7 @@
 #define USART_H
 
 #include <avr/io.h>
+#include <util/delay.h>
 #include <stdint.h>
 
 constexpr uint16_t BAUDRATE = 38400UL; //9600UL//9600

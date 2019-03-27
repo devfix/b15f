@@ -22,7 +22,6 @@ uint16_t ADU::getValue(uint8_t channel)
 
 	// warte auf Ende
 	while(ADCSRA & _BV(ADSC));
-
-	// liefere Ergebnis
+	
 	return ADCW;
 }
