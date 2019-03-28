@@ -1,5 +1,5 @@
-#ifndef B15F_h
-#define B15F_h
+#ifndef B15F_H
+#define B15F_H
 
 #include <iostream>
 #include <bits/stdc++.h>
@@ -44,6 +44,7 @@ public:
 	inline void writeInt(uint16_t);
 	inline uint8_t readByte(void);
 	inline uint16_t readInt(void);
+	inline bool readBlock(uint8_t* buffer, uint16_t offset);
 	
 	
 	void delay(uint16_t);
@@ -52,18 +53,20 @@ public:
 
 private:
 	int usart = -1;
-	uint16_t timeout = 100; // ms
+	uint16_t timeout = 200; // ms
+	uint16_t block_timeout = 1; // ms
 
 	static B15F* instance;
 
 	// CONSTANTS
 	const std::string PRE = "[B15F] ";
 	const std::string SERIAL_DEVICE = "/dev/ttyUSB0";
-	constexpr static uint8_t MSG_OK = 0xFF;
-	constexpr static uint8_t MSG_FAIL = 0xFE;
-	constexpr static uint16_t RECONNECT_TIMEOUT = 32; // ms
-	constexpr static uint8_t RECONNECT_TRIES = 3;
+	constexpr static uint8_t  MSG_OK = 0xFF;
+	constexpr static uint8_t  MSG_FAIL = 0xFE;
+	constexpr static uint16_t RECONNECT_TIMEOUT = 64; // ms
+	constexpr static uint8_t  RECONNECT_TRIES = 3;
 	constexpr static uint32_t BAUDRATE = 115200;
+	constexpr static uint8_t  CRC7_POLY = 0x91;
 	
 	// REQUESTS
 	constexpr static uint8_t RQ_DISC = 0;
@@ -80,4 +83,4 @@ private:
 	constexpr static uint8_t RQ_ADC_DAC_STROKE  = 12;
 };
 
-#endif // B15F_h
+#endif // B15F_H

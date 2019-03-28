@@ -264,6 +264,8 @@ uint16_t B15F::analogeEingabe(uint8_t channel)
 
 bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
+	
+	
 	try
 	{
 		writeByte(RQ_ADC_DAC_STROKE);
@@ -276,19 +278,24 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 		
 		if(aw != MSG_OK)
 		{
-			std::cout << PRE << "Mikrocontroller nicht synchronisiert" << std::endl;
-			throw DriverException("Mikrocontroller nicht synchronisiert");
+			discard();
+			return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 		}
 			
 		for(uint16_t i = 0; i < count; i++)
 		{
-			buffer_a[offset_a + i] = readInt();
-			buffer_b[offset_b + i] = readInt();
-			if(buffer_a[offset_a + i] > 1023 || buffer_b[offset_b + i] > 1023)
+			uint8_t block[4];
+			bool crc_ok = true;
+			do
 			{
-				std::cout << PRE << "Schlechte Werte gefunden" << std::endl;
-				throw DriverException("Schlechte Werte gefunden");
+				crc_ok = readBlock(&block[0], 0);
+				if(!crc_ok)
+					std::cout << "fordere neu an" << std::endl;
 			}
+			while(!crc_ok);
+			
+			buffer_a[offset_a + i] = ((uint16_t) block[0]) | (((uint16_t) block[1]) << 8);
+			buffer_b[offset_b + i] = ((uint16_t) block[2]) | (((uint16_t) block[3]) << 8);
 		}
 		
 		aw = readByte();		
@@ -354,6 +361,74 @@ uint8_t B15F::readByte()
 uint16_t B15F::readInt()
 {
 	return readByte() | readByte() << 8;
+}
+
+bool B15F::readBlock(uint8_t* buffer, uint16_t offset)
+{
+	uint8_t len = readByte();
+	uint8_t crc = 0;
+	buffer += offset;
+	
+	// wait for block
+	int n_ready;
+	uint16_t elapsed = 0;
+	auto start = std::chrono::steady_clock::now();
+	auto end = start;
+	while(elapsed < block_timeout)
+	{
+		int code = ioctl(usart, FIONREAD, &n_ready);
+		if(code != 0)
+		{
+			std::cout << PRE << "n_ready code: " << code << std::endl;
+			return false;
+		}
+		if(n_ready >= len + 1)
+			break;
+		end = std::chrono::steady_clock::now();
+		elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+	}
+	if(elapsed >= timeout)
+	{
+		std::cout << PRE << "block timeout: " << std::endl;
+		return false;
+	}
+	
+	while(len--)
+	{
+		int code = read(usart, buffer, 1);
+		if(code != 1)
+		{
+			std::cout << PRE << "read code: " << code << std::endl;
+			return false;
+		}
+		
+		crc ^= *buffer++;
+		for (uint8_t i = 0; i < 8; i++)
+		{
+			if (crc & 1)
+				crc ^= CRC7_POLY;
+			crc >>= 1;
+		}
+	}
+	
+	crc ^= readByte();
+	for (uint8_t i = 0; i < 8; i++)
+	{
+		if (crc & 1)
+			crc ^= CRC7_POLY;
+		crc >>= 1;
+	}
+	
+	if (crc == 0)
+	{
+		writeByte(MSG_OK);
+		return true;
+	}
+	else
+	{
+		writeByte(MSG_FAIL);
+		return false;
+	}
 }
 
 void B15F::delay(uint16_t ms)
