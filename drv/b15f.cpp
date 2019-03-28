@@ -282,6 +282,8 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 		{
 			buffer_a[offset_a + i] = readInt();
 			buffer_b[offset_b + i] = readInt();
+			if(buffer_a[offset_a + i] > 1023 || buffer_b[offset_b + i] > 1023)
+				std::cout << "schlechte Werte gefunden" << std::endl;
 			//std::cout << "(" << i << ")   " << buffer_a[offset_a + i] << " \t| " << buffer_b[offset_b + i] << std::endl;
 		}
 		

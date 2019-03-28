@@ -14,7 +14,7 @@ OBJECTS = main.o drv/b15f.o drv/plottyfile.o drv/dot.o
 
 COMPILE = $(COMPILER_PATH) $(CFLAGS)
 
-B15F: $(OBJECTS)
+B15F: clean $(OBJECTS)
 	@echo "Linking..."
 	$(COMPILE) $(OBJECTS) -o $(OUTPUT) $(LDFLAGS)
 

@@ -17,6 +17,8 @@ void PlottyFile::setFunctionType(FunctionType function_type)
 
 void PlottyFile::setQuadrant(uint8_t quadrant)
 {
+	if(quadrant < 1 || quadrant > 4)
+		throw std::range_error("Ungueltiger Quadrant");
 	this->quadrant = quadrant;
 }
 
