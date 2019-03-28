@@ -1,4 +1,0 @@
-#!/bin/bash
-# echo $DISPLAY
-export DISPLAY=:1
-./plotty --in test_plot
