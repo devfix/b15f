@@ -23,10 +23,10 @@ void B15F::init()
 	options.c_iflag = IGNPAR;
 	options.c_oflag = 0;
 	options.c_lflag = 0;
-	options.c_cc[VTIME]=1; // timeout in Dezisekunden
+	options.c_cc[VTIME]=100; // timeout in Dezisekunden
     cfsetspeed(&options, BAUDRATE);	
 	tcsetattr(usart, TCSANOW, &options);
-	tcflush(usart, TCIFLUSH);
+	tcflush(usart, TCIOFLUSH); // leere Puffer in beiden Richtungen
 	
 	std::cout << "OK" << std::endl;
 	
@@ -81,14 +81,13 @@ void B15F::reconnect()
 
 void B15F::discard(void)
 {
-	tcflush(usart, TCIFLUSH); // leere Puffer
+	tcflush(usart, TCOFLUSH); // leere Ausgangspuffer
 	for(uint8_t i = 0; i < 8; i++)
 	{
 		writeByte(RQ_DISC);	// sende discard Befehl (verwerfe input)
-		delay(10);
+		delay((16000 / BAUDRATE) + 1); // warte mindestens eine Millisekunde, gegebenenfalls mehr
 	}
-	delay(100);
-	tcflush(usart, TCIFLUSH); // leere Puffer
+	tcflush(usart, TCIFLUSH); // leere Eingangspuffer
 }
 
 bool B15F::testConnection()
@@ -272,23 +271,33 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 		writeByte(channel_b);
 		writeInt(start);
 		writeInt(static_cast<uint16_t>(delta));
-		writeInt(count);		
+		writeInt(count);
 		uint8_t aw = readByte();
 		
 		if(aw != MSG_OK)
+		{
+			std::cout << PRE << "Mikrocontroller nicht synchronisiert" << std::endl;
 			throw DriverException("Mikrocontroller nicht synchronisiert");
+		}
 			
 		for(uint16_t i = 0; i < count; i++)
 		{
 			buffer_a[offset_a + i] = readInt();
 			buffer_b[offset_b + i] = readInt();
 			if(buffer_a[offset_a + i] > 1023 || buffer_b[offset_b + i] > 1023)
-				std::cout << "schlechte Werte gefunden" << std::endl;
-			//std::cout << "(" << i << ")   " << buffer_a[offset_a + i] << " \t| " << buffer_b[offset_b + i] << std::endl;
+			{
+				std::cout << PRE << "Schlechte Werte gefunden" << std::endl;
+				throw DriverException("Schlechte Werte gefunden");
+			}
 		}
 		
 		aw = readByte();		
-		return aw == MSG_OK;
+		if(aw == MSG_OK)
+			return aw;
+		
+		std::cout << PRE <<  "Da ging etwas verloren" << std::endl;
+		discard();
+		return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 	}
 	catch(DriverException& de)
 	{
@@ -318,10 +327,22 @@ uint8_t B15F::readByte()
 	uint16_t elapsed = 0;
 	while(elapsed < timeout)
 	{
-		int n = read(usart, &b, 1);
-		if (n > 0)
-			return static_cast<uint8_t>(b);
+		int n_ready;
+		int code = ioctl(usart, FIONREAD, &n_ready);
+		if(code != 0)
+				std::cout << PRE << "n_ready code: " << code << std::endl;
+		
+		if(n_ready > 0)
+		{				
+			//std::cout << code << " \tready: " << n_ready << std::endl;
 			
+			code = read(usart, &b, 1);
+			if (code > 0)
+				return static_cast<uint8_t>(b);
+			if (code < 0)
+				std::cout << PRE << "usart code: " << code << std::endl;
+		}
+		
 		end = std::chrono::steady_clock::now();
 		elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 	}

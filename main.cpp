@@ -82,9 +82,6 @@ void kennlinieZweiterQuadrant()
 		drv.analogeAusgabe1(u_gs);
 		
 		drv.analogEingabeSequenz(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
-		drv.delay(10);
-		drv.discard();
-		drv.delay(10);
 		
 		curve = 0;
 		for(uint16_t k = 0; k < sample_count + 1; k++)

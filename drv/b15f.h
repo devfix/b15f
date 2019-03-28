@@ -12,6 +12,7 @@
 
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
 #include <termios.h>
 #include "driverexception.h"
 
@@ -51,7 +52,7 @@ public:
 
 private:
 	int usart = -1;
-	uint16_t timeout = 1000;
+	uint16_t timeout = 100; // ms
 
 	static B15F* instance;
 
