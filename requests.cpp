@@ -87,12 +87,12 @@ void rqAdcDacStroke()
 	int16_t start = static_cast<int16_t>(usart.readInt());
 	int16_t delta = static_cast<int16_t>(usart.readInt());
 	int16_t count = static_cast<int16_t>(usart.readInt());
-	
+
 	usart.writeByte(USART::MSG_OK);
 	
 	count *= delta;
 	
-	for(int16_t i = start; i != count; i += delta)
+	for(int16_t i = start; i < count; i += delta)
 	{
 		dac0.setValue(i);
 		wdt_reset();

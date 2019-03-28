@@ -19,21 +19,23 @@ void USART::writeByte(uint8_t b)
 {
 	while (!(UCSR0A & (1<<UDRE0)));
 	UDR0 = b;
-	
-	//while(!(UCSR0A & _BV(TXC0)));
+
+	// while(!(UCSR0A & _BV(TXC0)));
 }
 
 
 void USART::writeInt(uint16_t v)
 {
+
+
 	while (!(UCSR0A & (1<<UDRE0)));
 	UDR0 = v & 0xFF;
 	
 	v >>= 8;
 	while (!(UCSR0A & (1<<UDRE0)));
 	UDR0 = v & 0xFF;
-	
-	//while(!(UCSR0A & _BV(TXC0)));
+
+	// while(!(UCSR0A & _BV(TXC0)));
 }
 
 void USART::writeStr(const char* str, uint8_t len)

@@ -8,13 +8,6 @@
 
 
 #define WDT_TIMEOUT WDTO_15MS
-const uint8_t CDUMMY __attribute__((used)) = 0;
-
-
-ISR(WDT_vect)
-{
-	WDTCSR = _BV(WDIE) | _BV(WDE);
-}
 
 void initAll()
 {
@@ -32,27 +25,25 @@ void initAll()
 	// aktiviere Interrupts
 	sei();
 	
-	// starte WDT
-	wdt_enable(WDT_TIMEOUT);
-	WDTCSR = _BV(WDIE) | _BV(WDE);
-	wdt_reset();
+	// deaktiviere WDT VOLLSTAENDIG
+	MCUSR &= ~_BV(WDRF);
+	WDTCSR = 0;
+	wdt_disable();
 }
 
 void handleRequest()
 {	
-	const uint8_t req = usart.readByte();	
-	wdt_reset();
+	wdt_disable();
 
+	const uint8_t req = usart.readByte();
+
+	// starte WDT
+	wdt_enable(WDT_TIMEOUT);
+	wdt_reset();
+	
 	switch(req)
 	{
 		case RQ_DISC:
-			{
-				// sinnlose Abfrage, damit Compiler nicht nervt
-				uint8_t dummy = 0xFF;
-				if(dummy)
-					// leere Puffer
-					while(UCSR0A & (1<<RXC0)) dummy = UDR0;
-			}
 			break;
 
 		case RQ_TEST:
@@ -108,6 +99,12 @@ int main()
 {
 
 	initAll();
+
+	/*
+	// Reset anzeigen
+	beba0.writePortA(0xFF);
+	_delay_ms(100);
+	beba0.writePortA(0x00);*/
 
 	while(1)
 	{
