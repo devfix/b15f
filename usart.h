@@ -5,7 +5,7 @@
 #include <util/delay.h>
 #include <stdint.h>
 
-constexpr uint32_t BAUDRATE = 38400; // 38400
+constexpr uint32_t BAUDRATE = 115200; // 38400
 
 class USART
 {
