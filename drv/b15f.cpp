@@ -278,8 +278,9 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 		
 		if(aw != MSG_OK)
 		{
-			discard();
-			return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
+			throw std::runtime_error("Out of sync");
+			//discard();
+			//return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 		}
 			
 		for(uint16_t i = 0; i < count; i++)
@@ -293,6 +294,7 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 					std::cout << "fordere neu an" << std::endl;
 			}
 			while(!crc_ok);
+			std::cout << "OK" << std::endl;
 			
 			buffer_a[offset_a + i] = ((uint16_t) block[0]) | (((uint16_t) block[1]) << 8);
 			buffer_b[offset_b + i] = ((uint16_t) block[2]) | (((uint16_t) block[3]) << 8);
@@ -382,8 +384,10 @@ bool B15F::readBlock(uint8_t* buffer, uint16_t offset)
 			std::cout << PRE << "n_ready code: " << code << std::endl;
 			return false;
 		}
+		
 		if(n_ready >= len + 1)
 			break;
+			
 		end = std::chrono::steady_clock::now();
 		elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 	}
@@ -399,6 +403,8 @@ bool B15F::readBlock(uint8_t* buffer, uint16_t offset)
 		if(code != 1)
 		{
 			std::cout << PRE << "read code: " << code << std::endl;
+			tcflush(usart, TCIFLUSH); // leere Eingangspuffer
+			writeByte(MSG_FAIL);
 			return false;
 		}
 		
@@ -418,6 +424,11 @@ bool B15F::readBlock(uint8_t* buffer, uint16_t offset)
 			crc ^= CRC7_POLY;
 		crc >>= 1;
 	}
+	
+	if(TEST == 1)
+		crc = 1;
+	if(TEST > 100)
+		TEST = 0;
 	
 	if (crc == 0)
 	{

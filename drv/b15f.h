@@ -55,6 +55,7 @@ private:
 	int usart = -1;
 	uint16_t timeout = 200; // ms
 	uint16_t block_timeout = 1; // ms
+	int TEST = 0;
 
 	static B15F* instance;
 
