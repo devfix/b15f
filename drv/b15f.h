@@ -30,13 +30,13 @@ public:
 	std::vector<std::string> getBoardInfo(void);
 	
 	// Board Befehle
-	bool digitaleAusgabe0(uint8_t);
-	bool digitaleAusgabe1(uint8_t);
-	uint8_t digitaleEingabe0(void);
-	uint8_t digitaleEingabe1(void);
-	bool analogeAusgabe0(uint16_t);
-	bool analogeAusgabe1(uint16_t);
-	uint16_t analogeEingabe(uint8_t);
+	bool digitalWrite0(uint8_t);
+	bool digitalWrite1(uint8_t);
+	uint8_t digitalRead0(void);
+	uint8_t digitalRead1(void);
+	bool analogWrite0(uint16_t);
+	bool analogWrite1(uint16_t);
+	uint16_t analogRead(uint8_t);
 	bool analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count);
 	
 	// Serielle Verbindung
@@ -53,7 +53,7 @@ public:
 
 private:
 	int usart = -1;
-	uint16_t timeout = 200; // ms
+	uint16_t timeout = 32; // ms
 	uint16_t block_timeout = 1; // ms
 	int TEST = 0;
 

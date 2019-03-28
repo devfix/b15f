@@ -151,7 +151,7 @@ std::vector<std::string> B15F::getBoardInfo(void)
 	}
 }
 
-bool B15F::digitaleAusgabe0(uint8_t port)
+bool B15F::digitalWrite0(uint8_t port)
 {
 	try
 	{
@@ -164,11 +164,11 @@ bool B15F::digitaleAusgabe0(uint8_t port)
 	catch(DriverException& de)
 	{
 		reconnect();
-		return digitaleAusgabe0(port);
+		return digitalWrite0(port);
 	}
 }
 
-bool B15F::digitaleAusgabe1(uint8_t port)
+bool B15F::digitalWrite1(uint8_t port)
 {
 	try
 	{
@@ -181,11 +181,11 @@ bool B15F::digitaleAusgabe1(uint8_t port)
 	catch(DriverException& de)
 	{
 		reconnect();
-		return digitaleAusgabe1(port);
+		return digitalWrite1(port);
 	}
 }
 
-uint8_t B15F::digitaleEingabe0()
+uint8_t B15F::digitalRead0()
 {
 	try
 	{
@@ -195,11 +195,11 @@ uint8_t B15F::digitaleEingabe0()
 	catch(DriverException& de)
 	{
 		reconnect();
-		return digitaleEingabe0();
+		return digitalRead0();
 	}
 }
 
-uint8_t B15F::digitaleEingabe1()
+uint8_t B15F::digitalRead1()
 {
 	try
 	{
@@ -209,11 +209,11 @@ uint8_t B15F::digitaleEingabe1()
 	catch(DriverException& de)
 	{
 		reconnect();
-		return digitaleEingabe1();
+		return digitalRead1();
 	}
 }
 
-bool B15F::analogeAusgabe0(uint16_t value)
+bool B15F::analogWrite0(uint16_t value)
 {
 	try
 	{
@@ -226,11 +226,11 @@ bool B15F::analogeAusgabe0(uint16_t value)
 	catch(DriverException& de)
 	{
 		reconnect();
-		return analogeAusgabe0(value);
+		return analogWrite0(value);
 	}
 }
 
-bool B15F::analogeAusgabe1(uint16_t value)
+bool B15F::analogWrite1(uint16_t value)
 {
 	try
 	{
@@ -243,11 +243,11 @@ bool B15F::analogeAusgabe1(uint16_t value)
 	catch(DriverException& de)
 	{
 		reconnect();
-		return analogeAusgabe1(value);
+		return analogWrite1(value);
 	}
 }
 
-uint16_t B15F::analogeEingabe(uint8_t channel)
+uint16_t B15F::analogRead(uint8_t channel)
 {
 	try
 	{
@@ -258,13 +258,14 @@ uint16_t B15F::analogeEingabe(uint8_t channel)
 	catch(DriverException& de)
 	{
 		reconnect();
-		return analogeEingabe(channel);
+		return analogRead(channel);
 	}
 }
 
 bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
 	
+	discard();
 	
 	try
 	{
@@ -278,23 +279,21 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 		
 		if(aw != MSG_OK)
 		{
-			throw std::runtime_error("Out of sync");
-			//discard();
-			//return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
+			std::cout << PRE << "Out of sync" << std::endl;
+			return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 		}
-			
+		
+		uint8_t block[4];	
 		for(uint16_t i = 0; i < count; i++)
 		{
-			uint8_t block[4];
-			bool crc_ok = true;
-			do
+			bool crc_ok = readBlock(&block[0], 0);
+			
+			if (!crc_ok)
 			{
-				crc_ok = readBlock(&block[0], 0);
-				if(!crc_ok)
-					std::cout << "fordere neu an" << std::endl;
+				std::cout << PRE <<  "bad crc" << std::endl;
+				return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 			}
-			while(!crc_ok);
-			std::cout << "OK" << std::endl;
+			
 			
 			buffer_a[offset_a + i] = ((uint16_t) block[0]) | (((uint16_t) block[1]) << 8);
 			buffer_b[offset_b + i] = ((uint16_t) block[2]) | (((uint16_t) block[3]) << 8);
@@ -305,7 +304,6 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 			return aw;
 		
 		std::cout << PRE <<  "Da ging etwas verloren" << std::endl;
-		discard();
 		return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 	}
 	catch(DriverException& de)
@@ -399,14 +397,7 @@ bool B15F::readBlock(uint8_t* buffer, uint16_t offset)
 	
 	while(len--)
 	{
-		int code = read(usart, buffer, 1);
-		if(code != 1)
-		{
-			std::cout << PRE << "read code: " << code << std::endl;
-			tcflush(usart, TCIFLUSH); // leere Eingangspuffer
-			writeByte(MSG_FAIL);
-			return false;
-		}
+		*buffer = readByte();
 		
 		crc ^= *buffer++;
 		for (uint8_t i = 0; i < 8; i++)

@@ -32,7 +32,7 @@ void kennlinieErsterQuadrant()
 	uint8_t curve = 0;
 	for(uint16_t u_gs = u_gs_start; u_gs <= u_gs_end; u_gs += u_gs_delta)
 	{
-		drv.analogeAusgabe1(u_gs);
+		drv.analogWrite1(u_gs);
 		
 		drv.analogEingabeSequenz(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
 		drv.delay(10);
@@ -79,7 +79,7 @@ void kennlinieZweiterQuadrant()
 	uint8_t curve = 0;
 	for(uint16_t u_gs = u_gs_start; u_gs <= u_gs_end; u_gs += u_gs_delta)
 	{
-		drv.analogeAusgabe1(u_gs);
+		drv.analogWrite1(u_gs);
 		
 		drv.analogEingabeSequenz(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
 		
@@ -102,7 +102,15 @@ int main()
 	B15F& drv = B15F::getInstance();
 	drv.init();
 	
-	kennlinieZweiterQuadrant();
+	int n = 0;
+	while(1)
+	{
+		uint16_t ba[1024];
+		uint16_t bb[1024];
+		drv.analogEingabeSequenz(0, &ba[0], 0, 1, &bb[0], 0, 0, 1, 1023);
+		
+		std::cout << n++ << std::endl;
+	}
 	
 	// speichern und plotty starten
 	pf.writeToFile("test_plot");	
