@@ -5,6 +5,131 @@ void PlottyFile::addDot(Dot& dot)
 	dots.push_back(dot);
 }
 
+void PlottyFile::addDot(Dot dot)
+{
+	dots.push_back(dot);
+}
+
+void PlottyFile::setFunctionType(FunctionType function_type)
+{
+	this->function_type = function_type;
+}
+
+void PlottyFile::setQuadrant(uint8_t quadrant)
+{
+	this->quadrant = quadrant;
+}
+
+void PlottyFile::setRefX(uint16_t ref_x)
+{
+	this->ref_x = ref_x;
+}
+
+void PlottyFile::setRefY(uint16_t ref_y)
+{
+	this->ref_y = ref_y;
+}
+
+void PlottyFile::setParaFirstCurve(uint16_t para_first)
+{
+	this->para_first = para_first;
+}
+
+void PlottyFile::setParaStepWidth(uint16_t para_stepwidth)
+{
+	this->para_stepwidth = para_stepwidth;
+}
+
+void PlottyFile::setUnitX(std::string unit_x)
+{
+	this->unit_x = unit_x;
+}
+
+void PlottyFile::setDescX(std::string desc_x)
+{
+	this->desc_x = desc_x;
+}
+
+void PlottyFile::setUnitY(std::string unit_y)
+{
+	this->unit_y = unit_y;
+}
+
+void PlottyFile::setDescY(std::string desc_y)
+{
+	this->desc_y = desc_y;
+}
+
+void PlottyFile::setUnitPara(std::string unit_para)
+{
+	this->unit_para = unit_para;
+}
+
+void PlottyFile::setDescPara(std::string desc_para)
+{
+	this->desc_para = desc_para;
+}
+	
+FunctionType PlottyFile::getFunctionType() const
+{
+	return function_type;
+}
+
+uint8_t PlottyFile::getQuadrant() const
+{
+	return quadrant;
+}
+
+uint16_t PlottyFile::getRefX() const
+{
+	return ref_x;
+}
+
+uint16_t PlottyFile::getRefY() const
+{
+	return ref_y;
+}
+
+uint16_t PlottyFile::getParaFirstCurve() const
+{
+	return para_first;
+}
+
+uint16_t PlottyFile::getParaStepWidth() const
+{
+	return para_stepwidth;
+}
+
+std::string PlottyFile::getUnitX() const
+{
+	return unit_x;
+}
+
+std::string PlottyFile::getDescX() const
+{
+	return desc_x;
+}
+
+std::string PlottyFile::getUnitY() const
+{
+	return unit_y;
+}
+
+std::string PlottyFile::getDescY() const
+{
+	return desc_y;
+}
+
+std::string PlottyFile::getUnitPara() const
+{
+	return unit_para;
+}
+
+std::string PlottyFile::getDescPara() const
+{
+	return desc_para;
+}
+
 void PlottyFile::prepStr(std::string& str, uint8_t len)
 {
 	if(str.length() > len)
@@ -18,41 +143,23 @@ void PlottyFile::prepStr(std::string& str, uint8_t len)
 }
 
 void PlottyFile::writeToFile(std::string filename)
-{
-	
-	command = 0x1D;
-	title = "HTWK-HWLab";
-	filetype = "MD";
-	version = 1;
-	subversion = 0;
-	function_type = 'C';
-	quadrant = 1;
-	ref_x = 5000;
-	ref_y = 50;
-	para_first = 1;
-	para_stepwidth = 1;
-	unit_x = "Unit X";
-	desc_x = "Desc X";
-	unit_y = "Unit Y";
-	desc_y = "Desc Y";
-	unit_para = "Unit P";
-	desc_para = "Desc P";
-	
-	prepStr(title, 10);
-	prepStr(unit_x, 10);
-	prepStr(desc_x, 20);
-	prepStr(unit_y, 10);
-	prepStr(desc_y, 20);
-	prepStr(unit_para, 10);
-	prepStr(desc_para, 20);
+{	
+	prepStr(unit_x, STR_LEN_SHORT);
+	prepStr(desc_x, STR_LEN_LARGE);
+	prepStr(unit_y, STR_LEN_SHORT);
+	prepStr(desc_y, STR_LEN_LARGE);
+	prepStr(unit_para, STR_LEN_SHORT);
+	prepStr(desc_para, STR_LEN_LARGE);	
 	
 	std::ofstream file(filename);
+	
+	// write file header
 	file.write(reinterpret_cast<char*>(&command), 1);
-	file.write(title.c_str(), title.length());
-	file.write(filetype.c_str(), 2);
+	file.write(head.c_str(), head.length());
+	file.write(filetype.c_str(), filetype.length());
 	file.write(reinterpret_cast<char*>(&version), 2);
 	file.write(reinterpret_cast<char*>(&subversion), 2);
-	file.write(reinterpret_cast<char*>(&function_type), 1);
+	file.put(static_cast<uint8_t>(function_type));
 	file.write(reinterpret_cast<char*>(&quadrant), 1);
 	file.write(reinterpret_cast<char*>(&ref_x), 2);
 	file.write(reinterpret_cast<char*>(&ref_y), 2);
@@ -66,12 +173,13 @@ void PlottyFile::writeToFile(std::string filename)
 	file.write(desc_para.c_str(), desc_para.length());
 	file.write(reinterpret_cast<const char*>(&eof), 1);
 	
+	// make sure header size is 256 Byte 
 	while(file.tellp() < 256)
 		file.put(0);
 		
 	for(Dot& dot : dots)
 	{
-		file.put((dot.getX() >> 8) | (static_cast<uint8_t>(dot.getColor()) << 2));
+		file.put((dot.getX() >> 8) | (static_cast<uint8_t>(dot.getCurve()) << 2));
 		file.put(dot.getX() & 0xFF);
 		file.put(dot.getY() >> 8);
 		file.put(dot.getY() & 0xFF);
