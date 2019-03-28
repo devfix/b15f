@@ -7,7 +7,7 @@
 #include "requests.h"
 
 
-#define WDT_TIMEOUT WDTO_15MS
+#define WDT_TIMEOUT WDTO_8S
 
 void initAll()
 {
@@ -35,7 +35,9 @@ void handleRequest()
 {	
 	wdt_disable();
 
+	beba1.writePortA(0xFF);
 	const uint8_t req = usart.readByte();
+	beba1.writePortA(0x00);
 
 	// starte WDT
 	wdt_enable(WDT_TIMEOUT);
@@ -100,11 +102,11 @@ int main()
 
 	initAll();
 
-	/*
+	
 	// Reset anzeigen
 	beba0.writePortA(0xFF);
 	_delay_ms(100);
-	beba0.writePortA(0x00);*/
+	beba0.writePortA(0x00);
 
 	while(1)
 	{
