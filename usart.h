@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 constexpr uint32_t BAUDRATE = 115200; // 38400
+constexpr uint8_t  CRC7_POLY = 0x91;
 
 class USART
 {
@@ -16,6 +17,7 @@ public:
 	void writeInt(uint16_t);
 	void writeLong(uint32_t);
 	void writeStr(const char*, uint8_t);
+	uint8_t writeBlock(uint8_t*, uint8_t);
 	uint8_t readByte(void);
 	uint16_t readInt(void);
 	uint32_t readLong(void);

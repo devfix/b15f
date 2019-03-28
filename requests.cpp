@@ -96,10 +96,26 @@ void rqAdcDacStroke()
 	{
 		dac0.setValue(i);
 		wdt_reset();
-		uint16_t a = adu.getValue(channel_a);
-		uint16_t b = adu.getValue(channel_b);
-		usart.writeInt(a);
-		usart.writeInt(b);	
+
+		union doubleword
+		{
+			uint16_t word[2];
+			uint8_t  byte[4];
+		};
+
+		union doubleword dw;
+		dw.word[0] = adu.getValue(channel_a);
+		dw.word[1] = adu.getValue(channel_b);
+		
+		uint8_t ret = 0;
+		do
+		{
+			wdt_reset();
+			ret = usart.writeBlock(&(dw.byte[0]), 4);
+
+			if(ret == 0)
+				return;
+		} while(ret != USART::MSG_OK);
 	}
 	
 	usart.writeByte(USART::MSG_OK);

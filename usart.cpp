@@ -45,6 +45,28 @@ void USART::writeStr(const char* str, uint8_t len)
 		writeByte(*str++);
 }
 
+uint8_t USART::writeBlock(uint8_t* ptr, uint8_t len)
+{
+	writeByte(len);
+
+	uint8_t crc = 0;
+	while(len--)
+    {
+		writeByte(*ptr);
+		crc ^= *ptr++;
+		for (uint8_t i = 0; i < 8; i++)
+		{
+			if (crc & 1)
+				crc ^= CRC7_POLY;
+			crc >>= 1;
+		}
+	}
+
+	writeByte(crc);
+
+	return readByte();
+}
+
 uint8_t USART::readByte()
 {
 	while (!(UCSR0A & (1<<RXC0)));
