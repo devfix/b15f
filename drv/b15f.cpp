@@ -31,7 +31,7 @@ void B15F::init()
 	
 	std::cout << "OK" << std::endl;
 	
-	delay(1);
+	delay_ms(1);
 
 	std::cout << PRE << "Teste Verbindung... " << std::flush;	
 	uint8_t tries = 3;
@@ -65,7 +65,7 @@ void B15F::reconnect()
 	uint8_t tries = RECONNECT_TRIES;		
 	while(tries--)
 	{
-		delay(RECONNECT_TIMEOUT);
+		delay_ms(RECONNECT_TIMEOUT);
 		
 		discard();
 		
@@ -86,7 +86,7 @@ void B15F::discard(void)
 	for(uint8_t i = 0; i < 8; i++)
 	{
 		writeByte(RQ_DISC);	// sende discard Befehl (verwerfe input)
-		delay((16000 / BAUDRATE) + 1); // warte mindestens eine Millisekunde, gegebenenfalls mehr
+		delay_ms((16000 / BAUDRATE) + 1); // warte mindestens eine Millisekunde, gegebenenfalls mehr
 	}
 	tcflush(usart, TCIFLUSH); // leere Eingangspuffer
 }
@@ -219,7 +219,9 @@ bool B15F::analogWrite0(uint16_t value)
 	try
 	{
 		writeByte(RQ_AA0);
+		delay_ms(1);
 		writeInt(value);
+		delay_ms(1);
 		
 		uint8_t aw = readByte();	
 		return aw == MSG_OK;
@@ -253,6 +255,7 @@ uint16_t B15F::analogRead(uint8_t channel)
 	try
 	{
 		writeByte(RQ_ADC);
+		delay_ms(1);
 		writeByte(channel);
 		return readInt();
 	}
@@ -316,13 +319,13 @@ bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 
 
 void B15F::writeByte(uint8_t b)
-{
+{	
 	if(write(usart, &b, 1) != 1)
 		throw DriverException("Fehler beim Senden. (byte)");
 }
 
 void B15F::writeInt(uint16_t v)
-{
+{		
 	if(write(usart, reinterpret_cast<char*>(&v), 2) != 2)
 		throw DriverException("Fehler beim Senden. (int)");
 }
@@ -434,9 +437,14 @@ bool B15F::readBlock(uint8_t* buffer, uint16_t offset)
 	}
 }
 
-void B15F::delay(uint16_t ms)
+void B15F::delay_ms(uint16_t ms)
 {
 	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
+
+void B15F::delay_us(uint16_t us)
+{
+	std::this_thread::sleep_for(std::chrono::microseconds(us));
 }
 	
 B15F& B15F::getInstance(void)

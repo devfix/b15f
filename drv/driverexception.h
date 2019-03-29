@@ -29,4 +29,4 @@ protected:
 	std::string msg_;
 };
 
-#endif
+#endif // DRIVEREXCEPTION_H

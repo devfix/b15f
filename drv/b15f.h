@@ -15,6 +15,7 @@
 #include <sys/ioctl.h>
 #include <termios.h>
 #include "driverexception.h"
+#include "timeoutexception.h"
 
 class B15F
 {
@@ -39,25 +40,55 @@ public:
 	uint16_t analogRead(uint8_t);
 	bool analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count);
 	
-	// Serielle Verbindung
-	inline void writeByte(uint8_t);
-	inline void writeInt(uint16_t);
-	inline uint8_t readByte(void);
-	inline uint16_t readInt(void);
-	inline bool readBlock(uint8_t* buffer, uint16_t offset);
+	/**
+	 * Lässt den Treiber für eine angegebene Zeit pausieren
+	 * \param ms Verzögerung in Millisekunden
+	 */
+	void delay_ms(uint16_t ms);
 	
+	/**
+	 * Lässt den Treiber für eine angegebene Zeit pausieren
+	 * \param us Verzögerung in Microsekunden
+	 */
+	void delay_us(uint16_t us);
 	
-	void delay(uint16_t);
-		
+	/**
+	 * Liefert eine Referenz zur aktuellen Treiber-Instanz
+	 * @throws DriverException
+	 */
 	static B15F& getInstance(void);
 
 private:
 	int usart = -1;
-	uint16_t timeout = 100; // ms
+	uint16_t timeout = 1000; // ms
 	uint16_t block_timeout = 1; // ms
 	int TEST = 0;
 
 	static B15F* instance;
+	
+	
+	/***********************************************
+	 * Grundfunktionen für die serielle Verbindung *
+	 ***********************************************/
+	
+	/**
+	 * Übergibt ein Byte an die USART Schnittstelle
+	 */
+	void writeByte(uint8_t);
+	
+	/**
+	 * Übergibt ein Integer an die USART Schnittstelle
+	 */
+	void writeInt(uint16_t);
+	
+	/**
+	 * Übergibt ein Integer an die USART Schnittstelle
+	 * \throws TimeoutException
+	 */
+	uint8_t readByte(void);
+	uint16_t readInt(void);
+	bool readBlock(uint8_t* buffer, uint16_t offset);
+
 
 	// CONSTANTS
 	const std::string PRE = "[B15F] ";
@@ -66,7 +97,7 @@ private:
 	constexpr static uint8_t  MSG_FAIL = 0xFE;
 	constexpr static uint16_t RECONNECT_TIMEOUT = 64; // ms
 	constexpr static uint8_t  RECONNECT_TRIES = 3;
-	constexpr static uint32_t BAUDRATE = 38400;
+	constexpr static uint32_t BAUDRATE = 115200;
 	constexpr static uint8_t  CRC7_POLY = 0x91;
 	
 	// REQUESTS

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cmath>
+#include "drv/usart.h"
 #include "drv/b15f.h"
 #include "drv/plottyfile.h"
 
@@ -35,9 +37,9 @@ void kennlinieErsterQuadrant()
 		drv.analogWrite1(u_gs);
 		
 		drv.analogSequence(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
-		drv.delay(10);
+		drv.delay_ms(10);
 		drv.discard();
-		drv.delay(10);
+		drv.delay_ms(10);
 		
 		for(uint16_t k = 0; k < sample_count+1; k++)
 		{
@@ -110,18 +112,34 @@ void beispielFunktionen()
 {
 	B15F& drv = B15F::getInstance();
 	
-	/*
+	
 	for(uint16_t i = 0; i < 256; i++)
 	{
 		drv.digitalWrite0(i);
-		drv.delay(50);
-	}*/
+		drv.delay_ms(100);
+	}
+	
+	
+	
+	
+	while(1)
+	{
+		for(double d = 0; d < M_PI*2; d += .1)
+		{
+			uint16_t v = (sin(d) * 511 + 511);
+			drv.analogWrite0(v);
+		}
+		
+	}
+	
+	
+	
 	
 	uint16_t schwelle_unten = 1023;
 	for(uint16_t i = 0; i < 1024; i++)
 	{
 		drv.analogWrite0(i);
-		drv.delay(1);
+		drv.delay_ms(1);
 		if(drv.digitalRead0() & 0x01)
 		{
 			drv.discard();
@@ -142,7 +160,6 @@ void beispielFunktionen()
 	for(uint16_t i = 1023; i > 0; i--)
 	{
 		drv.analogWrite0(i);
-		drv.delay(1);
 		if(!(drv.digitalRead0() & 0x01))
 		{
 			drv.discard();
@@ -165,7 +182,8 @@ void beispielFunktionen()
 int main()
 {
 	
-	beispielFunktionen();
+	USART usart("/dev/ttyUSB0");
+	usart.openDevice();
 	
 	
 	
