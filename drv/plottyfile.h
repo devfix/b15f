@@ -47,6 +47,7 @@ public:
 	std::string getDescPara(void) const;
 	
 	void writeToFile(std::string filename);
+	void startPlotty(std::string filename);
 private:
 	void prepStr(std::string& str, uint8_t len);
 

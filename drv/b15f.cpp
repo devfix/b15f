@@ -4,6 +4,7 @@ B15F* B15F::instance = nullptr;
 
 B15F::B15F()
 {
+	init();
 }
 
 void B15F::init()
@@ -262,7 +263,7 @@ uint16_t B15F::analogRead(uint8_t channel)
 	}
 }
 
-bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
+bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
 	
 	discard();
@@ -280,10 +281,10 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 		if(aw != MSG_OK)
 		{
 			std::cout << PRE << "Out of sync" << std::endl;
-			return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
+			return analogSequence(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 		}
 		
-		uint8_t block[4];	
+		uint8_t block[5]; // 4 Datenbyte + crc	
 		for(uint16_t i = 0; i < count; i++)
 		{
 			bool crc_ok = readBlock(&block[0], 0);
@@ -291,7 +292,7 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 			if (!crc_ok)
 			{
 				std::cout << PRE <<  "bad crc" << std::endl;
-				return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
+				return analogSequence(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 			}
 			
 			
@@ -304,12 +305,12 @@ bool B15F::analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t 
 			return aw;
 		
 		std::cout << PRE <<  "Da ging etwas verloren" << std::endl;
-		return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
+		return analogSequence(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 	}
 	catch(DriverException& de)
 	{
 		reconnect();
-		return analogEingabeSequenz(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
+		return analogSequence(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 	}
 }
 

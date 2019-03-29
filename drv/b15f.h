@@ -37,7 +37,7 @@ public:
 	bool analogWrite0(uint16_t);
 	bool analogWrite1(uint16_t);
 	uint16_t analogRead(uint8_t);
-	bool analogEingabeSequenz(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count);
+	bool analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count);
 	
 	// Serielle Verbindung
 	inline void writeByte(uint8_t);
@@ -53,7 +53,7 @@ public:
 
 private:
 	int usart = -1;
-	uint16_t timeout = 32; // ms
+	uint16_t timeout = 100; // ms
 	uint16_t block_timeout = 1; // ms
 	int TEST = 0;
 
@@ -66,7 +66,7 @@ private:
 	constexpr static uint8_t  MSG_FAIL = 0xFE;
 	constexpr static uint16_t RECONNECT_TIMEOUT = 64; // ms
 	constexpr static uint8_t  RECONNECT_TRIES = 3;
-	constexpr static uint32_t BAUDRATE = 115200;
+	constexpr static uint32_t BAUDRATE = 38400;
 	constexpr static uint8_t  CRC7_POLY = 0x91;
 	
 	// REQUESTS

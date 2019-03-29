@@ -2,11 +2,11 @@
 #include "drv/b15f.h"
 #include "drv/plottyfile.h"
 
-PlottyFile pf;
 
 void kennlinieErsterQuadrant()
 {
 	B15F& drv = B15F::getInstance();
+	PlottyFile pf;
 	
 	uint16_t ba[1024];
 	uint16_t bb[1024];
@@ -34,7 +34,7 @@ void kennlinieErsterQuadrant()
 	{
 		drv.analogWrite1(u_gs);
 		
-		drv.analogEingabeSequenz(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
+		drv.analogSequence(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
 		drv.delay(10);
 		drv.discard();
 		drv.delay(10);
@@ -48,11 +48,16 @@ void kennlinieErsterQuadrant()
 		
 		curve++;
 	}
+	
+	// speichern und plotty starten
+	pf.writeToFile("test_plot");	
+	pf.startPlotty("test_plot");
 }
 
 void kennlinieZweiterQuadrant()
 {
 	B15F& drv = B15F::getInstance();
+	PlottyFile pf;
 	
 	uint16_t ba[1024];
 	uint16_t bb[1024];
@@ -81,7 +86,7 @@ void kennlinieZweiterQuadrant()
 	{
 		drv.analogWrite1(u_gs);
 		
-		drv.analogEingabeSequenz(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
+		drv.analogSequence(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
 		
 		curve = 0;
 		for(uint16_t k = 0; k < sample_count + 1; k++)
@@ -95,28 +100,74 @@ void kennlinieZweiterQuadrant()
 		}
 		std::cout << "u_gs: " << u_gs << std::endl;
 	}
+	
+	// speichern und plotty starten
+	pf.writeToFile("test_plot");	
+	pf.startPlotty("test_plot");
+}
+
+void beispielFunktionen()
+{
+	B15F& drv = B15F::getInstance();
+	
+	/*
+	for(uint16_t i = 0; i < 256; i++)
+	{
+		drv.digitalWrite0(i);
+		drv.delay(50);
+	}*/
+	
+	uint16_t schwelle_unten = 1023;
+	for(uint16_t i = 0; i < 1024; i++)
+	{
+		drv.analogWrite0(i);
+		drv.delay(1);
+		if(drv.digitalRead0() & 0x01)
+		{
+			drv.discard();
+			uint16_t val = drv.analogRead(0);
+			if(val > 1023)
+			{
+				std::cout << "Fehler: " << val << std::endl;
+				continue;
+			}
+			if(val < schwelle_unten)
+				schwelle_unten = val;
+		}
+	}
+	
+	std::cout << "OK" << std::endl;
+	
+	uint16_t schwelle_oben = 0;
+	for(uint16_t i = 1023; i > 0; i--)
+	{
+		drv.analogWrite0(i);
+		drv.delay(1);
+		if(!(drv.digitalRead0() & 0x01))
+		{
+			drv.discard();
+			uint16_t val = drv.analogRead(0);
+			if(val > 1023)
+			{
+				std::cout << "Fehler: " << val << std::endl;
+				continue;
+			}
+			if(val > schwelle_oben)
+				schwelle_oben = val;
+		}
+	}
+	
+	std::cout << "Schwelle für low: " << schwelle_unten << std::endl;
+	std::cout << "Schwelle für high: " << schwelle_oben << std::endl;
+	std::cout << "Verbotene Zone: " << (schwelle_oben - schwelle_unten) << std::endl;
 }
 
 int main()
 {
-	B15F& drv = B15F::getInstance();
-	drv.init();
 	
-	int n = 0;
-	while(1)
-	{
-		uint16_t ba[1024];
-		uint16_t bb[1024];
-		drv.analogEingabeSequenz(0, &ba[0], 0, 1, &bb[0], 0, 0, 1, 1023);
-		
-		std::cout << n++ << std::endl;
-	}
+	beispielFunktionen();
 	
-	// speichern und plotty starten
-	pf.writeToFile("test_plot");	
-	int code = system("./plotty --in test_plot");
-	if(code)
-		std::cout << "Fehler beim  plotty Aufruf" << std::endl;
+	
 	
 	std::cout << "Schluss." << std::endl;
 }
