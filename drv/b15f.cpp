@@ -104,200 +104,121 @@ bool B15F::testIntConv()
 
 std::vector<std::string> B15F::getBoardInfo(void)
 {
-	try
+	std::vector<std::string> info;
+	
+	usart.writeByte(RQ_INFO);
+	
+	uint8_t n = usart.readByte();
+	while(n--)
 	{
-		std::vector<std::string> info;
+		uint8_t len = usart.readByte();			
+		std::string str;
 		
-		usart.writeByte(RQ_INFO);
-		uint8_t n = usart.readByte();
-		while(n--)
-		{
-			uint8_t len = usart.readByte();			
-			std::string str;
+		while(len--)
+			str += static_cast<char>(usart.readByte());
 			
-			while(len--)
-				str += static_cast<char>(usart.readByte());
-				
-			info.push_back(str);
-		}
-		
-		uint8_t aw = usart.readByte();
-		
-		if(aw != MSG_OK)
-			throw DriverException("Board Info fehlerhalft");
-		
-		return info;
+		info.push_back(str);
 	}
-	catch(DriverException& de)
-	{
-		reconnect();
-		return getBoardInfo();
-	}
+	
+	uint8_t aw = usart.readByte();	
+	if(aw != MSG_OK)
+		throw DriverException("Board Info fehlerhalft");
+	
+	return info;
 }
 
 bool B15F::digitalWrite0(uint8_t port)
 {
-	try
-	{
-		usart.writeByte(RQ_BA0);
-		usart.writeByte(port);
-		
-		uint8_t aw = usart.readByte();	
-		return aw == MSG_OK;
-	}
-	catch(DriverException& de)
-	{
-		reconnect();
-		return digitalWrite0(port);
-	}
+	usart.writeByte(RQ_BA0);
+	usart.writeByte(port);
+	
+	uint8_t aw = usart.readByte();	
+	return aw == MSG_OK;
 }
 
 bool B15F::digitalWrite1(uint8_t port)
 {
-	try
-	{
-		usart.writeByte(RQ_BA1);
-		usart.writeByte(port);
-		
-		uint8_t aw = usart.readByte();	
-		return aw == MSG_OK;
-	}
-	catch(DriverException& de)
-	{
-		reconnect();
-		return digitalWrite1(port);
-	}
+	usart.writeByte(RQ_BA1);
+	usart.writeByte(port);
+	
+	uint8_t aw = usart.readByte();	
+	return aw == MSG_OK;
 }
 
 uint8_t B15F::digitalRead0()
 {
-	try
-	{
-		usart.writeByte(RQ_BE0);
-		return usart.readByte();
-	}
-	catch(DriverException& de)
-	{
-		reconnect();
-		return digitalRead0();
-	}
+	usart.writeByte(RQ_BE0);
+	return usart.readByte();
 }
 
 uint8_t B15F::digitalRead1()
 {
-	try
-	{
-		usart.writeByte(RQ_BE1);
-		return usart.readByte();
-	}
-	catch(DriverException& de)
-	{
-		reconnect();
-		return digitalRead1();
-	}
+	usart.writeByte(RQ_BE1);
+	return usart.readByte();
 }
 
 bool B15F::analogWrite0(uint16_t value)
 {
-	try
-	{
-		usart.writeByte(RQ_AA0);
-		delay_ms(1);
-		usart.writeInt(value);
-		delay_ms(1);
-		
-		uint8_t aw = usart.readByte();	
-		return aw == MSG_OK;
-	}
-	catch(DriverException& de)
-	{
-		reconnect();
-		return analogWrite0(value);
-	}
+	usart.writeByte(RQ_AA0);
+	usart.writeInt(value);
+	
+	uint8_t aw = usart.readByte();	
+	return aw == MSG_OK;
 }
 
 bool B15F::analogWrite1(uint16_t value)
 {
-	try
-	{
-		usart.writeByte(RQ_AA1);
-		usart.writeInt(value);
-		
-		uint8_t aw = usart.readByte();	
-		return aw == MSG_OK;
-	}
-	catch(DriverException& de)
-	{
-		reconnect();
-		return analogWrite1(value);
-	}
+	usart.writeByte(RQ_AA1);
+	usart.writeInt(value);
+	
+	uint8_t aw = usart.readByte();	
+	return aw == MSG_OK;
 }
 
 uint16_t B15F::analogRead(uint8_t channel)
 {
-	try
-	{
-		usart.writeByte(RQ_ADC);
-		delay_ms(1);
-		usart.writeByte(channel);
-		return usart.readInt();
-	}
-	catch(DriverException& de)
-	{
-		reconnect();
-		return analogRead(channel);
-	}
+	usart.writeByte(RQ_ADC);
+	usart.writeByte(channel);
+	return usart.readInt();
 }
 
 bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
+	usart.writeByte(RQ_ADC_DAC_STROKE);
+	usart.writeByte(channel_a);
+	usart.writeByte(channel_b);
+	usart.writeInt(start);
+	usart.writeInt(static_cast<uint16_t>(delta));
+	usart.writeInt(count);
+	uint8_t aw = usart.readByte();
 	
-	discard();
-	
-	try
+	if(aw != MSG_OK)
 	{
-		usart.writeByte(RQ_ADC_DAC_STROKE);
-		usart.writeByte(channel_a);
-		usart.writeByte(channel_b);
-		usart.writeInt(start);
-		usart.writeInt(static_cast<uint16_t>(delta));
-		usart.writeInt(count);
-		uint8_t aw = usart.readByte();
+		throw DriverException("Out of sync");
+	}
+	
+	uint8_t block[5]; // 4 Datenbyte + crc	
+	for(uint16_t i = 0; i < count; i++)
+	{
+		bool crc_ok = usart.readBlock(&block[0], 0);
 		
-		if(aw != MSG_OK)
+		if (!crc_ok)
 		{
-			std::cout << PRE << "Out of sync" << std::endl;
+			std::cout << PRE <<  "bad crc" << std::endl;
 			return analogSequence(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
 		}
 		
-		uint8_t block[5]; // 4 Datenbyte + crc	
-		for(uint16_t i = 0; i < count; i++)
-		{
-			bool crc_ok = usart.readBlock(&block[0], 0);
-			
-			if (!crc_ok)
-			{
-				std::cout << PRE <<  "bad crc" << std::endl;
-				return analogSequence(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
-			}
-			
-			
-			buffer_a[offset_a + i] = ((uint16_t) block[0]) | (((uint16_t) block[1]) << 8);
-			buffer_b[offset_b + i] = ((uint16_t) block[2]) | (((uint16_t) block[3]) << 8);
-		}
 		
-		aw = usart.readByte();		
-		if(aw == MSG_OK)
-			return aw;
-		
-		std::cout << PRE <<  "Da ging etwas verloren" << std::endl;
-		return analogSequence(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
+		buffer_a[offset_a + i] = ((uint16_t) block[0]) | (((uint16_t) block[1]) << 8);
+		buffer_b[offset_b + i] = ((uint16_t) block[2]) | (((uint16_t) block[3]) << 8);
 	}
-	catch(DriverException& de)
-	{
-		reconnect();
-		return analogSequence(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
-	}
+	
+	aw = usart.readByte();		
+	if(aw == MSG_OK)
+		return aw;
+	
+	std::cout << PRE <<  "Da ging etwas verloren" << std::endl;
+	
 }
 
 void B15F::delay_ms(uint16_t ms)
