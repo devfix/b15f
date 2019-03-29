@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <termios.h>
+#include "usart.h"
 #include "driverexception.h"
 #include "timeoutexception.h"
 
@@ -59,35 +60,12 @@ public:
 	static B15F& getInstance(void);
 
 private:
-	int usart = -1;
 	uint16_t timeout = 1000; // ms
 	uint16_t block_timeout = 1; // ms
-	int TEST = 0;
+	USART usart;
 
 	static B15F* instance;
 	
-	
-	/***********************************************
-	 * Grundfunktionen für die serielle Verbindung *
-	 ***********************************************/
-	
-	/**
-	 * Übergibt ein Byte an die USART Schnittstelle
-	 */
-	void writeByte(uint8_t);
-	
-	/**
-	 * Übergibt ein Integer an die USART Schnittstelle
-	 */
-	void writeInt(uint16_t);
-	
-	/**
-	 * Übergibt ein Integer an die USART Schnittstelle
-	 * \throws TimeoutException
-	 */
-	uint8_t readByte(void);
-	uint16_t readInt(void);
-	bool readBlock(uint8_t* buffer, uint16_t offset);
 
 
 	// CONSTANTS
@@ -98,7 +76,6 @@ private:
 	constexpr static uint16_t RECONNECT_TIMEOUT = 64; // ms
 	constexpr static uint8_t  RECONNECT_TRIES = 3;
 	constexpr static uint32_t BAUDRATE = 115200;
-	constexpr static uint8_t  CRC7_POLY = 0x91;
 	
 	// REQUESTS
 	constexpr static uint8_t RQ_DISC = 0;

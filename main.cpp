@@ -182,8 +182,9 @@ void beispielFunktionen()
 int main()
 {
 	
-	USART usart("/dev/ttyUSB0");
-	usart.openDevice();
+	USART usart;
+	usart.openDevice("/dev/ttyUSB0");
+	usart.closeDevice();
 	
 	
 	

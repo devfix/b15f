@@ -1,7 +1,9 @@
 #ifndef USART_H
 #define USART_H
 
+#include <iostream>
 #include <cstdint>
+#include <chrono>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
@@ -11,7 +13,6 @@
 class USART
 {
 public:
-	USART(std::string device);
 	
 	/*************************************************
 	 * Methoden für die Verwaltung der Schnittstelle *
@@ -19,9 +20,10 @@ public:
 	
 	/**
 	 * Öffnet die USART Schnittstelle
+	 * \param device Linux-Gerätepfad
 	 * \throws USARTException 
 	 */
-	void openDevice(void);
+	void openDevice(std::string device);
 	
 	/**
 	 * Schließt die USART Schnittstelle
@@ -55,6 +57,17 @@ public:
 	 * \throws USARTException 
 	 */
 	void writeByte(uint8_t b);
+	
+	/**
+	 * Sendet ein Integer über die USART Schnittstelle
+	 * \param b das zu sendende Byte
+	 * \throws USARTException 
+	 */
+	void writeInt(uint16_t d);
+	
+	uint8_t readByte(void);
+	uint16_t readInt(void);
+	bool readBlock(uint8_t* buffer, uint16_t offset);
 	
 	/*************************************/
 	
@@ -92,10 +105,12 @@ public:
 	
 private:
 	
-	std::string device; // Gerätepfad
 	int file_desc = -1; // Linux Dateideskriptor
 	uint32_t baudrate = 9600;
+	int TEST = 0;
 	uint8_t timeout = 10; // in Dezisekunden
+	
+	constexpr static uint8_t  CRC7_POLY = 0x91;
 };
 
 
