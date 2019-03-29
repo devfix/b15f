@@ -51,14 +51,15 @@ void USART::clearOutputBuffer()
 
 void USART::writeByte(uint8_t b)
 {
-	//std::cout << "write(): " << (int) b << std::endl;
-	if(write(file_desc, &b, 1) != 1)
+	int sent = write(file_desc, &b, 1);
+	if(sent != 1)
 		throw USARTException("Fehler beim Senden: writeByte()");
 }
 	
 void USART::writeInt(uint16_t d)
 {
-	if(write(file_desc, reinterpret_cast<char*>(&d), 2) != 2)
+	int sent = write(file_desc, reinterpret_cast<char*>(&d), 2);
+	if(sent != 2)
 		throw USARTException("Fehler beim Senden: writeInt()");
 }
 
@@ -102,28 +103,15 @@ uint8_t USART::readByte(void)
 	uint16_t elapsed = 0;
 	while(elapsed < timeout * 100)
 	{
-		int n_ready;
-		int code = ioctl(file_desc, FIONREAD, &n_ready);
-		if(code != 0)
-				std::cout << "n_ready code: " << code << std::endl;
-		
-		if(n_ready > 0)
-		{				
-			//std::cout << code << " \tready: " << n_ready << std::endl;
-			
-			code = read(file_desc, &b, 1);
-			if (code > 0)
-				return static_cast<uint8_t>(b);
-			if (code < 0)
-				std::cout << "usart code: " << code << std::endl;
-		}
-		
+		int code = read(file_desc, &b, 1);
+		if (code > 0)
+			return static_cast<uint8_t>(b);
+				
 		end = std::chrono::steady_clock::now();
 		elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 	}
 	
-	if(elapsed >= timeout)
-		throw USARTException("Verbindung unterbrochen. (timeout)");
+	throw TimeoutException("Verbindung unterbrochen.", timeout);
 }
 
 uint16_t USART::readInt(void)

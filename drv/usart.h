@@ -9,6 +9,7 @@
 #include <sys/ioctl.h>
 #include <termios.h>
 #include "usartexception.h"
+#include "timeoutexception.h"
 
 class USART
 {
