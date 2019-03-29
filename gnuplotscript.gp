@@ -8,23 +8,23 @@ set xrange [5:0]
 set x2range [5:0]
 set y2range [0:50]
 set yrange [0:50]
-set label at 2,32 'U_{DS} [V] = 300' right
-set label at 2,31 'U_{DS} [V] = 325' right
-set label at 2,33 'U_{DS} [V] = 350' right
-set label at 2,35 'U_{DS} [V] = 375' right
-set label at 2,21 'U_{DS} [V] = 400' right
-set label at 2,22 'U_{DS} [V] = 425' right
-set label at 2,22 'U_{DS} [V] = 450' right
-set label at 2,22 'U_{DS} [V] = 475' right
-set label at 2,23 'U_{DS} [V] = 500' right
-set label at 2,12 'U_{DS} [V] = 525' right
-set label at 2,5 'U_{DS} [V] = 550' right
-set label at 2,12 'U_{DS} [V] = 575' right
-set label at 2,2 'U_{DS} [V] = 600' right
-set label at 2,12 'U_{DS} [V] = 625' right
-set label at 2,2 'U_{DS} [V] = 650' right
-set label at 2,2 'U_{DS} [V] = 650' right
-set label at 2,2 'U_{DS} [V] = 700' right
+set label at 2,36 'U_{DS} [V] = 300' right
+set label at 2,33 'U_{DS} [V] = 325' right
+set label at 2,36 'U_{DS} [V] = 350' right
+set label at 2,38 'U_{DS} [V] = 375' right
+set label at 2,5 'U_{DS} [V] = 400' right
+set label at 2,23 'U_{DS} [V] = 425' right
+set label at 2,24 'U_{DS} [V] = 450' right
+set label at 2,24 'U_{DS} [V] = 475' right
+set label at 2,12 'U_{DS} [V] = 500' right
+set label at 2,13 'U_{DS} [V] = 525' right
+set label at 2,13 'U_{DS} [V] = 550' right
+set label at 2,13 'U_{DS} [V] = 575' right
+set label at 2,13 'U_{DS} [V] = 600' right
+set label at 2,6 'U_{DS} [V] = 625' right
+set label at 2,6 'U_{DS} [V] = 650' right
+set label at 2,6 'U_{DS} [V] = 675' right
+set label at 2,6 'U_{DS} [V] = 700' right
 set label at 2,2 'U_{DS} [V] = 725' right
 set label at 2,2 'U_{DS} [V] = 725' right
 set y2tics

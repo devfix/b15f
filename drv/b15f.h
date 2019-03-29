@@ -21,25 +21,49 @@
 class B15F
 {
 private:
-	B15F(void); // privater Konstruktor
+	// privater Konstruktor
+	B15F(void);
 public:
-	// Grundfunktionen
-	void init(void);
-	void reconnect(void);
-	void discard(void);
-	bool testConnection(void);
-	bool testIntConv(void);
-	std::vector<std::string> getBoardInfo(void);
 	
-	// Board Befehle
-	bool digitalWrite0(uint8_t);
-	bool digitalWrite1(uint8_t);
-	uint8_t digitalRead0(void);
-	uint8_t digitalRead1(void);
-	bool analogWrite0(uint16_t);
-	bool analogWrite1(uint16_t);
-	uint16_t analogRead(uint8_t);
-	bool analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count);
+	/*************************************
+	 * Grundfunktionen des B15F Treibers *
+	 *************************************/
+	
+	/**
+	 * Initialisiert und testet die Verbindung zum B15
+	 * \throws DriverException
+	 */	 
+	void init(void);
+	
+	/**
+	 * Versucht die Verbindung zum B15 wiederherzustellen
+	 * \throws DriverException
+	 */	 
+	void reconnect(void);
+	
+	/**
+	 * Verwirft Daten im USART Puffer auf dieser Maschine und B15
+	 * \throws DriverException
+	 */	 
+	void discard(void);
+	
+	/**
+	 * Testet die USART Verbindung auf Funktion
+	 * \throws DriverException
+	 */
+	bool testConnection(void);
+	
+	/**
+	 * Testet die Integer Konvertierung der USART Verbindung
+	 * \throws DriverException
+	 */
+	bool testIntConv(void);
+	
+	/**
+	 * Liefert Informationen zur aktuellen Firmware des B15
+	 * \throws DriverException
+	 */
+	std::vector<std::string> getBoardInfo(void);
 	
 	/**
 	 * Lässt den Treiber für eine angegebene Zeit pausieren
@@ -58,14 +82,92 @@ public:
 	 * @throws DriverException
 	 */
 	static B15F& getInstance(void);
+	
+	/**
+	 * Führt ein Befehl auf dieser Maschine aus und liefert stdout zurück
+	 * \param cmd Der Befehl
+	 */
+	static std::string exec(std::string cmd);
+	
+	/*************************************/
+	
+	/*************************
+	 * Steuerbefehle für B15 *
+	 *************************/
+	 
+	/**
+	 * Setzt den Wert des digitalen Ausgabeports 0
+	 * \param port Wert für gesamten Port
+	 * \throws DriverException
+	 */
+	bool digitalWrite0(uint8_t);
+	 
+	/**
+	 * Setzt den Wert des digitalen Ausgabeports 1
+	 * \param port Wert für gesamten Port
+	 * \throws DriverException
+	 */
+	bool digitalWrite1(uint8_t);
+	 
+	/**
+	 * Liest den Wert des digitalen Eingabeports 0
+	 * \return Wert für gesamten Port
+	 * \throws DriverException
+	 */
+	uint8_t digitalRead0(void);
+	 
+	/**
+	 * Liest den Wert des digitalen Eingabeports 1
+	 * \return Wert für gesamten Port
+	 * \throws DriverException
+	 */
+	uint8_t digitalRead1(void);
+	 
+	/**
+	 * Setzt den Wert des Digital-Analog-Converters (DAC / DAU) 0
+	 * \param port 10-Bit Wert
+	 * \throws DriverException
+	 */
+	bool analogWrite0(uint16_t);
+	 
+	/**
+	 * Setzt den Wert des Digital-Analog-Converters (DAC / DAU) 1
+	 * \param port 10-Bit Wert
+	 * \throws DriverException
+	 */
+	bool analogWrite1(uint16_t);
+	 
+	/**
+	 * Liest den Wert des Analog-Digital-Converters (ADC / ADU)
+	 * \param channel Kanalwahl von 0 - 7
+	 * \throws DriverException
+	 */
+	uint16_t analogRead(uint8_t channel);
+	 
+	/**
+	 * \brief Komplexe Analoge Sequenz
+	 * DAC 0 wird auf den Startwert gesetzt und dann schrittweise um Delta inkrementiert.
+	 * Für jeden eingestelleten DAC-Wert werden zwei ADCs (channel_a und channel_b) angesprochen und die Werte übermittelt.
+	 * Die Werte werden in buffer_a für Kanal a und buffer_b für Kanal b gespeichert.
+	 * \param channel_a Auswahl des ADC a, von 0 - 7
+	 * \param buffer_a Speichertort für Werte des Kanals a
+	 * \param offset_a Anzahl an Werten des Kanals a, die im Speicher übersprungen werden sollen
+	 * \param channel_b Auswahl des ADC b, von 0 - 7
+	 * \param buffer_b Speichertort für Werte des Kanals b
+	 * \param offset_b Anzahl an Werten des Kanals b, die im Speicher übersprungen werden 
+	 * \param start Startwert des DACs
+	 * \param delta Schrittweite, mit welcher der DAC inkrementiert wird
+	 * \param count Anzahl an Inkrementierungen
+	 * \throws DriverException
+	 */
+	bool analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count);
+	
+	/*************************/
 
 private:
-	uint16_t timeout = 1000; // ms
-	uint16_t block_timeout = 1; // ms
 	USART usart;
 
 	static B15F* instance;
-	
 
 
 	// CONSTANTS

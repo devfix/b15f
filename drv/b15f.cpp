@@ -10,13 +10,23 @@ B15F::B15F()
 void B15F::init()
 {
 	
+	std::string device = exec("bash -c 'ls /dev/ttyUSB*'");
+	while(device.find(' ') != std::string::npos || device.find('\n') != std::string::npos || device.find('\t') != std::string::npos)
+		device.pop_back();
+			
+	if(device.length() == 0)
+		throw DriverException("Adapter nicht gefunden");
+		
+	std::cout << PRE << "Verwende Adapter: " << device << std::endl;
+	
+	
+	
 	std::cout << PRE << "Stelle Verbindung mit Adapter her... " << std::flush;
 	usart.setBaudrate(BAUDRATE);
-	usart.openDevice(SERIAL_DEVICE);	
+	usart.openDevice(device);	
 	std::cout << "OK" << std::endl;
 	
 	
-	delay_ms(1);
 
 	std::cout << PRE << "Teste Verbindung... " << std::flush;	
 	uint8_t tries = 3;
@@ -197,34 +207,19 @@ bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 	uint8_t aw = usart.readByte();
 	
 	if(aw != MSG_OK)
-	{
-		throw DriverException("Out of sync");
-	}
+		throw DriverException("Mikrocontroller nicht synchron");
 	
-	//uint8_t block[5]; // 4 Datenbyte + crc	
 	for(uint16_t i = 0; i < count; i++)
 	{
-		/*bool crc_ok = usart.readBlock(&block[0], 0);
-		
-		if (!crc_ok)
-		{
-			std::cout << PRE <<  "bad crc" << std::endl;
-			return analogSequence(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
-		}*/
 		buffer_a[i] = usart.readInt();
 		buffer_b[i] = usart.readInt();
-		//std::cout << buffer_a[i] << " - " << buffer_b[i] << std::endl;
-		
-		/*buffer_a[i] = ((uint16_t) block[0]) | (((uint16_t) block[1]) << 8);
-		buffer_b[i] = ((uint16_t) block[2]) | (((uint16_t) block[3]) << 8);*/
 	}
 	
 	aw = usart.readByte();		
 	if(aw == MSG_OK)
 		return aw;
-	
-	std::cout << PRE <<  "Da ging etwas verloren" << std::endl;
-	
+		
+	throw DriverException("Sequenz unterbrochen");
 }
 
 void B15F::delay_ms(uint16_t ms)
@@ -235,6 +230,20 @@ void B15F::delay_ms(uint16_t ms)
 void B15F::delay_us(uint16_t us)
 {
 	std::this_thread::sleep_for(std::chrono::microseconds(us));
+}
+
+// https://stackoverflow.com/a/478960
+std::string B15F::exec(std::string cmd) {
+    std::array<char, 128> buffer;
+    std::string result;
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd.c_str(), "r"), pclose);
+    if (!pipe) {
+        throw std::runtime_error("popen() failed!");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        result += buffer.data();
+    }
+    return result;
 }
 	
 B15F& B15F::getInstance(void)
