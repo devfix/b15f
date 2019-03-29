@@ -14,9 +14,7 @@ void rqBoardInfo()
 	usart.writeStr(DATE, sizeof(DATE));
 	usart.writeStr(TIME, sizeof(TIME));
 	usart.writeStr(FSRC, sizeof(FSRC));
-	
-	if(ACK_MODE)
-		usart.writeByte(USART::MSG_OK);
+	usart.writeByte(USART::MSG_OK);
 }
 
 void rqTestIntConv()
@@ -29,8 +27,7 @@ void rqDigitalWrite0()
 	uint8_t port = usart.readByte();
 	beba0.writePortA(port);
 
-	if(ACK_MODE)
-		usart.writeByte(USART::MSG_OK);
+	usart.writeByte(USART::MSG_OK);
 }
 
 void rqDigitalWrite1()
@@ -38,8 +35,7 @@ void rqDigitalWrite1()
 	uint8_t port = usart.readByte();
 	beba1.writePortA(port);
 
-	if(ACK_MODE)
-		usart.writeByte(USART::MSG_OK);
+	usart.writeByte(USART::MSG_OK);
 }
 
 void rqDigitalRead0()
@@ -59,8 +55,7 @@ void rqAnalogWrite0()
 	uint16_t value = usart.readInt();
 	dac0.setValue(value);
 
-	if(ACK_MODE)
-		usart.writeByte(USART::MSG_OK);
+	usart.writeByte(USART::MSG_OK);
 }
 
 void rqAnalogWrite1()
@@ -68,8 +63,7 @@ void rqAnalogWrite1()
 	uint16_t value = usart.readInt();
 	dac1.setValue(value);
 
-	if(ACK_MODE)
-		usart.writeByte(USART::MSG_OK);
+	usart.writeByte(USART::MSG_OK);
 }
 
 void rqAnalogRead()
@@ -97,7 +91,12 @@ void rqAdcDacStroke()
 		dac0.setValue(i);
 		wdt_reset();
 
-		union doubleword
+		uint16_t val_a = adu.getValue(channel_a);
+		uint16_t val_b = adu.getValue(channel_b);
+		usart.writeInt(val_a);
+		usart.writeInt(val_b);
+
+		/*union doubleword
 		{
 			uint16_t word[2];
 			uint8_t  byte[4];
@@ -115,7 +114,7 @@ void rqAdcDacStroke()
 
 			if(ret == 0)
 				return;
-		} while(ret != USART::MSG_OK);
+		} while(ret != USART::MSG_OK);*/
 	}
 	
 	usart.writeByte(USART::MSG_OK);
