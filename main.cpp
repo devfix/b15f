@@ -108,86 +108,38 @@ void kennlinieZweiterQuadrant()
 	pf.startPlotty("test_plot");
 }
 
-void beispielFunktionen()
+void testFunktionen()
 {
 	B15F& drv = B15F::getInstance();
 	
 	
-	for(uint16_t i = 0; i < 256; i++)
-	{
-		drv.digitalWrite0(i);
-		drv.delay_ms(100);
-	}
+	drv.digitalWrite0(0xFF);
+	drv.analogWrite0(128);
+	std::cout << (int) drv.digitalRead0() << std::endl;;
+	std::cout << "adc: " << (int) drv.analogRead(4) << std::endl;
+	
+	drv.digitalWrite0(0x00);
+	drv.analogWrite0(0);
+	std::cout << (int) drv.digitalRead0() << std::endl;;
+	std::cout << "adc: " << (int) drv.analogRead(4) << std::endl;
+	
+	drv.digitalWrite0(0xFF);
+	drv.analogWrite0(255);
+	std::cout << (int) drv.digitalRead0() << std::endl;
+	std::cout << "adc: " << (int) drv.analogRead(4) << std::endl;
 	
 	
+	uint16_t a[1024];
+	uint16_t b[1024];	
+	drv.analogSequence(0, &a[0], 0, 1, &b[0], 0, 0, 1, 1024);
 	
 	
-	while(1)
-	{
-		for(double d = 0; d < M_PI*2; d += .1)
-		{
-			uint16_t v = (sin(d) * 511 + 511);
-			drv.analogWrite0(v);
-		}
-		
-	}
-	
-	
-	
-	
-	uint16_t schwelle_unten = 1023;
-	for(uint16_t i = 0; i < 1024; i++)
-	{
-		drv.analogWrite0(i);
-		drv.delay_ms(1);
-		if(drv.digitalRead0() & 0x01)
-		{
-			drv.discard();
-			uint16_t val = drv.analogRead(0);
-			if(val > 1023)
-			{
-				std::cout << "Fehler: " << val << std::endl;
-				continue;
-			}
-			if(val < schwelle_unten)
-				schwelle_unten = val;
-		}
-	}
-	
-	std::cout << "OK" << std::endl;
-	
-	uint16_t schwelle_oben = 0;
-	for(uint16_t i = 1023; i > 0; i--)
-	{
-		drv.analogWrite0(i);
-		if(!(drv.digitalRead0() & 0x01))
-		{
-			drv.discard();
-			uint16_t val = drv.analogRead(0);
-			if(val > 1023)
-			{
-				std::cout << "Fehler: " << val << std::endl;
-				continue;
-			}
-			if(val > schwelle_oben)
-				schwelle_oben = val;
-		}
-	}
-	
-	std::cout << "Schwelle für low: " << schwelle_unten << std::endl;
-	std::cout << "Schwelle für high: " << schwelle_oben << std::endl;
-	std::cout << "Verbotene Zone: " << (schwelle_oben - schwelle_unten) << std::endl;
 }
 
 int main()
 {
 	
-	beispielFunktionen();
-	
-	//USART usart;
-	//usart.openDevice("/dev/ttyUSB0");
-	//usart.writeByte(5);
-	
+	kennlinieZweiterQuadrant();
 	
 	std::cout << "Schluss." << std::endl;
 }

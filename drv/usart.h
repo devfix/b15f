@@ -65,8 +65,19 @@ public:
 	 */
 	void writeInt(uint16_t d);
 	
+	/**
+	 * Empfängt ein Byte über die USART Schnittstelle
+	 * \throws USARTException 
+	 */
 	uint8_t readByte(void);
+	
+	/**
+	 * Empfängt ein Integer über die USART Schnittstelle
+	 * \throws USARTException 
+	 */
 	uint16_t readInt(void);
+	
+	void writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len);
 	bool readBlock(uint8_t* buffer, uint16_t offset);
 	
 	/*************************************/

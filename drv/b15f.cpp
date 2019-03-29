@@ -15,6 +15,7 @@ void B15F::init()
 	usart.openDevice(SERIAL_DEVICE);	
 	std::cout << "OK" << std::endl;
 	
+	
 	delay_ms(1);
 
 	std::cout << PRE << "Teste Verbindung... " << std::flush;	
@@ -39,7 +40,6 @@ void B15F::init()
 	// Gib board info aus
 	std::vector<std::string> info = getBoardInfo();
 	std::cout << PRE << "AVR Firmware Version: " << info[0] << " um " << info[1] << " Uhr (" << info[2] << ")" << std::endl;
-
 }
 
 void B15F::reconnect()
@@ -123,7 +123,7 @@ std::vector<std::string> B15F::getBoardInfo(void)
 	
 	uint8_t aw = usart.readByte();	
 	if(aw != MSG_OK)
-		throw DriverException("Board Info fehlerhalft");
+		throw DriverException("Board Info fehlerhalft: code " + std::to_string((int) aw));
 	
 	return info;
 }
@@ -185,6 +185,9 @@ uint16_t B15F::analogRead(uint8_t channel)
 
 bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
+	buffer_a += offset_a;
+	buffer_b += offset_b;
+	
 	usart.writeByte(RQ_ADC_DAC_STROKE);
 	usart.writeByte(channel_a);
 	usart.writeByte(channel_b);
@@ -198,20 +201,22 @@ bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 		throw DriverException("Out of sync");
 	}
 	
-	uint8_t block[5]; // 4 Datenbyte + crc	
+	//uint8_t block[5]; // 4 Datenbyte + crc	
 	for(uint16_t i = 0; i < count; i++)
 	{
-		bool crc_ok = usart.readBlock(&block[0], 0);
+		/*bool crc_ok = usart.readBlock(&block[0], 0);
 		
 		if (!crc_ok)
 		{
 			std::cout << PRE <<  "bad crc" << std::endl;
 			return analogSequence(channel_a, buffer_a, offset_a, channel_b, buffer_b, offset_b, start, delta, count);
-		}
+		}*/
+		buffer_a[i] = usart.readInt();
+		buffer_b[i] = usart.readInt();
+		//std::cout << buffer_a[i] << " - " << buffer_b[i] << std::endl;
 		
-		
-		buffer_a[offset_a + i] = ((uint16_t) block[0]) | (((uint16_t) block[1]) << 8);
-		buffer_b[offset_b + i] = ((uint16_t) block[2]) | (((uint16_t) block[3]) << 8);
+		/*buffer_a[i] = ((uint16_t) block[0]) | (((uint16_t) block[1]) << 8);
+		buffer_b[i] = ((uint16_t) block[2]) | (((uint16_t) block[3]) << 8);*/
 	}
 	
 	aw = usart.readByte();		

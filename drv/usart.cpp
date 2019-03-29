@@ -51,6 +51,7 @@ void USART::clearOutputBuffer()
 
 void USART::writeByte(uint8_t b)
 {
+	//std::cout << "write(): " << (int) b << std::endl;
 	if(write(file_desc, &b, 1) != 1)
 		throw USARTException("Fehler beim Senden: writeByte()");
 }
@@ -59,6 +60,38 @@ void USART::writeInt(uint16_t d)
 {
 	if(write(file_desc, reinterpret_cast<char*>(&d), 2) != 2)
 		throw USARTException("Fehler beim Senden: writeInt()");
+}
+
+void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
+{
+	buffer += offset;
+	uint8_t crc = 0;
+	
+	writeByte(len);
+	
+	while(len--)
+	{
+		writeByte(*buffer);
+		
+		crc ^= *buffer;
+		for (uint8_t i = 0; i < 8; i++)
+		{
+			if (crc & 1)
+				crc ^= CRC7_POLY;
+			crc >>= 1;
+		}
+		
+		buffer++;
+	}
+	
+	writeByte(crc);
+	writeByte(0x80); // Stoppzeichen für Block
+	
+	uint8_t aw = readByte();
+	if(aw != 0xFF)
+	{
+		std::cout << "Ende Gelände" << std::endl;
+	}
 }
 	
 uint8_t USART::readByte(void)
