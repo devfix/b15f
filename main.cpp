@@ -7,7 +7,7 @@
 #include "requests.h"
 
 
-#define WDT_TIMEOUT WDTO_8S
+#define WDT_TIMEOUT WDTO_15MS
 
 void initAll()
 {
