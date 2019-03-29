@@ -67,7 +67,7 @@ uint8_t USART::readByte(void)
 	auto start = std::chrono::steady_clock::now();
 	auto end = start;
 	uint16_t elapsed = 0;
-	while(elapsed < timeout)
+	while(elapsed < timeout * 100)
 	{
 		int n_ready;
 		int code = ioctl(file_desc, FIONREAD, &n_ready);

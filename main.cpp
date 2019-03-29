@@ -182,10 +182,11 @@ void beispielFunktionen()
 int main()
 {
 	
-	USART usart;
-	usart.openDevice("/dev/ttyUSB0");
-	usart.closeDevice();
+	beispielFunktionen();
 	
+	//USART usart;
+	//usart.openDevice("/dev/ttyUSB0");
+	//usart.writeByte(5);
 	
 	
 	std::cout << "Schluss." << std::endl;

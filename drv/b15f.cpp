@@ -11,6 +11,7 @@ void B15F::init()
 {
 	
 	std::cout << PRE << "Stelle Verbindung mit Adapter her... " << std::flush;
+	usart.setBaudrate(BAUDRATE);
 	usart.openDevice(SERIAL_DEVICE);	
 	std::cout << "OK" << std::endl;
 	
