@@ -18,8 +18,12 @@ void USART::init()
 void USART::flush()
 {
 	uint8_t dummy;
-	while (UCSR0A & (1<<RXC0))
+	do
+	{
 		dummy = UDR0;
+		_delay_us((1000000 / BAUDRATE) * 16); // Warte Übertragungszeit von 16 Bit ab
+	}
+	while (UCSR0A & (1<<RXC0));
 
 	if(dummy) // taeusche dummy Verwendung vor
 		return;
@@ -93,30 +97,34 @@ uint16_t USART::readInt()
 void USART::readBlock(uint8_t* ptr, uint8_t offset)
 {
 	ptr += offset;
-	uint8_t crc = 0;
-
-	uint8_t len = readByte();
-	for(uint8_t k = 0; k <= len; k++) // len + 1 Durchgänge (+ crc)
+	uint8_t crc;
+	do
 	{
-		uint8_t next = readByte();
+		crc = 0;
+		uint8_t len = readByte();
+		if(len > MAX_BLOCK_SIZE)
+			len = 0;
 
-		crc ^= next;
-		for (uint8_t i = 0; i < 8; i++)
+		for(uint8_t k = 0; k <= len; k++) // len + 1 Durchgänge (+ crc)
 		{
-			if (crc & 1)
-				crc ^= CRC7_POLY;
-			crc >>= 1;
+			uint8_t next = readByte();
+
+			crc ^= next;
+			for (uint8_t i = 0; i < 8; i++)
+			{
+				if (crc & 1)
+					crc ^= CRC7_POLY;
+				crc >>= 1;
+			}
+
+			if(k < len)
+				ptr[k] = next;
 		}
 
-		if(k < len)
-			ptr[k] = next;
+		
+		flush(); // leere Eingangspuffer
+		
+		writeByte(crc == 0 ? MSG_OK : MSG_FAIL);
 	}
-
-	if(crc == 0)
-	{
-		writeByte(MSG_OK);
-		return;
-	}
-	
-	writeByte(MSG_FAIL);
+	while(crc != 0);
 }

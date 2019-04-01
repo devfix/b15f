@@ -108,6 +108,14 @@ int main()
 	_delay_ms(100);
 	beba0.writePortA(0x00);
 
+	uint8_t n = 0;
+	uint8_t block[16];
+	while(1)
+	{
+		beba0.writePortA(n++ & 0xFF);
+		usart.readBlock(&block[0], 0);
+	}
+
 	while(1)
 	{
 		handleRequest();

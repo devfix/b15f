@@ -7,6 +7,7 @@
 
 constexpr uint32_t BAUDRATE = 115200; // 38400
 constexpr uint8_t  CRC7_POLY = 0x91;
+constexpr uint8_t MAX_BLOCK_SIZE = 16;
 
 class USART
 {
