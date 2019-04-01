@@ -74,14 +74,13 @@ void USART::writeInt(uint16_t d)
 
 int USART::read_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t timeout)
 {
-	buffer += offset;
 	uint32_t elapsed = 0;
 	int n_read = -1;
 	auto start = std::chrono::steady_clock::now();
 	auto end = start;
 	while(elapsed < timeout)
 	{
-		n_read = read(file_desc, buffer, len);
+		n_read = read(file_desc, buffer + offset, len);
 		if (n_read == len)
 			return n_read;
 				
@@ -92,6 +91,24 @@ int USART::read_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t 
 	return n_read;
 }
 
+int USART::write_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t timeout)
+{
+	uint32_t elapsed = 0;
+	int n_sent = -1;
+	auto start = std::chrono::steady_clock::now();
+	auto end = start;
+	while(elapsed < timeout)
+	{
+		n_sent = write(file_desc, buffer + offset, len);
+		if (n_sent == len)
+			return n_sent;
+				
+		end = std::chrono::steady_clock::now();
+		elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+	}
+	
+	return n_sent;
+}
 
 void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 {
@@ -99,15 +116,25 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 	uint8_t crc;
 	uint8_t aw;
 	uint16_t us_per_bit = (1000000 / baudrate) * 16;
+	uint8_t block_end = BLOCK_END;
 	
 	do
 	{
 		crc = 0;
-		writeByte(len);
 		
+		// send block length
+		int n_sent = write_timeout(&len, 0, 1, us_per_bit);
+		if(n_sent != 1)
+			throw std::runtime_error("fatal (send): " + std::to_string(n_sent));
+		
+		// send block
+		n_sent = write_timeout(buffer, 0, len, us_per_bit * len);
+		if(n_sent != len)
+			throw std::runtime_error("fatal (send #2): " + std::to_string(n_sent));	
+		
+		// calc crc
 		for(uint8_t i = 0; i < len; i++)
 		{
-			writeByte(buffer[i]);
 			usleep(us_per_bit);
 			
 			crc ^= buffer[i];
@@ -119,10 +146,14 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 			}			
 		}
 			
-		writeByte(crc);		
+		n_sent = write_timeout(&crc, 0, 1, us_per_bit);
+		if(n_sent != 1)
+			throw std::runtime_error("fatal (send): " + std::to_string(n_sent));
 		usleep(us_per_bit);
 		
-		writeByte(0x80); // Stoppzeichen für Block	
+		n_sent = write_timeout(&block_end, 0, 1, us_per_bit);
+		if(n_sent != 1)
+			throw std::runtime_error("fatal (send): " + std::to_string(n_sent));
 		usleep(us_per_bit);
 		
 		int n_read = read_timeout(&aw, 0, 1, us_per_bit);

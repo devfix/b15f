@@ -79,6 +79,7 @@ public:
 	uint16_t readInt(void);
 	
 	int read_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t timeout);
+	int write_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t timeout);
 	void writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len);
 	bool readBlock(uint8_t* buffer, uint16_t offset);
 	
@@ -116,15 +117,16 @@ public:
 	
 	/***************************************/
 	
+	constexpr static uint8_t CRC7_POLY = 0x91;
+	constexpr static uint8_t MAX_BLOCK_SIZE = 16;
+	constexpr static uint8_t BLOCK_END = 0x80;
 private:
 	
 	int file_desc = -1; // Linux Dateideskriptor
 	uint32_t baudrate = 9600;
 	int TEST = 0;
 	uint8_t timeout = 10; // in Dezisekunden
-	
-	constexpr static uint8_t CRC7_POLY = 0x91;
-	constexpr static uint8_t MAX_BLOCK_SIZE = 16;
+	uint8_t buffer[MAX_BLOCK_SIZE + 3];
 };
 
 
