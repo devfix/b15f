@@ -70,11 +70,35 @@ void USART::writeInt(uint16_t d)
 		throw USARTException("Fehler beim Senden: writeInt()");
 }
 
+
+
+int USART::read_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t timeout)
+{
+	buffer += offset;
+	uint32_t elapsed = 0;
+	int n_read = -1;
+	auto start = std::chrono::steady_clock::now();
+	auto end = start;
+	while(elapsed < timeout)
+	{
+		n_read = read(file_desc, buffer, len);
+		if (n_read == len)
+			return n_read;
+				
+		end = std::chrono::steady_clock::now();
+		elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+	}
+	
+	return n_read;
+}
+
+
 void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 {
 	buffer += offset;
 	uint8_t crc;
 	uint8_t aw;
+	uint16_t us_per_bit = (1000000 / baudrate) * 16;
 	
 	do
 	{
@@ -84,7 +108,7 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 		for(uint8_t i = 0; i < len; i++)
 		{
 			writeByte(buffer[i]);
-			usleep((1000000 / baudrate) * 16);
+			usleep(us_per_bit);
 			
 			crc ^= buffer[i];
 			for (uint8_t k = 0; k < 8; k++)
@@ -96,40 +120,32 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 		}
 			
 		writeByte(crc);		
-		usleep((1000000 / baudrate) * 16);
+		usleep(us_per_bit);
 		
-		writeByte(0x80); // Stoppzeichen für Block
-	
-		usleep((1000000 / baudrate) * 16);
+		writeByte(0x80); // Stoppzeichen für Block	
+		usleep(us_per_bit);
 		
-		int code = read(file_desc, &aw, 1);
-		if(code < 0)
+		int n_read = read_timeout(&aw, 0, 1, us_per_bit);
+		if(n_read < 0)
 		{
 			std::cout << "WARNING: read error, retry..." << std::endl;
-			usleep(100000);
-			code = read(file_desc, &aw, 1);
+			n_read = read_timeout(&aw, 0, 1, us_per_bit);
 		}
 		
-		if(code == 0)
+		if(n_read == 0)
 		{
 			std::cout << "timeout info" << std::endl;
 			for(uint8_t i = 0; i < MAX_BLOCK_SIZE; i++)
 			{
-				std::cout << "i: " << (int) i << std::endl;
-				sleep(1);
 				writeByte(0x80); // Stoppzeichen für Block
-				
-				code = read(file_desc, &aw, 1);
-				if(code == 1)
-				{
-					std::cout << "YO HO" << std::endl;
-					std::cout << "aw: " << (int) aw << std::endl;
-					i = 0xFF;
-				}
+								
+				n_read = read_timeout(&aw, 0, 1, us_per_bit * 2);
+				if(n_read == 1)
+					break;
 			}
 		}
-		else if(code != 1)
-			throw std::runtime_error("fatal: " + std::to_string(code));
+		else if(n_read != 1)
+			throw std::runtime_error("fatal: " + std::to_string(n_read));
 	
 		clearInputBuffer();
 	}
