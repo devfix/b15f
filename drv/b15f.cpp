@@ -27,6 +27,13 @@ void B15F::init()
 	std::cout << "OK" << std::endl;
 	
 	
+	 // Temporärer Test
+	uint8_t block[] = {0, 1, 2, 3};
+	while(1)
+		usart.writeBlock(&block[0], 0, sizeof(block));
+	throw std::runtime_error("SCHLUSS");
+	
+	
 
 	std::cout << PRE << "Teste Verbindung... " << std::flush;	
 	uint8_t tries = 3;

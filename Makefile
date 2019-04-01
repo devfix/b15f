@@ -8,7 +8,7 @@ COMPILER_PATH = g++
 
 
 OUTPUT  = main
-CFLAGS  = -std=c++14 -O3
+CFLAGS  = -std=c++14 -O3 -Wall -Wextra
 LDFLAGS = 
 OBJECTS = main.o drv/usart.o drv/b15f.o drv/plottyfile.o drv/dot.o
 

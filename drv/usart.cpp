@@ -53,7 +53,14 @@ void USART::writeByte(uint8_t b)
 {
 	int sent = write(file_desc, &b, 1);
 	if(sent != 1)
-		throw USARTException("Fehler beim Senden: writeByte()");
+	{
+		std::cout << "WARNUNG: Fehler beim Senden (" << sent << "): writeByte(), wiederhole..." << std::endl;
+		usleep(100000);
+		sent = write(file_desc, &b, 1);
+		if(sent != 1)
+			throw USARTException("Fehler beim Senden: writeByte()");
+	}
+		
 }
 	
 void USART::writeInt(uint16_t d)
@@ -66,33 +73,69 @@ void USART::writeInt(uint16_t d)
 void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 {
 	buffer += offset;
-	uint8_t crc = 0;
+	uint8_t crc;
+	uint8_t aw;
 	
-	writeByte(len);
-	
-	while(len--)
+	do
 	{
-		writeByte(*buffer);
+		crc = 0;
+		writeByte(len);
 		
-		crc ^= *buffer;
-		for (uint8_t i = 0; i < 8; i++)
+		for(uint8_t i = 0; i < len; i++)
 		{
-			if (crc & 1)
-				crc ^= CRC7_POLY;
-			crc >>= 1;
+			writeByte(buffer[i]);
+			usleep((1000000 / baudrate) * 16);
+			
+			crc ^= buffer[i];
+			for (uint8_t k = 0; k < 8; k++)
+			{
+				if (crc & 1)
+					crc ^= CRC7_POLY;
+				crc >>= 1;
+			}			
+		}
+			
+		writeByte(crc);		
+		usleep((1000000 / baudrate) * 16);
+		
+		writeByte(0x80); // Stoppzeichen für Block
+	
+		usleep((1000000 / baudrate) * 16);
+		
+		int code = read(file_desc, &aw, 1);
+		if(code < 0)
+		{
+			std::cout << "WARNING: read error, retry..." << std::endl;
+			usleep(100000);
+			code = read(file_desc, &aw, 1);
 		}
 		
-		buffer++;
-	}
+		if(code == 0)
+		{
+			std::cout << "timeout info" << std::endl;
+			for(uint8_t i = 0; i < MAX_BLOCK_SIZE; i++)
+			{
+				std::cout << "i: " << (int) i << std::endl;
+				sleep(1);
+				writeByte(0x80); // Stoppzeichen für Block
+				
+				code = read(file_desc, &aw, 1);
+				if(code == 1)
+				{
+					std::cout << "YO HO" << std::endl;
+					std::cout << "aw: " << (int) aw << std::endl;
+					i = 0xFF;
+				}
+			}
+		}
+		else if(code != 1)
+			throw std::runtime_error("fatal: " + std::to_string(code));
 	
-	writeByte(crc);
-	writeByte(0x80); // Stoppzeichen für Block
-	
-	uint8_t aw = readByte();
-	if(aw != 0xFF)
-	{
-		std::cout << "Ende Gelände" << std::endl;
+		clearInputBuffer();
 	}
+	while(aw != 0xFF);
+	
+	std::cout << "OK" << std::endl;
 }
 	
 uint8_t USART::readByte(void)
