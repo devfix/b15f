@@ -24,8 +24,8 @@ void USART::openDevice(std::string device)
 	if(code)
 		throw USARTException("Fehler beim Setzen der Geräteparameter");
 	
-	clearOutputBuffer();
-	clearInputBuffer();
+	flushOutputBuffer();
+	flushInputBuffer();
 }
 	
 void USART::closeDevice()
@@ -35,14 +35,14 @@ void USART::closeDevice()
 		throw USARTException("Fehler beim Schließen des Gerätes");
 }
 	
-void USART::clearInputBuffer()
+void USART::flushInputBuffer()
 {
 	int code = tcflush(file_desc, TCIFLUSH);
 	if(code)
 		throw USARTException("Fehler beim Leeren des Eingangspuffers");
 }
 	
-void USART::clearOutputBuffer()
+void USART::flushOutputBuffer()
 {
 	int code = tcflush(file_desc, TCOFLUSH);
 	if(code)
@@ -112,31 +112,17 @@ int USART::write_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t
 
 void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 {
-	buffer += offset;
 	uint8_t crc;
 	uint8_t aw;
-	uint16_t us_per_bit = (1000000 / baudrate) * 16;
-	uint8_t block_end = BLOCK_END;
+	const uint16_t us_per_bit = (1000000 / baudrate) * 16;
+	const uint16_t n_total = len + 3;
 	
 	do
-	{
-		crc = 0;
-		
-		// send block length
-		int n_sent = write_timeout(&len, 0, 1, us_per_bit);
-		if(n_sent != 1)
-			throw std::runtime_error("fatal (send): " + std::to_string(n_sent));
-		
-		// send block
-		n_sent = write_timeout(buffer, 0, len, us_per_bit * len);
-		if(n_sent != len)
-			throw std::runtime_error("fatal (send #2): " + std::to_string(n_sent));	
-		
+	{	
 		// calc crc
+		crc = 0;
 		for(uint8_t i = 0; i < len; i++)
-		{
-			usleep(us_per_bit);
-			
+		{			
 			crc ^= buffer[i];
 			for (uint8_t k = 0; k < 8; k++)
 			{
@@ -145,22 +131,30 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 				crc >>= 1;
 			}			
 		}
+		
+		// construct block
+		block_buffer[0] = len;
+		std::memcpy(&block_buffer[1], buffer + offset, len);
+		block_buffer[len + 1] = crc;
+		block_buffer[len + 2] = BLOCK_END;
 			
-		n_sent = write_timeout(&crc, 0, 1, us_per_bit);
-		if(n_sent != 1)
+		// send block
+		int n_sent = write_timeout(&block_buffer[0], 0, len + 3, us_per_bit * n_total);
+		if(n_sent != n_total)
 			throw std::runtime_error("fatal (send): " + std::to_string(n_sent));
-		usleep(us_per_bit);
+		flushOutputBuffer();
 		
-		n_sent = write_timeout(&block_end, 0, 1, us_per_bit);
-		if(n_sent != 1)
-			throw std::runtime_error("fatal (send): " + std::to_string(n_sent));
-		usleep(us_per_bit);
-		
+		usleep(1000);
+			
+		// check response
 		int n_read = read_timeout(&aw, 0, 1, us_per_bit);
-		if(n_read < 0)
+		for(uint8_t i = 0; i < 10 && n_read != 1; i++)
 		{
-			std::cout << "WARNING: read error, retry..." << std::endl;
-			n_read = read_timeout(&aw, 0, 1, us_per_bit);
+			flushOutputBuffer();
+			flushInputBuffer();
+			std::cout << "WARNING: read error (" << n_read << "), retry #" << (int) i << std::endl;
+			usleep(1000000);
+			n_read = read_timeout(&aw, 0, 1, us_per_bit * 2);
 		}
 		
 		if(n_read == 0)
@@ -178,11 +172,11 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 		else if(n_read != 1)
 			throw std::runtime_error("fatal: " + std::to_string(n_read));
 	
-		clearInputBuffer();
+		flushInputBuffer();
 	}
 	while(aw != 0xFF);
 	
-	std::cout << "OK" << std::endl;
+	//std::cout << "OK" << std::endl;
 }
 	
 uint8_t USART::readByte(void)

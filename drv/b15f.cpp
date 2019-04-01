@@ -83,13 +83,13 @@ void B15F::reconnect()
 
 void B15F::discard(void)
 {
-	usart.clearOutputBuffer();
+	usart.flushOutputBuffer();
 	for(uint8_t i = 0; i < 8; i++)
 	{
 		usart.writeByte(RQ_DISC);	// sende discard Befehl (verwerfe input)
 		delay_ms((16000 / BAUDRATE) + 1); // warte mindestens eine Millisekunde, gegebenenfalls mehr
 	}
-	usart.clearInputBuffer();
+	usart.flushInputBuffer();
 }
 
 bool B15F::testConnection()
@@ -147,7 +147,7 @@ std::vector<std::string> B15F::getBoardInfo(void)
 
 bool B15F::digitalWrite0(uint8_t port)
 {
-	usart.clearInputBuffer();
+	usart.flushInputBuffer();
 	usart.writeByte(RQ_BA0);
 	usart.writeByte(port);
 	
@@ -157,7 +157,7 @@ bool B15F::digitalWrite0(uint8_t port)
 
 bool B15F::digitalWrite1(uint8_t port)
 {
-	usart.clearInputBuffer();
+	usart.flushInputBuffer();
 	usart.writeByte(RQ_BA1);
 	usart.writeByte(port);
 	
@@ -167,21 +167,21 @@ bool B15F::digitalWrite1(uint8_t port)
 
 uint8_t B15F::digitalRead0()
 {
-	usart.clearInputBuffer();
+	usart.flushInputBuffer();
 	usart.writeByte(RQ_BE0);
 	return usart.readByte();
 }
 
 uint8_t B15F::digitalRead1()
 {
-	usart.clearInputBuffer();
+	usart.flushInputBuffer();
 	usart.writeByte(RQ_BE1);
 	return usart.readByte();
 }
 
 bool B15F::analogWrite0(uint16_t value)
 {
-	usart.clearInputBuffer();
+	usart.flushInputBuffer();
 	usart.writeByte(RQ_AA0);
 	usart.writeInt(value);
 	
@@ -191,7 +191,7 @@ bool B15F::analogWrite0(uint16_t value)
 
 bool B15F::analogWrite1(uint16_t value)
 {
-	usart.clearInputBuffer();
+	usart.flushInputBuffer();
 	usart.writeByte(RQ_AA1);
 	usart.writeInt(value);
 	
@@ -201,7 +201,7 @@ bool B15F::analogWrite1(uint16_t value)
 
 uint16_t B15F::analogRead(uint8_t channel)
 {
-	usart.clearInputBuffer();
+	usart.flushInputBuffer();
 	usart.writeByte(RQ_ADC);
 	usart.writeByte(channel);
 	return usart.readInt();
@@ -212,7 +212,7 @@ bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 	buffer_a += offset_a;
 	buffer_b += offset_b;
 	
-	usart.clearInputBuffer();
+	usart.flushInputBuffer();
 	usart.writeByte(RQ_ADC_DAC_STROKE);
 	usart.writeByte(channel_a);
 	usart.writeByte(channel_b);

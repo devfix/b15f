@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <chrono>
 #include <unistd.h>
+#include <cstring>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <termios.h>
@@ -36,13 +37,13 @@ public:
 	 * Verwirft Daten, die bereits im Puffer liegen, aber noch nicht gelesen wurden
 	 * \throws USARTException 
 	 */
-	void clearInputBuffer(void);
+	void flushInputBuffer(void);
 	
 	/**
 	 * Verwirft Daten, die bereits im Puffer liegen, aber noch nicht gesendet wurden
 	 * \throws USARTException 
 	 */
-	void clearOutputBuffer(void);
+	void flushOutputBuffer(void);
 	
 	/*************************************************/
 	
@@ -126,7 +127,7 @@ private:
 	uint32_t baudrate = 9600;
 	int TEST = 0;
 	uint8_t timeout = 10; // in Dezisekunden
-	uint8_t buffer[MAX_BLOCK_SIZE + 3];
+	uint8_t block_buffer[MAX_BLOCK_SIZE + 3];
 };
 
 
