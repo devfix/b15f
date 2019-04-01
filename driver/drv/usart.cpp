@@ -15,6 +15,7 @@ void USART::openDevice(std::string device)
 	options.c_iflag = IGNPAR;
 	options.c_oflag = 0;
 	options.c_lflag = 0;
+	options.c_cc[VMIN]  = 0; // #bytes read returns at least
 	options.c_cc[VTIME] = timeout;	
     code = cfsetspeed(&options, baudrate);
 	if(code)
@@ -142,37 +143,30 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 		int n_sent = write_timeout(&block_buffer[0], 0, len + 3, us_per_bit * n_total);
 		if(n_sent != n_total)
 			throw std::runtime_error("fatal (send): " + std::to_string(n_sent));
-		flushOutputBuffer();
+			
+		// flush output data
+		tcdrain(file_desc);
 		
-		usleep(1000);
+		usleep(us_per_bit * n_total);
 			
 		// check response
 		int n_read = read_timeout(&aw, 0, 1, us_per_bit);
-		for(uint8_t i = 0; i < 10 && n_read != 1; i++)
+		for(uint16_t i = 0; i < 255 && n_read != 1; i++)
 		{
-			flushOutputBuffer();
-			flushInputBuffer();
+			writeByte(0x80); // Stoppzeichen für Block
+			tcdrain(file_desc);
 			std::cout << "WARNING: read error (" << n_read << "), retry #" << (int) i << std::endl;
-			usleep(1000000);
-			n_read = read_timeout(&aw, 0, 1, us_per_bit * 2);
+			usleep(us_per_bit);
+			n_read = read_timeout(&aw, 0, 1, us_per_bit);
 		}
 		
-		if(n_read == 0)
-		{
-			std::cout << "timeout info" << std::endl;
-			for(uint8_t i = 0; i < MAX_BLOCK_SIZE; i++)
-			{
-				writeByte(0x80); // Stoppzeichen für Block
-								
-				n_read = read_timeout(&aw, 0, 1, us_per_bit * 2);
-				if(n_read == 1)
-					break;
-			}
-		}
-		else if(n_read != 1)
+		if(n_read != 1)
 			throw std::runtime_error("fatal: " + std::to_string(n_read));
 	
-		flushInputBuffer();
+		//flushInputBuffer();
+		
+		if(aw != 0xFF)
+			std::cout << "block failed, retry" << std::endl;
 	}
 	while(aw != 0xFF);
 	

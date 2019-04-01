@@ -97,13 +97,20 @@ uint16_t USART::readInt()
 void USART::readBlock(uint8_t* ptr, uint8_t offset)
 {
 	ptr += offset;
-	uint8_t crc;
+	uint8_t crc = 0x7F;
 	do
 	{
-		crc = 0;
 		uint8_t len = readByte();
-		if(len > MAX_BLOCK_SIZE)
+
+		if(len == 0x80) // out of sync, war bereits stoppbyte
+		{
+			writeByte(MSG_FAIL);
+			continue;
+		}
+		else if(len > MAX_BLOCK_SIZE)
 			len = 0;
+
+		crc = 0;
 
 		for(uint8_t k = 0; k <= len; k++) // len + 1 Durchgänge (+ crc)
 		{
