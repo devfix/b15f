@@ -1,11 +1,11 @@
 #include "global_vars.h"
 
-SPI spi;
-MCP23S17 beba0(spi, SPIADR::BEBA0);
-MCP23S17 beba1(spi, SPIADR::BEBA1);
-MCP23S17 sw(spi, SPIADR::SWITCH);
-TLC5615 dac0(spi, SPIADR::AA0);
-TLC5615 dac1(spi, SPIADR::AA1);
-ADU adu;
-USART usart;
+volatile SPI spi;
+volatile MCP23S17 beba0(*((SPI*) &spi), SPIADR::BEBA0);
+volatile MCP23S17 beba1(*((SPI*) &spi), SPIADR::BEBA1);
+volatile MCP23S17 sw(*((SPI*) &spi), SPIADR::SWITCH);
+volatile TLC5615 dac0(*((SPI*) &spi), SPIADR::AA0);
+volatile TLC5615 dac1(*((SPI*) &spi), SPIADR::AA1);
+volatile ADU adu;
+volatile USART usart;
 

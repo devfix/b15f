@@ -6,13 +6,13 @@
 #include "adu.h"
 #include "usart.h"
 
-extern SPI spi;
-extern MCP23S17 beba0;
-extern MCP23S17 beba1;
-extern MCP23S17 sw;
-extern TLC5615 dac0;
-extern TLC5615 dac1;
-extern ADU adu;
-extern USART usart;
+extern volatile SPI spi;
+extern volatile MCP23S17 beba0;
+extern volatile MCP23S17 beba1;
+extern volatile MCP23S17 sw;
+extern volatile TLC5615 dac0;
+extern volatile TLC5615 dac1;
+extern volatile ADU adu;
+extern volatile USART usart;
 
 #endif // GLOBAL_VARS_H

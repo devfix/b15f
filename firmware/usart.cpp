@@ -4,7 +4,7 @@ void USART::init()
 {
 	UCSR0A = _BV(U2X0);
 	
-	UCSR0B = _BV(RXEN0) | _BV(TXEN0);
+	UCSR0B = _BV(RXEN0) | _BV(TXEN0) | _BV(RXCIE0);
 
 	// Einstellen des Datenformats: 8 Datenbits, 1 Stoppbit
 	UCSR0C = _BV(UCSZ00) |_BV(UCSZ01);// (1<<URSEL0)|(1<<UCSZ10)|(1<<UCSZ00);
@@ -15,7 +15,7 @@ void USART::init()
 
 }
 
-void USART::flush()
+void USART::clearInputBuffer()
 {
 	uint8_t dummy;
 	do
@@ -94,6 +94,79 @@ uint16_t USART::readInt()
 	return v;
 }
 
+void USART::nextByte(uint8_t byte)
+{
+	switch(seq)
+	{
+		case IDLE:
+		{
+			if(byte > MAX_BLOCK_SIZE)
+			{
+				clearInputBuffer();
+				writeByte(MSG_FAIL);
+				seq = BlockSequence::IDLE;
+			}
+			else
+			{
+				block_buffer[0] = byte;
+				crc = 0;
+				block_pos = 0;
+				seq = BlockSequence::LEN;
+			}
+			break;
+		}
+		case LEN:
+		{
+			block_buffer[block_pos] = byte;
+			seq = BlockSequence::DATA;
+			break;
+		}
+		case DATA:
+		{
+			block_buffer[block_pos] = byte;
+			crc ^= byte;
+			for (uint8_t i = 0; i < 8; i++)
+			{
+				if (crc & 1)
+					crc ^= CRC7_POLY;
+				crc >>= 1;
+			}
+			if(block_pos == block_buffer[0])
+				seq = BlockSequence::CRC;
+			else if(block_pos >= block_buffer[0])
+			{
+				clearInputBuffer();
+				writeByte(MSG_FAIL);
+				seq = BlockSequence::IDLE;				
+			}
+			break;
+		}
+		case CRC:
+		{
+			block_buffer[block_pos] = byte;
+			crc ^= byte;
+			for (uint8_t i = 0; i < 8; i++)
+			{
+				if (crc & 1)
+					crc ^= CRC7_POLY;
+				crc >>= 1;
+			}
+			seq = BlockSequence::END;
+			break;
+		}
+		case END:
+		{
+			clearInputBuffer();
+			writeByte(crc == 0 ? MSG_OK : MSG_FAIL);
+			seq = BlockSequence::IDLE;
+			break;
+		}
+
+
+	}
+	block_pos++;
+}
+
 void USART::readBlock(uint8_t* ptr, uint8_t offset)
 {
 	ptr += offset;
@@ -129,7 +202,7 @@ void USART::readBlock(uint8_t* ptr, uint8_t offset)
 		}
 
 		
-		flush(); // leere Eingangspuffer
+		clearInputBuffer(); // leere Eingangspuffer
 		
 		writeByte(crc == 0 ? MSG_OK : MSG_FAIL);
 	}

@@ -125,7 +125,7 @@ public:
 	/***************************************/
 	
 	constexpr static uint8_t CRC7_POLY = 0x91;
-	constexpr static uint8_t MAX_BLOCK_SIZE = 16;
+	constexpr static uint8_t MAX_BLOCK_SIZE = 64;
 	constexpr static uint8_t BLOCK_END = 0x80;
 private:
 	

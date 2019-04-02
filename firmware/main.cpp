@@ -9,18 +9,29 @@
 
 #define WDT_TIMEOUT WDTO_15MS
 
+ISR(USART0_RX_vect)
+{
+	if(UCSR0A & _BV(DOR0))
+	{
+		((MCP23S17*) &beba0)->writePortA(0xFF);
+	}
+	cli();
+	((USART*) &usart)->nextByte(UDR0);
+	sei();
+}
+
 void initAll()
 {
-	spi.init();
+	((SPI*) &spi)->init();
 
-	beba0.setDirA(0x00); // alle Ausgang
-	beba0.setDirB(0xFF); // alle Eingang
-	beba1.setDirA(0x00); // alle Ausgang
-	beba1.setDirB(0xFF); // alle Eingang
-	sw.setDirB(0xFF); // alle Eingang
+	((MCP23S17*) &beba0)->setDirA(0x00); // alle Ausgang
+	((MCP23S17*) &beba0)->setDirB(0xFF); // alle Eingang
+	((MCP23S17*) &beba1)->setDirA(0x00); // alle Ausgang
+	((MCP23S17*) &beba1)->setDirB(0xFF); // alle Eingang
+	((MCP23S17*) &sw)->setDirB(0xFF); // alle Eingang
 
-	adu.init();
-	usart.init();
+	((ADU*) &adu)->init();
+	((USART*) &usart)->init();
 
 	// aktiviere Interrupts
 	sei();
@@ -35,9 +46,9 @@ void handleRequest()
 {	
 	wdt_disable();
 
-	beba1.writePortA(0xFF);
-	const uint8_t req = usart.readByte();
-	beba1.writePortA(0x00);
+	((MCP23S17*) &beba1)->writePortA(0xFF);
+	const uint8_t req = ((USART*) &usart)->readByte();
+	((MCP23S17*) &beba1)->writePortA(0x00);
 
 	// starte WDT
 	wdt_enable(WDT_TIMEOUT);
@@ -104,16 +115,16 @@ int main()
 
 	
 	// Reset anzeigen
-	beba0.writePortA(0xFF);
+	((MCP23S17*) &beba0)->writePortA(0xFF);
 	_delay_ms(100);
-	beba0.writePortA(0x00);
+	((MCP23S17*) &beba0)->writePortA(0x00);
 
 	uint8_t n = 0;
 	uint8_t block[16];
 	while(1)
 	{
-		beba0.writePortA(n++ & 0xFF);
-		usart.readBlock(&block[0], 0);
+		//testAll();
+		_delay_ms(1);
 	}
 
 	while(1)

@@ -28,11 +28,12 @@ void B15F::init()
 	
 	
 	 // Temporärer Test
-	uint8_t block[] = {0, 1, 2, 3};
+	uint8_t block[16];
 	while(1)
 	{
 		usart.writeBlock(&block[0], 0, sizeof(block));
 		usart.printStatistics();
+		usleep(1000);
 	}
 	throw std::runtime_error("SCHLUSS");
 	
