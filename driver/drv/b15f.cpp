@@ -27,7 +27,8 @@ void B15F::init()
 	std::cout << "OK" << std::endl;
 	
 	
-	 // Temporärer Test
+	// Temporärer Test
+	/*
 	uint8_t block[16];
 	while(1)
 	{
@@ -35,7 +36,7 @@ void B15F::init()
 		usart.printStatistics();
 		usleep(1000);
 	}
-	throw std::runtime_error("SCHLUSS");
+	throw std::runtime_error("SCHLUSS");*/
 	
 	
 
@@ -44,11 +45,11 @@ void B15F::init()
 	while(tries--)
 	{
 		// verwerfe Daten, die µC noch hat
-		discard();
+		//discard();
 		
 		if(!testConnection())
 			continue;
-		
+				
 		if(!testIntConv())
 			continue;
 			
@@ -57,6 +58,7 @@ void B15F::init()
 	if(tries == 0)
 			throw DriverException("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
 	std::cout << "OK" << std::endl;
+	
 	
 	// Gib board info aus
 	std::vector<std::string> info = getBoardInfo();
@@ -104,7 +106,8 @@ bool B15F::testConnection()
 	
 	usart.writeByte(RQ_TEST);
 	usart.writeByte(dummy);
-	
+	usart.writeByte(0x80);
+		
 	uint8_t aw = usart.readByte();
 	uint8_t mirror = usart.readByte();
 	
@@ -118,6 +121,7 @@ bool B15F::testIntConv()
 	
 	usart.writeByte(RQ_INT);
 	usart.writeInt(dummy);
+	usart.writeByte(0x80);
 	
 	uint16_t aw = usart.readInt();
 	return aw == dummy * 3;
@@ -129,6 +133,7 @@ std::vector<std::string> B15F::getBoardInfo(void)
 	std::vector<std::string> info;
 	
 	usart.writeByte(RQ_INFO);
+	usart.writeByte(0x80);
 	
 	uint8_t n = usart.readByte();
 	while(n--)
