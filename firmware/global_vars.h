@@ -14,5 +14,6 @@ extern volatile TLC5615 dac0;
 extern volatile TLC5615 dac1;
 extern volatile ADU adu;
 extern volatile USART usart;
+extern volatile bool nextRequest;
 
 #endif // GLOBAL_VARS_H

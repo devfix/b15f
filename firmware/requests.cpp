@@ -114,9 +114,12 @@ void rqAdcDacStroke()
 
 		uint16_t val_a = ((ADU*) &adu)->getValue(channel_a);
 		uint16_t val_b = ((ADU*) &adu)->getValue(channel_b);
+		
+		usart.initTX();
 		usart.writeInt(val_a);
 		usart.writeInt(val_b);
-
+		usart.flush();
+		
 		/*union doubleword
 		{
 			uint16_t word[2];
@@ -138,5 +141,7 @@ void rqAdcDacStroke()
 		} while(ret != USART::MSG_OK);*/
 	}
 	
+	usart.initTX();
 	usart.writeByte(USART::MSG_OK);
+	usart.flush();
 }

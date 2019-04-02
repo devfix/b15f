@@ -1,8 +1,6 @@
 #include "usart.h"
 
-handler_t USART::receive_handler = nullptr;
-
-void USART::init(handler_t handler) volatile
+void USART::init() volatile
 {
 	UCSR0A = _BV(U2X0);
 	
@@ -15,7 +13,6 @@ void USART::init(handler_t handler) volatile
 	UBRR0H = (((F_CPU / (8UL * BAUDRATE))-1) >> 8) & 0xFF;
 	UBRR0L =  ((F_CPU / (8UL * BAUDRATE))-1) & 0xFF;
 
-	receive_handler = handler;
 	send_active = false;
 }
 
@@ -33,15 +30,27 @@ void USART::clearInputBuffer() volatile
 		return;
 }
 
+
+void USART::initRX(void) volatile
+{
+	receive_pos = 0;
+}
+	
+void USART::initTX(void) volatile
+{
+	while(send_active);
+		
+	send_pos = 0;
+}
+
 void USART::handleRX(void) volatile
 {
-	receive_buffer[receive_pos] = UDR0;
-	receive_pos++;
+	receive_buffer[receive_pos++] = UDR0;
 
-	if(receive_pos >= rq_len[receive_buffer[0]]) // last byte
+	if(receive_pos >= rq_len[receive_buffer[0]]) // last byte of request
 	{
 		receive_pos = 0;
-		receive_handler();
+		nextRequest = true;
 	}
 }
 
@@ -59,18 +68,6 @@ void USART::handleTX(void) volatile
 	}
 }
 
-void USART::initRX(void) volatile
-{
-	receive_pos = 0;
-}
-	
-void USART::initTX(void) volatile
-{
-	while(send_active);
-		
-	send_pos = 0;
-}
-
 void USART::flush(void) volatile
 {
 	if(send_pos == 0)
@@ -82,6 +79,7 @@ void USART::flush(void) volatile
 	
 	handleTX();
 }
+
 
 void USART::writeByte(uint8_t b) volatile
 {
@@ -136,6 +134,8 @@ uint16_t USART::readInt() volatile
 	v |= readByte() << 8;
 	return v;
 }
+
+
 
 void USART::nextByte(uint8_t byte) volatile
 {

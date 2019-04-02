@@ -7,9 +7,7 @@
 #include "requests.h"
 
 
-#define WDT_TIMEOUT WDTO_1S
-
-void handleRequest(void);
+#define WDT_TIMEOUT WDTO_15MS
 
 void initAll()
 {
@@ -22,7 +20,7 @@ void initAll()
 	((MCP23S17*) &sw)->setDirB(0xFF); // alle Eingang
 
 	((ADU*) &adu)->init();
-	usart.init(&handleRequest);
+	usart.init();
 	usart.initRX();
 
 	// aktiviere Interrupts
@@ -112,7 +110,12 @@ int main()
 
 	while(1)
 	{
-		_delay_ms(10);
+		if(nextRequest)
+		{
+			nextRequest = false;
+			handleRequest();
+		}
+		_delay_us(1);
 	}
 
 	return 0;
