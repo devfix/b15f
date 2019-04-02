@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <termios.h>
+#include <cmath>
 #include "usartexception.h"
 #include "timeoutexception.h"
 
@@ -37,13 +38,18 @@ public:
 	 * Verwirft Daten, die bereits im Puffer liegen, aber noch nicht gelesen wurden
 	 * \throws USARTException 
 	 */
-	void flushInputBuffer(void);
+	void clearInputBuffer(void);
 	
 	/**
 	 * Verwirft Daten, die bereits im Puffer liegen, aber noch nicht gesendet wurden
 	 * \throws USARTException 
 	 */
-	void flushOutputBuffer(void);
+	void clearOutputBuffer(void);
+	
+	/**
+	 * Gibt Anzahl an erfolgreichen und fehlgeschlagenen Block-Übertragungen an
+	 */
+	void printStatistics(void);
 	
 	/*************************************************/
 	
@@ -128,6 +134,10 @@ private:
 	int TEST = 0;
 	uint8_t timeout = 10; // in Dezisekunden
 	uint8_t block_buffer[MAX_BLOCK_SIZE + 3];
+	
+	// debug statistics
+	uint32_t n_blocks_total = 0;
+	uint32_t n_blocks_failed = 0;
 };
 
 

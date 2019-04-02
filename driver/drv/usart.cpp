@@ -25,8 +25,8 @@ void USART::openDevice(std::string device)
 	if(code)
 		throw USARTException("Fehler beim Setzen der Geräteparameter");
 	
-	flushOutputBuffer();
-	flushInputBuffer();
+	clearOutputBuffer();
+	clearInputBuffer();
 }
 	
 void USART::closeDevice()
@@ -36,18 +36,25 @@ void USART::closeDevice()
 		throw USARTException("Fehler beim Schließen des Gerätes");
 }
 	
-void USART::flushInputBuffer()
+void USART::clearInputBuffer()
 {
 	int code = tcflush(file_desc, TCIFLUSH);
 	if(code)
 		throw USARTException("Fehler beim Leeren des Eingangspuffers");
 }
 	
-void USART::flushOutputBuffer()
+void USART::clearOutputBuffer()
 {
 	int code = tcflush(file_desc, TCOFLUSH);
 	if(code)
 		throw USARTException("Fehler beim Leeren des Ausgangspuffers");
+}
+
+void USART::printStatistics()
+{
+	double pz = 1e2 * n_blocks_failed / n_blocks_total;
+	pz = std::round(pz * 1e2) / 1e2;
+	std::cout << "blocks total: " << n_blocks_total << "   ok: " << (n_blocks_total - n_blocks_failed) << "   failed: " << n_blocks_failed << " (" << pz << "%)" << std::endl;
 }
 
 void USART::writeByte(uint8_t b)
@@ -118,6 +125,9 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 	const uint16_t us_per_bit = (1000000 / baudrate) * 16;
 	const uint16_t n_total = len + 3;
 	
+	n_blocks_total++;
+	bool failed = false;
+	
 	do
 	{	
 		// calc crc
@@ -163,10 +173,14 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
 		if(n_read != 1)
 			throw std::runtime_error("fatal: " + std::to_string(n_read));
 	
-		//flushInputBuffer();
+		//clearInputBuffer();
 		
-		if(aw != 0xFF)
+		if(aw != 0xFF) {
+			if(!failed)
+				n_blocks_failed++;
+			failed = true;
 			std::cout << "block failed, retry" << std::endl;
+		}
 	}
 	while(aw != 0xFF);
 	
