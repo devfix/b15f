@@ -4,7 +4,7 @@ void USART::init()
 {
 	UCSR0A = _BV(U2X0);
 	
-	UCSR0B = _BV(RXEN0) | _BV(TXEN0) | _BV(RXCIE0);
+	UCSR0B = _BV(RXEN0) | _BV(TXEN0) | _BV(RXCIE0) | _BV(TXCIE0);
 
 	// Einstellen des Datenformats: 8 Datenbits, 1 Stoppbit
 	UCSR0C = _BV(UCSZ00) |_BV(UCSZ01);// (1<<URSEL0)|(1<<UCSZ10)|(1<<UCSZ00);
@@ -29,27 +29,25 @@ void USART::clearInputBuffer()
 		return;
 }
 
+void USART::write(void)
+{
+	send_len = send_pos;
+	send_pos = 0;
+	while (!(UCSR0A & (1<<UDRE0)));
+	UDR0 = send_buffer[send_pos++];
+}
+
 void USART::writeByte(uint8_t b)
 {
-	while (!(UCSR0A & (1<<UDRE0)));
-	UDR0 = b;
-
-	//while(!(UCSR0A & _BV(TXC0)));
+	send_buffer[send_pos++] = b;
 }
 
 
 void USART::writeInt(uint16_t v)
 {
-
-
-	while (!(UCSR0A & (1<<UDRE0)));
-	UDR0 = v & 0xFF;
-	
+	writeByte(v & 0xFF);
 	v >>= 8;
-	while (!(UCSR0A & (1<<UDRE0)));
-	UDR0 = v & 0xFF;
-
-	//while(!(UCSR0A & _BV(TXC0)));
+	writeByte(v & 0xFF);
 }
 
 void USART::writeStr(const char* str, uint8_t len)
@@ -83,8 +81,7 @@ uint8_t USART::writeBlock(uint8_t* ptr, uint8_t len)
 
 uint8_t USART::readByte()
 {
-	while (!(UCSR0A & (1<<RXC0)));
-    return UDR0;
+	return receive_buffer[receive_pos++];
 }
 
 uint16_t USART::readInt()

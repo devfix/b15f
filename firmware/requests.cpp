@@ -5,21 +5,33 @@ void rqTestConnection()
 	uint8_t dummy = ((USART*) &usart)->readByte();
 	((USART*) &usart)->writeByte(USART::MSG_OK);
 	((USART*) &usart)->writeByte(dummy);
+	((USART*) &usart)->write();
 }
 
 void rqBoardInfo()
 {
 	((USART*) &usart)->writeByte(3); // Anzahl an Strings
-	
+	((USART*) &usart)->write();
+
+	send_pos = 0;	
 	((USART*) &usart)->writeStr(DATE, sizeof(DATE));
+	((USART*) &usart)->write();
+
+	send_pos = 0;
 	((USART*) &usart)->writeStr(TIME, sizeof(TIME));
+	((USART*) &usart)->write();
+
+	send_pos = 0;
 	((USART*) &usart)->writeStr(FSRC, sizeof(FSRC));
 	((USART*) &usart)->writeByte(USART::MSG_OK);
+	((USART*) &usart)->write();
 }
 
 void rqTestIntConv()
 {
-	((USART*) &usart)->writeInt(((USART*) &usart)->readInt() * 3);
+	uint16_t d = ((USART*) &usart)->readInt();
+	((USART*) &usart)->writeInt(d * 3);
+	((USART*) &usart)->write();
 }
 
 void rqDigitalWrite0()
@@ -28,6 +40,7 @@ void rqDigitalWrite0()
 	((MCP23S17*) &beba0)->writePortA(port);
 
 	((USART*) &usart)->writeByte(USART::MSG_OK);
+	((USART*) &usart)->write();
 }
 
 void rqDigitalWrite1()
@@ -36,18 +49,21 @@ void rqDigitalWrite1()
 	((MCP23S17*) &beba1)->writePortA(port);
 
 	((USART*) &usart)->writeByte(USART::MSG_OK);
+	((USART*) &usart)->write();
 }
 
 void rqDigitalRead0()
 {
 	uint8_t port = ((MCP23S17*) &beba0)->readPortB();
 	((USART*) &usart)->writeByte(port);
+	((USART*) &usart)->write();
 }
 
 void rqDigitalRead1()
 {
 	uint8_t port = ((MCP23S17*) &beba1)->readPortB();
 	((USART*) &usart)->writeByte(port);
+	((USART*) &usart)->write();
 }
 
 void rqAnalogWrite0()
@@ -56,6 +72,7 @@ void rqAnalogWrite0()
 	((TLC5615*) &dac0)->setValue(value);
 
 	((USART*) &usart)->writeByte(USART::MSG_OK);
+	((USART*) &usart)->write();
 }
 
 void rqAnalogWrite1()
@@ -64,6 +81,7 @@ void rqAnalogWrite1()
 	((TLC5615*) &dac1)->setValue(value);
 
 	((USART*) &usart)->writeByte(USART::MSG_OK);
+	((USART*) &usart)->write();
 }
 
 void rqAnalogRead()
@@ -71,6 +89,7 @@ void rqAnalogRead()
 	uint8_t channel = ((USART*) &usart)->readByte();
 	uint16_t value = ((ADU*) &adu)->getValue(channel);
 	((USART*) &usart)->writeInt(value);
+	((USART*) &usart)->write();
 }
 
 void rqAdcDacStroke()
@@ -82,9 +101,10 @@ void rqAdcDacStroke()
 	int16_t delta = static_cast<int16_t>(((USART*) &usart)->readInt());
 	int16_t count = static_cast<int16_t>(((USART*) &usart)->readInt());
 
-	((USART*) &usart)->writeByte(USART::MSG_OK);
+	//((USART*) &usart)->writeByte(USART::MSG_OK);
 	
 	count *= delta;
+	((MCP23S17*) &beba1)->writePortA(0xFF);
 	
 	for(int16_t i = start; i < count; i += delta)
 	{

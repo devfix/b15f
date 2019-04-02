@@ -7,17 +7,46 @@
 #include "requests.h"
 
 
-#define WDT_TIMEOUT WDTO_15MS
+#define WDT_TIMEOUT WDTO_1S
+
+uint8_t const rq_len[] = {
+	/* RQ_DISC */ 1,
+	/* RQ_TEST */ 2,
+	/* RQ_INFO */ 1,
+	/* RQ_INT */ 3,
+	/* [ reserved ] */ 0,
+	/* RQ_BA0 */ 2,
+	/* RQ_BA1 */ 2,
+	/* RQ_BE0 */ 1,
+	/* RQ_BE1 */ 1,
+	/* RQ_AA0 */ 3,
+	/* RQ_AA1 */ 3,
+	/* RQ_ADC */ 2,
+	/* RQ_ADC_DAC_STROKE */ 9
+};
+
+
+
+
+
+void handleRequest(void);
 
 ISR(USART0_RX_vect)
 {
-	if(UCSR0A & _BV(DOR0))
+	receive_buffer[receive_pos] = UDR0;
+	receive_pos++;
+
+	if(receive_pos == rq_len[receive_buffer[0]]) // last byte
 	{
-		((MCP23S17*) &beba0)->writePortA(0xFF);
+		receive_pos = 0;
+		handleRequest();
 	}
-	cli();
-	((USART*) &usart)->nextByte(UDR0);
-	sei();
+}
+
+ISR(USART0_TX_vect)
+{
+	if(send_pos < send_len)
+		UDR0 = send_buffer[send_pos++];
 }
 
 void initAll()
@@ -46,14 +75,14 @@ void handleRequest()
 {	
 	wdt_disable();
 
-	((MCP23S17*) &beba1)->writePortA(0xFF);
 	const uint8_t req = ((USART*) &usart)->readByte();
-	((MCP23S17*) &beba1)->writePortA(0x00);
+	send_pos = 0;
 
 	// starte WDT
 	wdt_enable(WDT_TIMEOUT);
 	wdt_reset();
 	
+	//((MCP23S17*) &beba0)->writePortA(receive_buffer[0]);
 	switch(req)
 	{
 		case RQ_DISC:
@@ -106,6 +135,10 @@ void handleRequest()
 		default:
 			break;
 	}
+	//((MCP23S17*) &beba1)->writePortA(0x00);
+	
+	receive_pos = 0;
+
 }
 
 int main()

@@ -50,7 +50,6 @@ void B15F::init()
 		if(!testConnection())
 			continue;
 			
-				
 		if(!testIntConv())
 			continue;
 			
@@ -136,12 +135,14 @@ std::vector<std::string> B15F::getBoardInfo(void)
 	uint8_t n = usart.readByte();
 	while(n--)
 	{
-		uint8_t len = usart.readByte();			
+		uint8_t len = usart.readByte();
+		std::cout << (int) len << std::endl;		
 		std::string str;
-		
+				
 		while(len--)
 			str += static_cast<char>(usart.readByte());
 			
+		std::cout << str << std::endl;
 		info.push_back(str);
 	}
 	
