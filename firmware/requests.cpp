@@ -2,106 +2,107 @@
 
 void rqTestConnection()
 {
-	uint8_t dummy = ((USART*) &usart)->readByte();
-	((USART*) &usart)->writeByte(USART::MSG_OK);
-	((USART*) &usart)->writeByte(dummy);
-	((USART*) &usart)->write();
+	usart.initTX();
+	uint8_t dummy = usart.readByte();
+	usart.writeByte(USART::MSG_OK);
+	usart.writeByte(dummy);
+	usart.flush();
 }
 
 void rqBoardInfo()
 {
-	((USART*) &usart)->writeByte(3); // Anzahl an Strings
-	((USART*) &usart)->write();
-
-	send_pos = 0;	
-	((USART*) &usart)->writeStr(DATE, sizeof(DATE));
-	((USART*) &usart)->write();
-
-	send_pos = 0;
-	((USART*) &usart)->writeStr(TIME, sizeof(TIME));
-	((USART*) &usart)->write();
-
-	send_pos = 0;
-	((USART*) &usart)->writeStr(FSRC, sizeof(FSRC));
-	((USART*) &usart)->writeByte(USART::MSG_OK);
-	((USART*) &usart)->write();
+	usart.initTX();
+	usart.writeByte(3); // Anzahl an Strings
+	usart.writeStr(DATE, sizeof(DATE));
+	usart.writeStr(TIME, sizeof(TIME));
+	usart.writeStr(FSRC, sizeof(FSRC));
+	usart.writeByte(USART::MSG_OK);
+	usart.flush();
 }
 
 void rqTestIntConv()
 {
-	uint16_t d = ((USART*) &usart)->readInt();
-	((USART*) &usart)->writeInt(d * 3);
-	((USART*) &usart)->write();
+	usart.initTX();
+	uint16_t d = usart.readInt();
+	usart.writeInt(d * 3);
+	usart.flush();
 }
 
 void rqDigitalWrite0()
 {
-	uint8_t port = ((USART*) &usart)->readByte();
+	usart.initTX();
+	uint8_t port = usart.readByte();
 	((MCP23S17*) &beba0)->writePortA(port);
 
-	((USART*) &usart)->writeByte(USART::MSG_OK);
-	((USART*) &usart)->write();
+	usart.writeByte(USART::MSG_OK);
+	usart.flush();
 }
 
 void rqDigitalWrite1()
 {
-	uint8_t port = ((USART*) &usart)->readByte();
+	usart.initTX();
+	uint8_t port = usart.readByte();
 	((MCP23S17*) &beba1)->writePortA(port);
 
-	((USART*) &usart)->writeByte(USART::MSG_OK);
-	((USART*) &usart)->write();
+	usart.writeByte(USART::MSG_OK);
+	usart.flush();
 }
 
 void rqDigitalRead0()
 {
+	usart.initTX();
 	uint8_t port = ((MCP23S17*) &beba0)->readPortB();
-	((USART*) &usart)->writeByte(port);
-	((USART*) &usart)->write();
+	usart.writeByte(port);
+	usart.flush();
 }
 
 void rqDigitalRead1()
 {
+	usart.initTX();
 	uint8_t port = ((MCP23S17*) &beba1)->readPortB();
-	((USART*) &usart)->writeByte(port);
-	((USART*) &usart)->write();
+	usart.writeByte(port);
+	usart.flush();
 }
 
 void rqAnalogWrite0()
 {
-	uint16_t value = ((USART*) &usart)->readInt();
+	usart.initTX();
+	uint16_t value = usart.readInt();
 	((TLC5615*) &dac0)->setValue(value);
 
-	((USART*) &usart)->writeByte(USART::MSG_OK);
-	((USART*) &usart)->write();
+	usart.writeByte(USART::MSG_OK);
+	usart.flush();
 }
 
 void rqAnalogWrite1()
 {
-	uint16_t value = ((USART*) &usart)->readInt();
+	usart.initTX();
+	uint16_t value = usart.readInt();
 	((TLC5615*) &dac1)->setValue(value);
 
-	((USART*) &usart)->writeByte(USART::MSG_OK);
-	((USART*) &usart)->write();
+	usart.writeByte(USART::MSG_OK);
+	usart.flush();
 }
 
 void rqAnalogRead()
 {
-	uint8_t channel = ((USART*) &usart)->readByte();
+	usart.initTX();
+	uint8_t channel = usart.readByte();
 	uint16_t value = ((ADU*) &adu)->getValue(channel);
-	((USART*) &usart)->writeInt(value);
-	((USART*) &usart)->write();
+	usart.writeInt(value);
+	usart.flush();
 }
 
 void rqAdcDacStroke()
 {	
-	uint8_t channel_a = ((USART*) &usart)->readByte();
-	uint8_t channel_b = ((USART*) &usart)->readByte();
+	uint8_t channel_a = usart.readByte();
+	uint8_t channel_b = usart.readByte();
 	
-	int16_t start = static_cast<int16_t>(((USART*) &usart)->readInt());
-	int16_t delta = static_cast<int16_t>(((USART*) &usart)->readInt());
-	int16_t count = static_cast<int16_t>(((USART*) &usart)->readInt());
+	int16_t start = static_cast<int16_t>(usart.readInt());
+	int16_t delta = static_cast<int16_t>(usart.readInt());
+	int16_t count = static_cast<int16_t>(usart.readInt());
 
-	//((USART*) &usart)->writeByte(USART::MSG_OK);
+	//usart.writeByte(USART::MSG_OK);
 	
 	count *= delta;
 	((MCP23S17*) &beba1)->writePortA(0xFF);
@@ -113,8 +114,8 @@ void rqAdcDacStroke()
 
 		uint16_t val_a = ((ADU*) &adu)->getValue(channel_a);
 		uint16_t val_b = ((ADU*) &adu)->getValue(channel_b);
-		((USART*) &usart)->writeInt(val_a);
-		((USART*) &usart)->writeInt(val_b);
+		usart.writeInt(val_a);
+		usart.writeInt(val_b);
 
 		/*union doubleword
 		{
@@ -130,12 +131,12 @@ void rqAdcDacStroke()
 		do
 		{
 			wdt_reset();
-			ret = ((USART*) &usart)->writeBlock(&(dw.byte[0]), 4);
+			ret = usart.writeBlock(&(dw.byte[0]), 4);
 
 			if(ret == 0)
 				return;
 		} while(ret != USART::MSG_OK);*/
 	}
 	
-	((USART*) &usart)->writeByte(USART::MSG_OK);
+	usart.writeByte(USART::MSG_OK);
 }

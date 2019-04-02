@@ -4,13 +4,14 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdint.h>
+#include <avr/interrupt.h>
+
+class USART;
+#include "global_vars.h"
+#include "requests.h"
 
 
-extern volatile uint8_t receive_buffer[32];
-extern volatile uint8_t receive_pos;
-extern volatile uint8_t send_buffer[32];
-extern volatile uint8_t send_pos;
-extern volatile uint8_t send_len;
+typedef void (*handler_t)(void);
 
 enum BlockSequence
 {
@@ -23,38 +24,57 @@ enum BlockSequence
 
 class USART
 {
-public:
-	void init(void);
-	void clearInputBuffer(void);
+public: 
+	
+	void init(handler_t handler) volatile;
+	void clearInputBuffer(void) volatile;
 
-	void writeByte(uint8_t);
-	void writeInt(uint16_t);
-	void writeLong(uint32_t);
-	void writeStr(const char*, uint8_t);
+	void writeByte(uint8_t) volatile;
+	void writeInt(uint16_t) volatile;
+	void writeStr(const char*, uint8_t) volatile;
 
-	uint8_t writeBlock(uint8_t*, uint8_t);
-	uint8_t readByte(void);
-	uint16_t readInt(void);
-	uint32_t readLong(void);
-	void write(void);
+	uint8_t readByte(void) volatile;
+	uint16_t readInt(void) volatile;
+	
+	// NEU
+	void handleRX(void) volatile;
+	void handleTX(void) volatile;
+	
+	void initRX(void) volatile;
+	void initTX(void) volatile;
+	void flush(void) volatile;
 
-	void nextByte(uint8_t byte);
-	void readBlock(uint8_t*, uint8_t);
+	// Blockgedöns
+	void nextByte(uint8_t byte) volatile;	
+	uint8_t writeBlock(uint8_t*, uint8_t) volatile;
+	void readBlock(uint8_t*, uint8_t) volatile;
 
 	constexpr static uint8_t MSG_OK = 0xFF;
 	constexpr static uint8_t MSG_FAIL = 0xFE;
 
 	uint8_t block_pos = 0;
+	
+	
 
 	// constants
 	constexpr static uint32_t BAUDRATE       = 115200; // 38400
 	constexpr static uint8_t  CRC7_POLY      = 0x91;
 	constexpr static uint8_t  MAX_BLOCK_SIZE = 64;
 	constexpr static uint8_t  BLOCK_END      = 0x80;
+	
+	volatile uint8_t send_buffer[128];
 private:
+	static handler_t receive_handler;
 	uint8_t block_buffer[MAX_BLOCK_SIZE + 3]; // don't store BLOCK_END byte
 	uint8_t crc;
+	
 	BlockSequence seq = BlockSequence::IDLE;
+	
+	volatile uint8_t receive_buffer[32];
+	volatile uint8_t receive_pos;
+	volatile uint8_t send_pos;
+	volatile uint8_t send_len;
+	volatile bool send_active;
 };
 
 #endif // USART_H

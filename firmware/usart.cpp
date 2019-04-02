@@ -1,6 +1,8 @@
 #include "usart.h"
 
-void USART::init()
+handler_t USART::receive_handler = nullptr;
+
+void USART::init(handler_t handler) volatile
 {
 	UCSR0A = _BV(U2X0);
 	
@@ -13,9 +15,11 @@ void USART::init()
 	UBRR0H = (((F_CPU / (8UL * BAUDRATE))-1) >> 8) & 0xFF;
 	UBRR0L =  ((F_CPU / (8UL * BAUDRATE))-1) & 0xFF;
 
+	receive_handler = handler;
+	send_active = false;
 }
 
-void USART::clearInputBuffer()
+void USART::clearInputBuffer() volatile
 {
 	uint8_t dummy;
 	do
@@ -29,35 +33,77 @@ void USART::clearInputBuffer()
 		return;
 }
 
-void USART::write(void)
+void USART::handleRX(void) volatile
 {
-	send_len = send_pos;
-	send_pos = 0;
-	while (!(UCSR0A & (1<<UDRE0)));
-	UDR0 = send_buffer[send_pos++];
+	receive_buffer[receive_pos] = UDR0;
+	receive_pos++;
+
+	if(receive_pos >= rq_len[receive_buffer[0]]) // last byte
+	{
+		receive_pos = 0;
+		receive_handler();
+	}
 }
 
-void USART::writeByte(uint8_t b)
+void USART::handleTX(void) volatile
+{
+	((MCP23S17*) &beba0)->writePortA(send_pos);
+	if(send_pos < send_len)
+	{
+		while (!(UCSR0A & (1<<UDRE0)));
+		UDR0 = send_buffer[send_pos++];
+	}
+	else
+	{
+		send_active = false;
+	}
+}
+
+void USART::initRX(void) volatile
+{
+	receive_pos = 0;
+}
+	
+void USART::initTX(void) volatile
+{
+	while(send_active);
+		
+	send_pos = 0;
+}
+
+void USART::flush(void) volatile
+{
+	if(send_pos == 0)
+		return;
+		
+	send_len = send_pos;
+	send_pos = 0;	
+	send_active = true;
+	
+	handleTX();
+}
+
+void USART::writeByte(uint8_t b) volatile
 {
 	send_buffer[send_pos++] = b;
 }
 
 
-void USART::writeInt(uint16_t v)
+void USART::writeInt(uint16_t v) volatile
 {
 	writeByte(v & 0xFF);
 	v >>= 8;
 	writeByte(v & 0xFF);
 }
 
-void USART::writeStr(const char* str, uint8_t len)
+void USART::writeStr(const char* str, uint8_t len) volatile
 {
 	writeByte(len);
 	while(len--)
 		writeByte(*str++);
 }
 
-uint8_t USART::writeBlock(uint8_t* ptr, uint8_t len)
+uint8_t USART::writeBlock(uint8_t* ptr, uint8_t len) volatile
 {
 	writeByte(len);
 
@@ -79,19 +125,19 @@ uint8_t USART::writeBlock(uint8_t* ptr, uint8_t len)
 	return readByte();
 }
 
-uint8_t USART::readByte()
+uint8_t USART::readByte() volatile
 {
 	return receive_buffer[receive_pos++];
 }
 
-uint16_t USART::readInt()
+uint16_t USART::readInt() volatile
 {
 	uint16_t v = readByte();
 	v |= readByte() << 8;
 	return v;
 }
 
-void USART::nextByte(uint8_t byte)
+void USART::nextByte(uint8_t byte) volatile
 {
 	switch(seq)
 	{
@@ -164,7 +210,7 @@ void USART::nextByte(uint8_t byte)
 	block_pos++;
 }
 
-void USART::readBlock(uint8_t* ptr, uint8_t offset)
+void USART::readBlock(uint8_t* ptr, uint8_t offset) volatile
 {
 	ptr += offset;
 	uint8_t crc = 0x7F;

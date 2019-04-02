@@ -15,10 +15,4 @@ extern volatile TLC5615 dac1;
 extern volatile ADU adu;
 extern volatile USART usart;
 
-extern volatile uint8_t receive_buffer[32];
-extern volatile uint8_t receive_pos;
-extern volatile uint8_t send_buffer[32];
-extern volatile uint8_t send_pos;
-extern volatile uint8_t send_len;
-extern volatile bool send_active;
 #endif // GLOBAL_VARS_H

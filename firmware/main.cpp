@@ -9,45 +9,7 @@
 
 #define WDT_TIMEOUT WDTO_1S
 
-uint8_t const rq_len[] = {
-	/* RQ_DISC */ 1,
-	/* RQ_TEST */ 2,
-	/* RQ_INFO */ 1,
-	/* RQ_INT */ 3,
-	/* [ reserved ] */ 0,
-	/* RQ_BA0 */ 2,
-	/* RQ_BA1 */ 2,
-	/* RQ_BE0 */ 1,
-	/* RQ_BE1 */ 1,
-	/* RQ_AA0 */ 3,
-	/* RQ_AA1 */ 3,
-	/* RQ_ADC */ 2,
-	/* RQ_ADC_DAC_STROKE */ 9
-};
-
-
-
-
-
 void handleRequest(void);
-
-ISR(USART0_RX_vect)
-{
-	receive_buffer[receive_pos] = UDR0;
-	receive_pos++;
-
-	if(receive_pos == rq_len[receive_buffer[0]]) // last byte
-	{
-		receive_pos = 0;
-		handleRequest();
-	}
-}
-
-ISR(USART0_TX_vect)
-{
-	if(send_pos < send_len)
-		UDR0 = send_buffer[send_pos++];
-}
 
 void initAll()
 {
@@ -60,7 +22,8 @@ void initAll()
 	((MCP23S17*) &sw)->setDirB(0xFF); // alle Eingang
 
 	((ADU*) &adu)->init();
-	((USART*) &usart)->init();
+	usart.init(&handleRequest);
+	usart.initRX();
 
 	// aktiviere Interrupts
 	sei();
@@ -72,17 +35,14 @@ void initAll()
 }
 
 void handleRequest()
-{	
-	wdt_disable();
-
-	const uint8_t req = ((USART*) &usart)->readByte();
-	send_pos = 0;
-
+{
 	// starte WDT
 	wdt_enable(WDT_TIMEOUT);
 	wdt_reset();
 	
-	//((MCP23S17*) &beba0)->writePortA(receive_buffer[0]);
+	const uint8_t req = usart.readByte();
+	((MCP23S17*) &beba1)->writePortA(req);
+	
 	switch(req)
 	{
 		case RQ_DISC:
@@ -135,34 +95,24 @@ void handleRequest()
 		default:
 			break;
 	}
-	//((MCP23S17*) &beba1)->writePortA(0x00);
 	
-	receive_pos = 0;
-
+	usart.initRX();
+	
+	wdt_disable();
 }
 
 int main()
 {
-
 	initAll();
-
 	
 	// Reset anzeigen
 	((MCP23S17*) &beba0)->writePortA(0xFF);
 	_delay_ms(100);
 	((MCP23S17*) &beba0)->writePortA(0x00);
 
-	uint8_t n = 0;
-	uint8_t block[16];
 	while(1)
 	{
-		//testAll();
-		_delay_ms(1);
-	}
-
-	while(1)
-	{
-		handleRequest();
+		_delay_ms(10);
 	}
 
 	return 0;

@@ -18,6 +18,22 @@ constexpr static uint8_t RQ_AA1  = 10;
 constexpr static uint8_t RQ_ADC  = 11;
 constexpr static uint8_t RQ_ADC_DAC_STROKE  = 12;
 
+uint8_t const rq_len[] = {
+	/* RQ_DISC */ 1,
+	/* RQ_TEST */ 2,
+	/* RQ_INFO */ 1,
+	/* RQ_INT */ 3,
+	/* [ reserved ] */ 0,
+	/* RQ_BA0 */ 2,
+	/* RQ_BA1 */ 2,
+	/* RQ_BE0 */ 1,
+	/* RQ_BE1 */ 1,
+	/* RQ_AA0 */ 3,
+	/* RQ_AA1 */ 3,
+	/* RQ_ADC */ 2,
+	/* RQ_ADC_DAC_STROKE */ 9
+};
+
 void rqTestConnection(void);
 void rqBoardInfo(void);
 void rqTestIntConv(void);
