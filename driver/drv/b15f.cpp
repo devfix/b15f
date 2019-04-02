@@ -49,6 +49,7 @@ void B15F::init()
 		
 		if(!testConnection())
 			continue;
+			
 				
 		if(!testIntConv())
 			continue;
@@ -106,7 +107,6 @@ bool B15F::testConnection()
 	
 	usart.writeByte(RQ_TEST);
 	usart.writeByte(dummy);
-	usart.writeByte(0x80);
 		
 	uint8_t aw = usart.readByte();
 	uint8_t mirror = usart.readByte();
@@ -121,7 +121,6 @@ bool B15F::testIntConv()
 	
 	usart.writeByte(RQ_INT);
 	usart.writeInt(dummy);
-	usart.writeByte(0x80);
 	
 	uint16_t aw = usart.readInt();
 	return aw == dummy * 3;
@@ -133,7 +132,6 @@ std::vector<std::string> B15F::getBoardInfo(void)
 	std::vector<std::string> info;
 	
 	usart.writeByte(RQ_INFO);
-	usart.writeByte(0x80);
 	
 	uint8_t n = usart.readByte();
 	while(n--)
@@ -228,10 +226,13 @@ bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 	usart.writeInt(start);
 	usart.writeInt(static_cast<uint16_t>(delta));
 	usart.writeInt(count);
+	
+	/*
 	uint8_t aw = usart.readByte();
 	
 	if(aw != MSG_OK)
 		throw DriverException("Mikrocontroller nicht synchron");
+	*/
 	
 	for(uint16_t i = 0; i < count; i++)
 	{
@@ -239,7 +240,7 @@ bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 		buffer_b[i] = usart.readInt();
 	}
 	
-	aw = usart.readByte();		
+	uint8_t aw = usart.readByte();		
 	if(aw == MSG_OK)
 		return aw;
 		

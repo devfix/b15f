@@ -129,17 +129,21 @@ void testFunktionen()
 	std::cout << "adc: " << (int) drv.analogRead(4) << std::endl;
 	
 	
+	std::cout << "Kennlinie..." << std::endl;
 	uint16_t a[1024];
 	uint16_t b[1024];	
 	drv.analogSequence(0, &a[0], 0, 1, &b[0], 0, 0, 1, 1024);
-	
+	for(uint16_t i= 0; i < sizeof(a) / sizeof(uint16_t); i++)
+	{
+		std::cout << (int) i << " : " << a[i] << "   " << b[i] << std::endl;
+	}
 	
 }
 
 int main()
 {
 	
-	kennlinieZweiterQuadrant();
+	testFunktionen();
 	
 	std::cout << "Schluss." << std::endl;
 }
