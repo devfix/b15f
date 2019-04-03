@@ -8,7 +8,7 @@
 class MCP23S17
 {
 public:
-	MCP23S17(volatile SPI&, uint8_t);
+	MCP23S17(volatile SPI&, SPIADR adr);
 	void setDirA(uint8_t dir) const volatile;
 	void setDirB(uint8_t dir) const volatile;
 	void writePortA(uint8_t) const volatile;
@@ -18,7 +18,7 @@ public:
 
 private:
 	volatile SPI& spi; 
-	const uint8_t adr;
+	const SPIADR adr;
 
 	// constants
 	constexpr static uint8_t MCP23S17_DIRA = 0x00;

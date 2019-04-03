@@ -1,6 +1,6 @@
 #include "mcp23s17.h"
 
-MCP23S17::MCP23S17(volatile SPI& spi, uint8_t adr) : spi(spi), adr(adr)
+MCP23S17::MCP23S17(volatile SPI& spi, SPIADR adr) : spi(spi), adr(adr)
 {
 }
 

@@ -1,10 +1,6 @@
 #include "spi.h"
 
-SPI::SPI(void)
-{
-}
-
-void SPI::init(void) const volatile
+void SPI::init() const volatile
 {
 	// Konfiguriere SPI DDRs
 	DDRB |= _BV(SLSL) | _BV(MOSI) | _BV(SCLK);
@@ -42,7 +38,13 @@ void SPI::handleTransfer() volatile
 	SPDR = next;
 }
 
-void SPI::transfer(uint8_t adr) volatile
+void SPI::addByte(uint8_t b) volatile
+{
+	wait();
+	buffer[index++] = b;
+}
+
+void SPI::transfer(SPIADR adr) volatile
 {
 	if(!index)
 		return;
@@ -58,18 +60,12 @@ void SPI::transfer(uint8_t adr) volatile
 	handleTransfer();
 }
 
-void SPI::addByte(uint8_t b) volatile
-{
-	wait();
-	buffer[index++] = b;
-}
-
 void SPI::wait() volatile
 {
 	while(active);
 }
 
-void SPI::setAdr(uint8_t adr) const volatile
+void SPI::setAdr(SPIADR adr) const volatile
 {
 	PORTD &= ~(_BV(DMUX1) | _BV(DMUX2) | _BV(DMUX3));
 	PORTD |= (adr & 0x01) ? _BV(DMUX1) : 0;
