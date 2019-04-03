@@ -7,8 +7,8 @@ class TLC5615
 {
 public:
 	/**
-	 * Erzeugt ein neues DAC Objekt mit fester Referenz zur SPI Verbindung
-	 * und fester SPI-'Adresse'
+	 * Erzeugt ein neues DAC Objekt mit fester Referenz
+	 * zur SPI Verbindung und fester SPI-'Adresse'
 	 */
 	TLC5615(volatile SPI&, SPIADR adr);
 	
