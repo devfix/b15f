@@ -28,6 +28,20 @@ void rqTestIntConv()
 	usart.flush();
 }
 
+void rqSelfTest()
+{
+	usart.initTX();
+	usart.writeByte(USART::MSG_OK);
+	usart.flush();
+	
+	wdt_disable();
+	
+	while(1)
+	{
+		testAll();
+	}
+}
+
 void rqDigitalWrite0()
 {
 	usart.initTX();
@@ -125,26 +139,6 @@ void rqAdcDacStroke()
 		usart.writeInt(val_a);
 		usart.writeInt(val_b);
 		usart.flush();
-		
-		/*union doubleword
-		{
-			uint16_t word[2];
-			uint8_t  byte[4];
-		};
-
-		union doubleword dw;
-		dw.word[0] = adu.getValue(channel_a);
-		dw.word[1] = adu.getValue(channel_b);
-		
-		uint8_t ret = 0;
-		do
-		{
-			wdt_reset();
-			ret = usart.writeBlock(&(dw.byte[0]), 4);
-
-			if(ret == 0)
-				return;
-		} while(ret != USART::MSG_OK);*/
 	}
 	
 	usart.initTX();

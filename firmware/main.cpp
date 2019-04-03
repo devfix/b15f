@@ -9,16 +9,16 @@
 
 void initAll()
 {
-	// deaktiviere WDT VOLLSTAENDIG
+	// deactivate WDT ENTIRELY!
 	MCUSR &= ~_BV(WDRF);
 	WDTCSR = 0;
 	wdt_disable();
 	
-	spi.init();
-
-	// aktiviere Interrupts
+	// enable interrupts before configuring io
 	sei();
 
+	spi.init();
+	
 	dio0.setDirA(0x00); // alle Ausgang
 	dio0.setDirB(0xFF); // alle Eingang
 	dio1.setDirA(0x00); // alle Ausgang
@@ -32,16 +32,9 @@ void initAll()
 
 void handleRequest()
 {
-	wdt_reset();
-	
 	const uint8_t req = usart.readByte();
 	
-
-#ifdef B15F_DEBUG
-	dio1.writePortA(req);
-	DDRB |= _BV(PB0);
-#endif
-
+	wdt_reset();
 	
 	switch(req)
 	{
@@ -60,6 +53,10 @@ void handleRequest()
 			rqTestIntConv();
 			break;
 
+		case RQ_ST:
+			rqSelfTest();
+			break;
+			
 		case RQ_BA0:
 			rqDigitalWrite0();
 			break;
@@ -108,13 +105,6 @@ void handleRequest()
 int main()
 {
 	initAll();
-	
-#ifdef B15F_DEBUG
-	// Reset anzeigen
-	dio0.writePortA(0xFF);
-	_delay_ms(100);
-	dio0.writePortA(0x00);
-#endif
 
 	while(1)
 	{
