@@ -43,7 +43,7 @@ public:
 	 * Blockiert, bis laufende SPI Vorgänge beendet sind
 	 * Ist SPI gerade inaktiv, wird die Methode sofort beendet
 	 */
-	void wait(void) volatile;
+	void wait(void) const volatile;
 	
 	/**
 	 * SPI Puffer Größe

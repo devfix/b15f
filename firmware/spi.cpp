@@ -60,7 +60,7 @@ void SPI::transfer(SPIADR adr) volatile
 	handleTransfer();
 }
 
-void SPI::wait() volatile
+void SPI::wait() const volatile
 {
 	while(active);
 }
