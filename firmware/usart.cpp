@@ -22,7 +22,7 @@ void USART::clearInputBuffer() volatile
 	do
 	{
 		dummy = UDR0;
-		_delay_us((1000000 / BAUDRATE) * 16); // Warte Übertragungszeit von 16 Bit ab
+		_delay_us(US_PER_BIT * 16); // Warte Übertragungszeit von 16 Bit ab
 	}
 	while (UCSR0A & (1<<RXC0));
 
@@ -39,13 +39,20 @@ void USART::initRX(void) volatile
 void USART::initTX(void) volatile
 {
 	while(send_active);
-		
 	send_pos = 0;
+	send_crc = 0;
 }
 
 void USART::handleRX(void) volatile
 {
 	receive_buffer[receive_pos++] = UDR0;
+
+	if(receive_pos == 1)
+	{
+		// starte WDT, da neue Request angekommen ist
+		wdt_enable(WDT_TIMEOUT);
+		wdt_reset();
+	}
 
 	if(receive_pos >= rq_len[receive_buffer[0]]) // last byte of request
 	{
@@ -84,6 +91,15 @@ void USART::flush(void) volatile
 void USART::writeByte(uint8_t b) volatile
 {
 	send_buffer[send_pos++] = b;
+	
+	// calc crc
+	send_crc ^= b;
+	for (uint8_t i = 0; i < 8; i++)
+	{
+		if (send_crc & 1)
+			send_crc ^= CRC7_POLY;
+		send_crc >>= 1;
+	}
 }
 
 
@@ -99,6 +115,11 @@ void USART::writeStr(const char* str, uint8_t len) volatile
 	writeByte(len);
 	while(len--)
 		writeByte(*str++);
+}
+
+void USART::writeCRC(void) volatile
+{
+	writeByte(send_crc);
 }
 
 uint8_t USART::writeBlock(uint8_t* ptr, uint8_t len) volatile

@@ -6,6 +6,9 @@
 #include "adu.h"
 #include "usart.h"
 
+
+#define WDT_TIMEOUT WDTO_15MS
+
 extern volatile SPI spi;
 extern volatile MCP23S17 dio0;
 extern volatile MCP23S17 dio1;

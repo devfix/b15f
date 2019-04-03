@@ -7,6 +7,7 @@
 
 void kennlinieErsterQuadrant()
 {
+	
 	B15F& drv = B15F::getInstance();
 	PlottyFile pf;
 	
@@ -32,14 +33,14 @@ void kennlinieErsterQuadrant()
 	pf.setParaStepWidth(u_gs_delta);
 	
 	uint8_t curve = 0;
+		
+	std::cout << "Erfasse Kennlinie erster Quadrant..." << std::endl << std::flush;
+	
 	for(uint16_t u_gs = u_gs_start; u_gs <= u_gs_end; u_gs += u_gs_delta)
 	{
 		drv.analogWrite1(u_gs);
 		
 		drv.analogSequence(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
-		//drv.delay_ms(10);
-		//drv.discard();
-		//drv.delay_ms(10);
 		
 		for(uint16_t k = 0; k < sample_count; k++)
 		{
@@ -48,8 +49,12 @@ void kennlinieErsterQuadrant()
 			pf.addDot(Dot(u_ds, i_d, curve));
 		}
 		
+		std::cout << "\033[1K\r" << 1e2 * (u_gs - u_gs_start) / (u_gs_end - u_gs_start) << "%" << std::flush;
+		
 		curve++;
 	}
+	
+	std::cout << "\033[1K\r" << std::flush;
 	
 	// speichern und plotty starten
 	pf.writeToFile("test_plot");	
@@ -84,6 +89,9 @@ void kennlinieZweiterQuadrant()
 	pf.setParaStepWidth(u_gs_delta);
 	
 	uint8_t curve = 0;
+	
+	std::cout << "Erfasse Kennlinie zweiter Quadrant..." << std::endl << std::flush;
+	
 	for(uint16_t u_gs = u_gs_start; u_gs <= u_gs_end; u_gs += u_gs_delta)
 	{
 		drv.analogWrite1(u_gs);
@@ -100,8 +108,11 @@ void kennlinieZweiterQuadrant()
 			}
 			curve++;
 		}
-		std::cout << "u_gs: " << u_gs << std::endl;
+		
+		std::cout << "\033[1K\r" << 1e2 * (u_gs - u_gs_start) / (u_gs_end - u_gs_start) << "%" << std::flush;
 	}
+	
+	std::cout << "\033[1K\r" << std::flush;
 	
 	// speichern und plotty starten
 	pf.writeToFile("test_plot");	
@@ -111,6 +122,8 @@ void kennlinieZweiterQuadrant()
 void testFunktionen()
 {
 	B15F& drv = B15F::getInstance();
+	
+	std::cout << "DIP-Switch: " << (int) drv.readDipSwitch() << std::endl;
 	
 	
 	drv.digitalWrite0(0xFF);
@@ -131,18 +144,19 @@ void testFunktionen()
 	
 	std::cout << "Kennlinie..." << std::endl;
 	uint16_t a[1024];
-	uint16_t b[1024];	
+	uint16_t b[1024];
 	drv.analogSequence(0, &a[0], 0, 1, &b[0], 0, 0, 1, 1024);
-	for(uint16_t i= 0; i < sizeof(a) / sizeof(uint16_t); i++)
+	
+	/*for(uint16_t i= 0; i < sizeof(a) / sizeof(uint16_t); i++)
 	{
 		std::cout << (int) i << " : " << a[i] << "   " << b[i] << std::endl;
-	}
+	}*/
 	
 }
 
 int main()
 {
-	
+	testFunktionen();
 	kennlinieZweiterQuadrant();
 	kennlinieErsterQuadrant();
 	

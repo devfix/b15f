@@ -64,6 +64,14 @@ void rqDigitalRead1()
 	usart.flush();
 }
 
+void rqReadDipSwitch()
+{
+	usart.initTX();
+	uint8_t port = dsw.readPortB();
+	usart.writeByte(port);
+	usart.flush();
+}
+
 void rqAnalogWrite0()
 {
 	usart.initTX();
@@ -101,8 +109,6 @@ void rqAdcDacStroke()
 	int16_t start = static_cast<int16_t>(usart.readInt());
 	int16_t delta = static_cast<int16_t>(usart.readInt());
 	int16_t count = static_cast<int16_t>(usart.readInt());
-
-	//usart.writeByte(USART::MSG_OK);
 	
 	count *= delta;
 	dio1.writePortA(0xFF);

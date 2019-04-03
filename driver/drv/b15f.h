@@ -126,6 +126,13 @@ public:
 	uint8_t digitalRead1(void);
 	 
 	/**
+	 * Liest den Wert des digitalen Eingabeports, an dem der DIP-switch angeschlossen ist (S7)
+	 * \return Wert für gesamten Port
+	 * \throws DriverException
+	 */
+	uint8_t readDipSwitch(void);
+	 
+	/**
 	 * Setzt den Wert des Digital-Analog-Converters (DAC / DAU) 0
 	 * \param port 10-Bit Wert
 	 * \throws DriverException
@@ -190,10 +197,11 @@ private:
 	constexpr static uint8_t RQ_BA1  = 6;
 	constexpr static uint8_t RQ_BE0  = 7;
 	constexpr static uint8_t RQ_BE1  = 8;
-	constexpr static uint8_t RQ_AA0  = 9;
-	constexpr static uint8_t RQ_AA1  = 10;
-	constexpr static uint8_t RQ_ADC  = 11;
-	constexpr static uint8_t RQ_ADC_DAC_STROKE  = 12;
+	constexpr static uint8_t RQ_DSW  = 9;
+	constexpr static uint8_t RQ_AA0  = 10;
+	constexpr static uint8_t RQ_AA1  = 11;
+	constexpr static uint8_t RQ_ADC  = 12;
+	constexpr static uint8_t RQ_ADC_DAC_STROKE  = 13;
 };
 
 #endif // B15F_H

@@ -186,6 +186,13 @@ uint8_t B15F::digitalRead1()
 	return usart.readByte();
 }
 
+uint8_t B15F::readDipSwitch()
+{
+	usart.clearInputBuffer();
+	usart.writeByte(RQ_DSW);
+	return usart.readByte();
+}
+
 bool B15F::analogWrite0(uint16_t value)
 {
 	usart.clearInputBuffer();

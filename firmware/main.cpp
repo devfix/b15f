@@ -7,8 +7,6 @@
 #include "requests.h"
 
 
-#define WDT_TIMEOUT WDTO_15MS
-
 void initAll()
 {
 	spi.init();
@@ -34,12 +32,15 @@ void initAll()
 
 void handleRequest()
 {
-	// starte WDT
-	wdt_enable(WDT_TIMEOUT);
 	wdt_reset();
 	
 	const uint8_t req = usart.readByte();
+	
+
+#ifdef B15F_DEBUG
 	dio1.writePortA(req);
+#endif
+
 	
 	switch(req)
 	{
@@ -73,6 +74,10 @@ void handleRequest()
 		case RQ_BE1:
 			rqDigitalRead1();
 			break;
+			
+		case RQ_DSW:
+			rqReadDipSwitch();
+			break;
 
 		case RQ_AA0:
 			rqAnalogWrite0();
@@ -103,10 +108,12 @@ int main()
 {
 	initAll();
 	
+#ifdef B15F_DEBUG
 	// Reset anzeigen
 	dio0.writePortA(0xFF);
 	_delay_ms(100);
 	dio0.writePortA(0x00);
+#endif
 
 	while(1)
 	{
