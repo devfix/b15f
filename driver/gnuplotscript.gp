@@ -10,10 +10,10 @@ set label at 4,3 'U_{GS} [V] = 460' left
 set label at 4,7 'U_{GS} [V] = 480' left
 set label at 3,13 'U_{GS} [V] = 500' left
 set label at 2,22 'U_{GS} [V] = 520' left
-set label at 1,32 'U_{GS} [V] = 540' left
-set label at 0,39 'U_{GS} [V] = 560' left
-set label at 0,39 'U_{GS} [V] = 580' left
-set label at 0,39 'U_{GS} [V] = 600' left
+set label at 1,33 'U_{GS} [V] = 540' left
+set label at 0,38 'U_{GS} [V] = 560' left
+set label at 0,38 'U_{GS} [V] = 580' left
+set label at 0,38 'U_{GS} [V] = 600' left
 unset output 
 set terminal qt
 unset output

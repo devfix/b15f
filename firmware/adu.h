@@ -24,6 +24,7 @@ public:
 	uint16_t getValue(uint8_t channel) volatile;
 	
 private:
+	// semaphore
 	volatile bool active = false;
 };
 

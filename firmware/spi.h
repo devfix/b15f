@@ -68,6 +68,8 @@ private:
 	// Variablen für die Pufferverwaltung
 	volatile uint8_t index = 0;
 	volatile uint8_t length = 0;
+
+	// semaphore
 	volatile bool active = false;
 	
 	// Constants
