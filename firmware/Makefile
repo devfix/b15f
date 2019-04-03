@@ -3,17 +3,18 @@
 # Author: Tristan Krause
 # Creation Date: 2019-03-22
 
-# Umgebungseinstellungen
+# Environment
 COMPILER_PATH = avr-g++
 OBJCOPY_PATH = avr-objcopy
 
-
-OUTPUT  = B15F.elf
-HEX	= B15F.hex
-MCU	= atmega1284p
-CFLAGS  = -Wall -Wextra -std=c++14 -O3 -mmcu=$(MCU) -DF_CPU=20000000 -DB15F_DEBUG
-LDFLAGS = 
-OBJECTS = main.o spi.o mcp23s17.o tlc5615.o adu.o selftest.o global_vars.o usart.o requests.o interrupts.o
+# Optionen
+PROGRAMMER = avrispmkII
+OUTPUT     = B15F.elf
+HEX	       = B15F.hex
+MCU	       = atmega1284p
+CFLAGS     = -Wall -Wextra -std=c++14 -O3 -mmcu=$(MCU) -DF_CPU=20000000 -DB15F_DEBUG
+LDFLAGS    = 
+OBJECTS    = main.o spi.o mcp23s17.o tlc5615.o adu.o selftest.o global_vars.o usart.o requests.o interrupts.o
 
 
 COMPILE = $(COMPILER_PATH) $(CFLAGS)
@@ -34,7 +35,7 @@ clean:
 	rm -f $(OBJECTS) $(OUTPUT) $(HEX)
 
 upload: B15F
-	avrdude -Pusb -p $(MCU) -c avrispmkII -U flash:w:$(HEX)
+	avrdude -Pusb -p $(MCU) -c $(PROGRAMMER) -U flash:w:$(HEX)
 
 .cpp.o:
 	$(COMPILE) -c $< -o $@
