@@ -1,51 +1,97 @@
 #include <stdio.h>
 #include <ncurses.h> // sudo apt-get install libncurses5-dev
+#include <vector>
+#include <string>
+#include <iostream>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
-#define WIDTH 30
-#define HEIGHT 10 
+#define width 30
+#define height 10 
 
-int startx = 0;
-int starty = 0;
+WINDOW *win_menu;
 
-char *choices[] = { 
-			"Choice 1",
-			"Choice 2",
-			"Choice 3",
-			"Choice 4",
-			"Exit",
-		  };
-int n_choices = sizeof(choices) / sizeof(char *);
-void print_menu(WINDOW *menu_win, int highlight);
+std::vector<std::string> choices = {
+	"Choice 1",
+	"Choice 2",
+	"Choice 3",
+	"Choice 4",
+	"Exit",
+};
+
+
+void init_win(WINDOW*& win)
+{
+	struct winsize size;	
+	if (ioctl(0, TIOCGWINSZ, (char *) &size) < 0)
+		throw std::runtime_error("TIOCGWINSZ error");
+	
+	int start_x = (size.ws_col - width);
+	int start_y = (size.ws_row - height);
+	if(start_x % 2)
+		start_x++;
+	if(start_y % 2)
+		start_y++;
+	start_x /= 2;
+	start_y /= 2;
+		
+	win = newwin(height, width, start_y, start_x);
+	keypad(win, TRUE);
+	refresh();
+}
+
+void print_menu(WINDOW *win_menu, int highlight)
+{
+	
+	
+
+	int x, y, i;	
+
+	x = 2;
+	y = 2;
+	box(win_menu, 0, 0);
+	for(i = 0; i < choices.size(); ++i)
+	{	if(highlight == i + 1) /* High light the present choice */
+		{	wattron(win_menu, A_REVERSE); 
+			mvwprintw(win_menu, y, x, "%s", choices[i].c_str());
+			wattroff(win_menu, A_REVERSE);
+		}
+		else
+			mvwprintw(win_menu, y, x, "%s", choices[i].c_str());
+		++y;
+	}
+	wrefresh(win_menu);
+}
 
 int main()
-{	WINDOW *menu_win;
+{	
 	int highlight = 1;
 	int choice = 0;
 	int c;
 
 	initscr();
+	start_color();
+	curs_set(0); // 0: invisible, 1: normal, 2: very visible
 	clear();
 	noecho();
 	cbreak();	/* Line buffering disabled. pass on everything */
-	startx = (80 - WIDTH) / 2;
-	starty = (24 - HEIGHT) / 2;
 		
-	menu_win = newwin(HEIGHT, WIDTH, starty, startx);
-	keypad(menu_win, TRUE);
+	init_win(win_menu);
 	mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
+	print_menu(win_menu, highlight);
 	refresh();
-	print_menu(menu_win, highlight);
+	
 	while(1)
-	{	c = wgetch(menu_win);
+	{	c = wgetch(win_menu);
 		switch(c)
 		{	case KEY_UP:
 				if(highlight == 1)
-					highlight = n_choices;
+					highlight = choices.size();
 				else
 					--highlight;
 				break;
 			case KEY_DOWN:
-				if(highlight == n_choices)
+				if(highlight == choices.size())
 					highlight = 1;
 				else 
 					++highlight;
@@ -58,34 +104,13 @@ int main()
 				refresh();
 				break;
 		}
-		print_menu(menu_win, highlight);
+		print_menu(win_menu, highlight);
 		if(choice != 0)	/* User did a choice come out of the infinite loop */
 			break;
 	}	
-	mvprintw(23, 0, "You chose choice %d with choice string %s\n", choice, choices[choice - 1]);
+	//mvprintw(23, 0, "You chose choice %d with choice string %s\n", choice, choices[choice - 1].c_str());
 	clrtoeol();
 	refresh();
 	endwin();
 	return 0;
-}
-
-
-void print_menu(WINDOW *menu_win, int highlight)
-{
-	int x, y, i;	
-
-	x = 2;
-	y = 2;
-	box(menu_win, 0, 0);
-	for(i = 0; i < n_choices; ++i)
-	{	if(highlight == i + 1) /* High light the present choice */
-		{	wattron(menu_win, A_REVERSE); 
-			mvwprintw(menu_win, y, x, "%s", choices[i]);
-			wattroff(menu_win, A_REVERSE);
-		}
-		else
-			mvwprintw(menu_win, y, x, "%s", choices[i]);
-		++y;
-	}
-	wrefresh(menu_win);
 }

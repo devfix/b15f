@@ -12,7 +12,7 @@ OBJ_MAIN = main.o
 OUT_CLI  = cli
 OBJ_CLI  = cli.o
 CFLAGS   = -std=c++14 -O3 -Wall -Wextra
-LDFLAGS  = 
+LDFLAGS  = -lcurses
 OBJECTS  = drv/usart.o drv/b15f.o drv/plottyfile.o drv/dot.o
 
 COMPILE = $(COMPILER_PATH) $(CFLAGS)
