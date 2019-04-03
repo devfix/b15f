@@ -174,14 +174,13 @@ public:
 	/*************************/
 
 private:
-	USART usart;
 
+	USART usart;
 	static B15F* instance;
 
 
 	// CONSTANTS
 	const std::string PRE = "[B15F] ";
-	const std::string SERIAL_DEVICE = "/dev/ttyUSB0";
 	constexpr static uint8_t  MSG_OK = 0xFF;
 	constexpr static uint8_t  MSG_FAIL = 0xFE;
 	constexpr static uint16_t RECONNECT_TIMEOUT = 64; // ms

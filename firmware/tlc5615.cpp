@@ -6,8 +6,7 @@ TLC5615::TLC5615(volatile SPI& spi, uint8_t adr) : spi(spi), adr(adr)
 
 void TLC5615::setValue(uint16_t val) const volatile
 {
-	spi.setAdr(adr);
-	spi.pushByte(val >> 6);
-	spi.pushByte(val << 2);
-	spi.setAdr(SPIADR::NONE);
+	spi.addByte(static_cast<uint8_t>(val >> 6));
+	spi.addByte(static_cast<uint8_t>(val << 2));	
+	spi.transfer(adr);
 }

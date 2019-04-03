@@ -9,25 +9,25 @@
 
 void initAll()
 {
+	// deaktiviere WDT VOLLSTAENDIG
+	MCUSR &= ~_BV(WDRF);
+	WDTCSR = 0;
+	wdt_disable();
+	
 	spi.init();
+
+	// aktiviere Interrupts
+	sei();
 
 	dio0.setDirA(0x00); // alle Ausgang
 	dio0.setDirB(0xFF); // alle Eingang
 	dio1.setDirA(0x00); // alle Ausgang
 	dio1.setDirB(0xFF); // alle Eingang
 	dsw.setDirB(0xFF); // alle Eingang
-
 	adu.init();
+	
 	usart.init();
 	usart.initRX();
-
-	// aktiviere Interrupts
-	sei();
-	
-	// deaktiviere WDT VOLLSTAENDIG
-	MCUSR &= ~_BV(WDRF);
-	WDTCSR = 0;
-	wdt_disable();
 }
 
 void handleRequest()
@@ -39,6 +39,7 @@ void handleRequest()
 
 #ifdef B15F_DEBUG
 	dio1.writePortA(req);
+	DDRB |= _BV(PB0);
 #endif
 
 	
