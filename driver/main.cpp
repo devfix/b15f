@@ -158,9 +158,9 @@ void testFunktionen()
 
 int main()
 {
-	testFunktionen();
+	//testFunktionen();
 	//kennlinieZweiterQuadrant();
-	//kennlinieErsterQuadrant();
+	kennlinieErsterQuadrant();
 	
 	std::cout << "Schluss." << std::endl;
 }

@@ -9,10 +9,10 @@ void SPI::init() const volatile
 	// Konfiguriere DMUX DDRs
 	DDRD |= _BV(DMUX1) | _BV(DMUX2) | _BV(DMUX3);
 
-	// aktiviere SPI, Master Modus, SPI Modus 0
+	// aktiviere SPI, Interruptbetrieb, Master Modus, SPI Modus 0
 	// F_SPI = F_CPU / 2   (prescaler 2)
 	SPCR = _BV(SPE) | _BV(MSTR) | _BV(SPIE);
-	SPSR = _BV(SPI2X) | _BV(SPIF);
+	SPSR = _BV(SPI2X);
 
 	// waehle keinen SPI Slave aus
 	setAdr(SPIADR::NONE);

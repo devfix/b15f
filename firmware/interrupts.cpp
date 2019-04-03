@@ -15,3 +15,8 @@ ISR(SPI_STC_vect)
 {
 	spi.handleTransfer();
 }
+
+ISR(ADC_vect)
+{
+	adu.handleConversionComplete();
+}
