@@ -122,6 +122,8 @@ void kennlinieZweiterQuadrant()
 void testFunktionen()
 {
 	B15F& drv = B15F::getInstance();
+	drv.activateSelfTestMode();
+	return;
 	
 	std::cout << "DIP-Switch: " << (int) drv.readDipSwitch() << std::endl;
 	
@@ -157,8 +159,8 @@ void testFunktionen()
 int main()
 {
 	testFunktionen();
-	kennlinieZweiterQuadrant();
-	kennlinieErsterQuadrant();
+	//kennlinieZweiterQuadrant();
+	//kennlinieErsterQuadrant();
 	
 	std::cout << "Schluss." << std::endl;
 }

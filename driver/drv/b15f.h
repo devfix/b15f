@@ -98,6 +98,13 @@ public:
 	 *************************/
 	 
 	/**
+	 * Versetzt das Board in den Selbsttest-Modus
+	 * WICHTIG: Es darf dabei nichts an den Klemmen angeschlossen sein!
+	 * \throws DriverException
+	 */
+	bool activateSelfTestMode(void);
+	 
+	/**
 	 * Setzt den Wert des digitalen Ausgabeports 0
 	 * \param port Wert für gesamten Port
 	 * \throws DriverException
@@ -192,6 +199,7 @@ private:
 	constexpr static uint8_t RQ_TEST = 1;
 	constexpr static uint8_t RQ_INFO = 2;
 	constexpr static uint8_t RQ_INT  = 3;
+	constexpr static uint8_t RQ_ST   = 4;
 	constexpr static uint8_t RQ_BA0  = 5;
 	constexpr static uint8_t RQ_BA1  = 6;
 	constexpr static uint8_t RQ_BE0  = 7;

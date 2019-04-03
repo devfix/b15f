@@ -152,6 +152,15 @@ std::vector<std::string> B15F::getBoardInfo(void)
 	return info;
 }
 
+bool B15F::activateSelfTestMode()
+{
+	usart.clearInputBuffer();
+	usart.writeByte(RQ_ST);
+	
+	uint8_t aw = usart.readByte();	
+	return aw == MSG_OK;
+}
+
 bool B15F::digitalWrite0(uint8_t port)
 {
 	usart.clearInputBuffer();
