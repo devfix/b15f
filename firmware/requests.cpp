@@ -1,5 +1,77 @@
 #include "requests.h"
 
+void handleRequest()
+{
+	const uint8_t req = usart.readByte();
+	
+	wdt_reset();
+	
+	switch(req)
+	{
+		case RQ_DISC:
+			break;
+
+		case RQ_TEST:
+			rqTestConnection();
+			break;
+		
+		case RQ_INFO:
+			rqBoardInfo();
+			break;
+		
+		case RQ_INT:
+			rqTestIntConv();
+			break;
+
+		case RQ_ST:
+			rqSelfTest();
+			break;
+			
+		case RQ_BA0:
+			rqDigitalWrite0();
+			break;
+
+		case RQ_BA1:
+			rqDigitalWrite1();
+			break;
+
+		case RQ_BE0:
+			rqDigitalRead0();
+			break;
+
+		case RQ_BE1:
+			rqDigitalRead1();
+			break;
+			
+		case RQ_DSW:
+			rqReadDipSwitch();
+			break;
+
+		case RQ_AA0:
+			rqAnalogWrite0();
+			break;
+
+		case RQ_AA1:
+			rqAnalogWrite1();
+			break;
+
+		case RQ_ADC:
+			rqAnalogRead();
+			break;
+			
+		case RQ_ADC_DAC_STROKE:
+			rqAdcDacStroke();
+			break;
+
+		default:
+			break;
+	}
+	
+	usart.initRX();
+	
+	wdt_disable();
+}
+
 void rqTestConnection()
 {
 	usart.initTX();

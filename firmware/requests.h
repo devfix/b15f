@@ -38,6 +38,12 @@ uint8_t const rq_len[] = {
 	/* RQ_ADC_DAC_STROKE */ 9
 };
 
+/**
+ * Hauptfunktion für die Verarbeitung einer neuen empfangen Request
+ */
+void handleRequest(void);
+
+// spezifische Funktion für jede Request
 void rqTestConnection(void);
 void rqBoardInfo(void);
 void rqTestIntConv(void);
