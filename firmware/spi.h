@@ -28,9 +28,9 @@ class SPI
 {
 public:
 	SPI(void);
-	void init(void) const;
-	void setAdr(uint8_t) const;
-	uint8_t pushByte(uint8_t) const;
+	void init(void) const volatile;
+	void setAdr(uint8_t) const volatile;
+	uint8_t pushByte(uint8_t) const volatile;
 
 };
 

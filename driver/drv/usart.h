@@ -132,7 +132,7 @@ private:
 	int file_desc = -1; // Linux Dateideskriptor
 	uint32_t baudrate = 9600;
 	int TEST = 0;
-	uint8_t timeout = 10; // in Dezisekunden
+	uint8_t timeout = 5; // in Dezisekunden
 	uint8_t block_buffer[MAX_BLOCK_SIZE + 3];
 	
 	// debug statistics

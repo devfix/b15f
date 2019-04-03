@@ -32,7 +32,7 @@ void rqDigitalWrite0()
 {
 	usart.initTX();
 	uint8_t port = usart.readByte();
-	((MCP23S17*) &beba0)->writePortA(port);
+	dio0.writePortA(port);
 
 	usart.writeByte(USART::MSG_OK);
 	usart.flush();
@@ -42,7 +42,7 @@ void rqDigitalWrite1()
 {
 	usart.initTX();
 	uint8_t port = usart.readByte();
-	((MCP23S17*) &beba1)->writePortA(port);
+	dio1.writePortA(port);
 
 	usart.writeByte(USART::MSG_OK);
 	usart.flush();
@@ -51,7 +51,7 @@ void rqDigitalWrite1()
 void rqDigitalRead0()
 {
 	usart.initTX();
-	uint8_t port = ((MCP23S17*) &beba0)->readPortB();
+	uint8_t port = dio0.readPortB();
 	usart.writeByte(port);
 	usart.flush();
 }
@@ -59,7 +59,7 @@ void rqDigitalRead0()
 void rqDigitalRead1()
 {
 	usart.initTX();
-	uint8_t port = ((MCP23S17*) &beba1)->readPortB();
+	uint8_t port = dio1.readPortB();
 	usart.writeByte(port);
 	usart.flush();
 }
@@ -68,7 +68,7 @@ void rqAnalogWrite0()
 {
 	usart.initTX();
 	uint16_t value = usart.readInt();
-	((TLC5615*) &dac0)->setValue(value);
+	dac0.setValue(value);
 
 	usart.writeByte(USART::MSG_OK);
 	usart.flush();
@@ -78,7 +78,7 @@ void rqAnalogWrite1()
 {
 	usart.initTX();
 	uint16_t value = usart.readInt();
-	((TLC5615*) &dac1)->setValue(value);
+	dac1.setValue(value);
 
 	usart.writeByte(USART::MSG_OK);
 	usart.flush();
@@ -88,7 +88,7 @@ void rqAnalogRead()
 {
 	usart.initTX();
 	uint8_t channel = usart.readByte();
-	uint16_t value = ((ADU*) &adu)->getValue(channel);
+	uint16_t value = adu.getValue(channel);
 	usart.writeInt(value);
 	usart.flush();
 }
@@ -105,15 +105,15 @@ void rqAdcDacStroke()
 	//usart.writeByte(USART::MSG_OK);
 	
 	count *= delta;
-	((MCP23S17*) &beba1)->writePortA(0xFF);
+	dio1.writePortA(0xFF);
 	
 	for(int16_t i = start; i < count; i += delta)
 	{
-		((TLC5615*) &dac0)->setValue(i);
+		dac0.setValue(i);
 		wdt_reset();
 
-		uint16_t val_a = ((ADU*) &adu)->getValue(channel_a);
-		uint16_t val_b = ((ADU*) &adu)->getValue(channel_b);
+		uint16_t val_a = adu.getValue(channel_a);
+		uint16_t val_b = adu.getValue(channel_b);
 		
 		usart.initTX();
 		usart.writeInt(val_a);
@@ -127,8 +127,8 @@ void rqAdcDacStroke()
 		};
 
 		union doubleword dw;
-		dw.word[0] = ((ADU*) &adu)->getValue(channel_a);
-		dw.word[1] = ((ADU*) &adu)->getValue(channel_b);
+		dw.word[0] = adu.getValue(channel_a);
+		dw.word[1] = adu.getValue(channel_b);
 		
 		uint8_t ret = 0;
 		do

@@ -13,8 +13,8 @@ void kennlinieErsterQuadrant()
 	uint16_t ba[1024];
 	uint16_t bb[1024];
 	
-	const uint16_t sample_count = 100;
-	const uint16_t delta = 10;
+	const uint16_t sample_count = 1024;
+	const uint16_t delta = 1;
 	
 	const uint16_t u_gs_start = 440;
 	const uint16_t u_gs_delta = 20;
@@ -37,11 +37,11 @@ void kennlinieErsterQuadrant()
 		drv.analogWrite1(u_gs);
 		
 		drv.analogSequence(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
-		drv.delay_ms(10);
-		drv.discard();
-		drv.delay_ms(10);
+		//drv.delay_ms(10);
+		//drv.discard();
+		//drv.delay_ms(10);
 		
-		for(uint16_t k = 0; k < sample_count+1; k++)
+		for(uint16_t k = 0; k < sample_count; k++)
 		{
 			uint16_t i_d = ba[k] - bb[k];
 			uint16_t u_ds = bb[k];
@@ -64,7 +64,7 @@ void kennlinieZweiterQuadrant()
 	uint16_t ba[1024];
 	uint16_t bb[1024];
 	
-	const uint16_t sample_count = 1000;
+	const uint16_t sample_count = 1024;
 	const uint16_t delta = 1;
 	
 	const uint16_t u_gs_start = 300;
@@ -91,9 +91,9 @@ void kennlinieZweiterQuadrant()
 		drv.analogSequence(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
 		
 		curve = 0;
-		for(uint16_t k = 0; k < sample_count + 1; k++)
+		for(uint16_t k = 0; k < sample_count; k++)
 		{
-			if(ba[k] > bb[k] && bb[k] % 50 == 0 && bb[k] > 0)
+			if(ba[k] > bb[k] && bb[k] % 50 == 0 && bb[k] != 0)
 			{
 				uint16_t i_d = ba[k] - bb[k];
 				pf.addDot(Dot(u_gs, i_d, bb[k] / 50));
@@ -143,7 +143,8 @@ void testFunktionen()
 int main()
 {
 	
-	testFunktionen();
+	kennlinieZweiterQuadrant();
+	kennlinieErsterQuadrant();
 	
 	std::cout << "Schluss." << std::endl;
 }

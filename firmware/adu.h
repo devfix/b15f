@@ -8,8 +8,8 @@
 class ADU
 {
 public:
-	void init(void);
-	uint16_t getValue(uint8_t);
+	void init(void) volatile;
+	uint16_t getValue(uint8_t) volatile;
 };
 
 #endif // ADC_H

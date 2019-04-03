@@ -136,13 +136,12 @@ std::vector<std::string> B15F::getBoardInfo(void)
 	while(n--)
 	{
 		uint8_t len = usart.readByte();
-		std::cout << (int) len << std::endl;		
 		std::string str;
 				
-		while(len--)
+		while(len--) {
 			str += static_cast<char>(usart.readByte());
-			
-		std::cout << str << std::endl;
+		}
+		
 		info.push_back(str);
 	}
 	
@@ -215,7 +214,7 @@ uint16_t B15F::analogRead(uint8_t channel)
 	return usart.readInt();
 }
 
-bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
+void B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
 	buffer_a += offset_a;
 	buffer_b += offset_b;
@@ -239,13 +238,15 @@ bool B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 	{
 		buffer_a[i] = usart.readInt();
 		buffer_b[i] = usart.readInt();
+		if(buffer_a[i] > 1023 || buffer_b[i] > 1023)
+			std::cout << PRE << "bad data detected" << std::endl;
 	}
 	
 	uint8_t aw = usart.readByte();		
-	if(aw == MSG_OK)
-		return aw;
-		
-	throw DriverException("Sequenz unterbrochen");
+	if(aw != MSG_OK)		
+		throw DriverException("Sequenz unterbrochen");
+	
+	delay_us(1);
 }
 
 void B15F::delay_ms(uint16_t ms)

@@ -6,12 +6,12 @@
 class TLC5615
 {
 public:
-	TLC5615(SPI&, uint8_t);
-	void setValue(uint16_t) const;
+	TLC5615(volatile SPI&, uint8_t);
+	void setValue(uint16_t) const volatile;
 
 
 private:
-	SPI& spi;
+	volatile SPI& spi;
 	const uint8_t adr;
 };
 

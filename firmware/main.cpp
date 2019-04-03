@@ -11,15 +11,15 @@
 
 void initAll()
 {
-	((SPI*) &spi)->init();
+	spi.init();
 
-	((MCP23S17*) &beba0)->setDirA(0x00); // alle Ausgang
-	((MCP23S17*) &beba0)->setDirB(0xFF); // alle Eingang
-	((MCP23S17*) &beba1)->setDirA(0x00); // alle Ausgang
-	((MCP23S17*) &beba1)->setDirB(0xFF); // alle Eingang
-	((MCP23S17*) &sw)->setDirB(0xFF); // alle Eingang
+	dio0.setDirA(0x00); // alle Ausgang
+	dio0.setDirB(0xFF); // alle Eingang
+	dio1.setDirA(0x00); // alle Ausgang
+	dio1.setDirB(0xFF); // alle Eingang
+	dsw.setDirB(0xFF); // alle Eingang
 
-	((ADU*) &adu)->init();
+	adu.init();
 	usart.init();
 	usart.initRX();
 
@@ -39,7 +39,7 @@ void handleRequest()
 	wdt_reset();
 	
 	const uint8_t req = usart.readByte();
-	((MCP23S17*) &beba1)->writePortA(req);
+	dio1.writePortA(req);
 	
 	switch(req)
 	{
@@ -104,9 +104,9 @@ int main()
 	initAll();
 	
 	// Reset anzeigen
-	((MCP23S17*) &beba0)->writePortA(0xFF);
+	dio0.writePortA(0xFF);
 	_delay_ms(100);
-	((MCP23S17*) &beba0)->writePortA(0x00);
+	dio0.writePortA(0x00);
 
 	while(1)
 	{

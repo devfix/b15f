@@ -56,7 +56,7 @@ void USART::handleRX(void) volatile
 
 void USART::handleTX(void) volatile
 {
-	((MCP23S17*) &beba0)->writePortA(send_pos);
+	dio0.writePortA(send_pos);
 	if(send_pos < send_len)
 	{
 		while (!(UCSR0A & (1<<UDRE0)));

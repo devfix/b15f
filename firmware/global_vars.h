@@ -7,9 +7,9 @@
 #include "usart.h"
 
 extern volatile SPI spi;
-extern volatile MCP23S17 beba0;
-extern volatile MCP23S17 beba1;
-extern volatile MCP23S17 sw;
+extern volatile MCP23S17 dio0;
+extern volatile MCP23S17 dio1;
+extern volatile MCP23S17 dsw;
 extern volatile TLC5615 dac0;
 extern volatile TLC5615 dac1;
 extern volatile ADU adu;

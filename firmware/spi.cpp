@@ -4,7 +4,7 @@ SPI::SPI(void)
 {
 }
 
-void SPI::init(void) const
+void SPI::init(void) const volatile
 {
 
 	// Konfiguriere SPI DDRs
@@ -23,7 +23,7 @@ void SPI::init(void) const
 	setAdr(SPIADR::NONE);
 }
 
-void SPI::setAdr(uint8_t adr) const
+void SPI::setAdr(uint8_t adr) const volatile
 {
 	PORTD &= ~(_BV(DMUX1) | _BV(DMUX2) | _BV(DMUX3));
 	PORTD |= (adr & 0x01) ? _BV(DMUX1) : 0;
@@ -31,7 +31,7 @@ void SPI::setAdr(uint8_t adr) const
 	PORTD |= (adr & 0x04) ? _BV(DMUX3) : 0;
 }
 
-uint8_t SPI::pushByte(uint8_t b) const
+uint8_t SPI::pushByte(uint8_t b) const volatile
 {
 	SPDR = b;
 	while(!(SPSR & _BV(SPIF)));

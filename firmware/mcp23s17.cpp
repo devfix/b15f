@@ -1,10 +1,10 @@
 #include "mcp23s17.h"
 
-MCP23S17::MCP23S17(SPI& spi, uint8_t adr) : spi(spi), adr(adr)
+MCP23S17::MCP23S17(volatile SPI& spi, uint8_t adr) : spi(spi), adr(adr)
 {
 }
 
-void MCP23S17::setDirA(uint8_t dir) const
+void MCP23S17::setDirA(uint8_t dir) const volatile
 {
 	spi.setAdr(adr);
 	spi.pushByte(MCP23S17_OPCODE | MCP23S17_WRITE);
@@ -13,7 +13,7 @@ void MCP23S17::setDirA(uint8_t dir) const
 	spi.setAdr(SPIADR::NONE);
 }
 
-void MCP23S17::setDirB(uint8_t dir) const
+void MCP23S17::setDirB(uint8_t dir) const volatile
 {
 	spi.setAdr(adr);
 	spi.pushByte(MCP23S17_OPCODE | MCP23S17_WRITE);
@@ -22,7 +22,7 @@ void MCP23S17::setDirB(uint8_t dir) const
 	spi.setAdr(SPIADR::NONE);
 }
 
-void MCP23S17::writePortA(uint8_t port) const
+void MCP23S17::writePortA(uint8_t port) const volatile
 {
 	spi.setAdr(adr);
 	spi.pushByte(MCP23S17_OPCODE | MCP23S17_WRITE);
@@ -31,7 +31,7 @@ void MCP23S17::writePortA(uint8_t port) const
 	spi.setAdr(SPIADR::NONE);
 }
 
-void MCP23S17::writePortB(uint8_t port) const
+void MCP23S17::writePortB(uint8_t port) const volatile
 {
 	spi.setAdr(adr);
 	spi.pushByte(MCP23S17_OPCODE | MCP23S17_WRITE);
@@ -40,7 +40,7 @@ void MCP23S17::writePortB(uint8_t port) const
 	spi.setAdr(SPIADR::NONE);
 }
 
-uint8_t MCP23S17::readPortA(void) const
+uint8_t MCP23S17::readPortA(void) const volatile
 {
 	spi.setAdr(adr);
 	spi.pushByte(MCP23S17_OPCODE | MCP23S17_READ);
@@ -50,7 +50,7 @@ uint8_t MCP23S17::readPortA(void) const
 	return port;
 }
 
-uint8_t MCP23S17::readPortB(void) const
+uint8_t MCP23S17::readPortB(void) const volatile
 {
 	spi.setAdr(adr);
 	spi.pushByte(MCP23S17_OPCODE | MCP23S17_READ);

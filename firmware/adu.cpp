@@ -1,6 +1,6 @@
 #include "adu.h"
 
-void ADU::init()
+void ADU::init() volatile
 {
 	// externe Referenz an AREF
 	ADMUX = 0;
@@ -9,7 +9,7 @@ void ADU::init()
 	ADCSRA = _BV(ADEN) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
 }
 
-uint16_t ADU::getValue(uint8_t channel)
+uint16_t ADU::getValue(uint8_t channel) volatile
 {
 	// lege Kanal fest
 	ADMUX = (ADMUX & 0xE0) | channel;
