@@ -61,7 +61,6 @@ void USART::handleRX(void) volatile
 
 void USART::handleTX(void) volatile
 {
-	dio0.writePortA(send_pos);
 	if(send_pos < send_len)
 	{
 		while (!(UCSR0A & (1<<UDRE0)));

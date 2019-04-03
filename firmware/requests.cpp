@@ -197,7 +197,6 @@ void rqAdcDacStroke()
 	int16_t count = static_cast<int16_t>(usart.readInt());
 	
 	count *= delta;
-	dio1.writePortA(0xFF);
 	
 	for(int16_t i = start; i < count; i += delta)
 	{

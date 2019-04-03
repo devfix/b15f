@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cmath>
-#include "drv/usart.h"
 #include "drv/b15f.h"
 #include "drv/plottyfile.h"
 
