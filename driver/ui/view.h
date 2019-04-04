@@ -8,6 +8,9 @@
 #include <ncurses.h> // sudo apt-get install libncurses5-dev
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <signal.h>
+
+extern std::string ERR_MSG;
 
 class View
 {
@@ -23,6 +26,7 @@ public:
 	void setTitle(std::string title);
 	
 	virtual void repaint(void);
+	static std::vector<std::string> str_split(const std::string& str, const std::string delim);
 	
 	virtual void draw(void) = 0;
 	virtual std::function<void(int)> keypress(int& key) = 0;

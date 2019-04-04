@@ -3,28 +3,18 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <signal.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <signal.h>
 #include "ui/view_main.h"
 #include "ui/view_info.h"
+#include "drv/b15f.h"
 
+// global error message
+std::string ERR_MSG;
 
 std::vector<View*> win_stack;
-ViewMain* view_main = nullptr;
-ViewInfo* view_info = nullptr;
-
-void init()
-{
-	initscr();
-	start_color();
-	curs_set(0); // 0: invisible, 1: normal, 2: very visible
-	clear();
-	noecho();
-	cbreak();  // Line buffering disabled. pass on everything
-	mousemask(ALL_MOUSE_EVENTS, NULL);
-	
-	View::setWinContext(newwin(32, 128, 0, 0));
-}
 
 void cleanup()
 {
@@ -33,13 +23,55 @@ void cleanup()
 	endwin();
 }
 
-void finish(int key)
+void signal_handler(int signal)
+{
+	if(signal == SIGWINCH)
+	{
+		if(win_stack.size())
+		{
+			usleep(1000);
+			win_stack.back()->repaint();
+		}
+	}
+	else if(signal == SIGINT)
+	{
+		cleanup();
+		std::cout << "SIGINT - Abbruch." << std::endl;
+		if(ERR_MSG.length())
+			std::cout << "ERR_MSG: " << ERR_MSG << std::endl;
+		exit(EXIT_FAILURE);
+	}
+}
+
+void init()
+{
+	// init b15 driver
+	B15F::getInstance();
+	
+	// init all ncurses stuff
+	initscr();
+	start_color();
+	curs_set(0); // 0: invisible, 1: normal, 2: very visible
+	clear();
+	noecho();
+	cbreak();  // Line buffering disabled. pass on everything
+	mousemask(ALL_MOUSE_EVENTS, NULL);
+	
+	// connect signals to handler
+	signal(SIGWINCH, signal_handler);	
+	signal(SIGINT, signal_handler);
+	
+	// set view context
+	View::setWinContext(newwin(32, 128, 0, 0));
+}
+
+void finish(int)
 {
 	cleanup();
 	exit(EXIT_SUCCESS);
 }
 
-void input(int prev_key)
+void input(int)
 {
 	std::function<void(int)> nextCall;
 	int key;
@@ -62,19 +94,21 @@ void input(int prev_key)
 	while(!false);
 }
 
-void show_info(int key)
+void show_info(int)
 {
-	View* view = new ViewInfo();
+	ViewInfo* view = new ViewInfo();
 	view->setTitle("Info");
+	view->setText("Informationen zu Board 15 Famulus Edition\nEs war einmal");
+	view->setLabelClose("[ Zurueck ]");
 	view->repaint();
 	
 	win_stack.push_back(view);
 	input(0);
 }
 
-void show_main(int key)
+void show_main(int)
 {
-	View* view = new ViewMain();	
+	ViewMain* view = new ViewMain();	
 	view->setTitle("B15F - Command Line Interface");
 	view->addCall(&show_info);
 	view->addCall(&finish);
@@ -86,7 +120,6 @@ void show_main(int key)
 
 int main()
 {
-
 	init();
 	
 	show_main(0);	

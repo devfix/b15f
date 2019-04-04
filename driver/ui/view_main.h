@@ -16,8 +16,8 @@ private:
 	constexpr static int choice_offset_y = 3;
 	size_t selection = 0;
 	const std::vector<std::string> choices = {
-		"Beobachten",
-		"Exit"
+		"[ Informationen ]",
+		"[ Beenden ]"
 	};
 };
 

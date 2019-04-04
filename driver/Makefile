@@ -34,7 +34,7 @@ help:
 	
 clean:
 	@echo "Cleaning..."
-	rm -f $(OBJECTS_DRV) $(OBJECTS_UI) $(OUT_CLI) $(OUT_MAIN)
+	rm -f $(OBJECTS_DRV) $(OBJECTS_UI) $(OBJ_CLI) $(OUT_CLI) $(OBJ_MAIN) $(OUT_MAIN)
 
 .cpp.o:
 	$(COMPILE) -c $< -o $@
