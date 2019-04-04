@@ -13,17 +13,18 @@ OUT_CLI  = cli
 OBJ_CLI  = cli.o
 CFLAGS   = -std=c++14 -O3 -Wall -Wextra
 LDFLAGS  = -lcurses
-OBJECTS  = drv/usart.o drv/b15f.o drv/plottyfile.o drv/dot.o
+OBJECTS_DRV  = drv/usart.o drv/b15f.o drv/plottyfile.o drv/dot.o
+OBJECTS_UI   = ui/view.o ui/view_main.o ui/view_info.o
 
 COMPILE = $(COMPILER_PATH) $(CFLAGS)
 
-main: $(OBJECTS) $(OBJ_MAIN)
+main: $(OBJECTS_DRV) $(OBJ_MAIN)
 	@echo "Linking..."
-	$(COMPILE) $(OBJ_MAIN) $(OBJECTS) -o $(OUT_MAIN) $(LDFLAGS)
+	$(COMPILE) $(OBJ_MAIN) $(OBJECTS_DRV) -o $(OUT_MAIN) $(LDFLAGS)
 
-cli: $(OBJECTS) $(OBJ_CLI)
+cli: $(OBJECTS_DRV) $(OBJECTS_UI) $(OBJ_CLI)
 	@echo "Linking..."
-	$(COMPILE) $(OBJ_CLI) $(OBJECTS) -o $(OUT_CLI) $(LDFLAGS)
+	$(COMPILE) $(OBJ_CLI) $(OBJECTS_DRV) $(OBJECTS_UI) -o $(OUT_CLI) $(LDFLAGS)
 
 help:
 	@echo "This Makefile has the following rules:"
@@ -33,7 +34,7 @@ help:
 	
 clean:
 	@echo "Cleaning..."
-	rm -f $(OBJECTS) $(OUTPUT)
+	rm -f $(OBJECTS_DRV) $(OBJECTS_UI) $(OUT_CLI) $(OUT_MAIN)
 
 .cpp.o:
 	$(COMPILE) -c $< -o $@

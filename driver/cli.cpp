@@ -5,112 +5,92 @@
 #include <iostream>
 #include <sys/ioctl.h>
 #include <unistd.h>
-
-#define width 30
-#define height 10 
-
-WINDOW *win_menu;
-
-std::vector<std::string> choices = {
-	"Choice 1",
-	"Choice 2",
-	"Choice 3",
-	"Choice 4",
-	"Exit",
-};
+#include "ui/view_main.h"
+#include "ui/view_info.h"
 
 
-void init_win(WINDOW*& win)
+std::vector<View*> win_stack;
+ViewMain* view_main = nullptr;
+ViewInfo* view_info = nullptr;
+
+void init()
 {
-	struct winsize size;	
-	if (ioctl(0, TIOCGWINSZ, (char *) &size) < 0)
-		throw std::runtime_error("TIOCGWINSZ error");
-	
-	int start_x = (size.ws_col - width);
-	int start_y = (size.ws_row - height);
-	if(start_x % 2)
-		start_x++;
-	if(start_y % 2)
-		start_y++;
-	start_x /= 2;
-	start_y /= 2;
-		
-	win = newwin(height, width, start_y, start_x);
-	keypad(win, TRUE);
-	refresh();
-}
-
-void print_menu(WINDOW *win_menu, int highlight)
-{
-	
-	
-
-	int x, y, i;	
-
-	x = 2;
-	y = 2;
-	box(win_menu, 0, 0);
-	for(i = 0; i < choices.size(); ++i)
-	{	if(highlight == i + 1) /* High light the present choice */
-		{	wattron(win_menu, A_REVERSE); 
-			mvwprintw(win_menu, y, x, "%s", choices[i].c_str());
-			wattroff(win_menu, A_REVERSE);
-		}
-		else
-			mvwprintw(win_menu, y, x, "%s", choices[i].c_str());
-		++y;
-	}
-	wrefresh(win_menu);
-}
-
-int main()
-{	
-	int highlight = 1;
-	int choice = 0;
-	int c;
-
 	initscr();
 	start_color();
 	curs_set(0); // 0: invisible, 1: normal, 2: very visible
 	clear();
 	noecho();
-	cbreak();	/* Line buffering disabled. pass on everything */
-		
-	init_win(win_menu);
-	mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
-	print_menu(win_menu, highlight);
-	refresh();
+	cbreak();  // Line buffering disabled. pass on everything
+	mousemask(ALL_MOUSE_EVENTS, NULL);
 	
-	while(1)
-	{	c = wgetch(win_menu);
-		switch(c)
-		{	case KEY_UP:
-				if(highlight == 1)
-					highlight = choices.size();
-				else
-					--highlight;
-				break;
-			case KEY_DOWN:
-				if(highlight == choices.size())
-					highlight = 1;
-				else 
-					++highlight;
-				break;
-			case 10:
-				choice = highlight;
-				break;
-			default:
-				mvprintw(24, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
-				refresh();
-				break;
-		}
-		print_menu(win_menu, highlight);
-		if(choice != 0)	/* User did a choice come out of the infinite loop */
-			break;
-	}	
-	//mvprintw(23, 0, "You chose choice %d with choice string %s\n", choice, choices[choice - 1].c_str());
+	View::setWinContext(newwin(32, 128, 0, 0));
+}
+
+void cleanup()
+{
 	clrtoeol();
 	refresh();
 	endwin();
-	return 0;
+}
+
+void finish(int key)
+{
+	cleanup();
+	exit(EXIT_SUCCESS);
+}
+
+void input(int prev_key)
+{
+	std::function<void(int)> nextCall;
+	int key;
+	do
+	{
+		key = wgetch(View::getWinContext());
+		nextCall = win_stack.back()->keypress(key);
+		
+		if(key == -1)
+		{
+			win_stack.pop_back();
+			if(win_stack.size())
+				win_stack.back()->repaint();
+			return;
+		}
+			
+		if(nextCall)
+			nextCall(key);
+	}
+	while(!false);
+}
+
+void show_info(int key)
+{
+	View* view = new ViewInfo();
+	view->setTitle("Info");
+	view->repaint();
+	
+	win_stack.push_back(view);
+	input(0);
+}
+
+void show_main(int key)
+{
+	View* view = new ViewMain();	
+	view->setTitle("B15F - Command Line Interface");
+	view->addCall(&show_info);
+	view->addCall(&finish);
+	view->repaint();
+	
+	win_stack.push_back(view);
+	input(0);
+}
+
+int main()
+{
+
+	init();
+	
+	show_main(0);	
+	
+	cleanup();
+	return EXIT_SUCCESS;
 }
