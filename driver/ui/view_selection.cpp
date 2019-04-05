@@ -29,11 +29,14 @@ std::function<void(int)> ViewSelection::keypress(int& key)
 				selection = (selection - 1 + choices.size()) % choices.size();
 			while(!choices[selection].length() && choices.size());
 			break;
+			
+		case '\t':
 		case KEY_DOWN:
 			do
 				selection = (selection + 1) % choices.size();
 			while(!choices[selection].length() && choices.size());
 			break;
+			
 		case KEY_MOUSE:
 		{
 			// http://pronix.linuxdelta.de/C/Linuxprogrammierung/Linuxsystemprogrammieren_C_Kurs_Kapitel10b.shtml
@@ -58,6 +61,7 @@ std::function<void(int)> ViewSelection::keypress(int& key)
 			// fall through to next case
 			__attribute__ ((fallthrough));
 		}
+		
 		case KEY_ENT:
 			if(selection == choices.size() - 1) // exit
 				key = -1; // do return from view

@@ -58,9 +58,8 @@ std::function<void(int)> ViewPromt::keypress(int& key)
 			if(input.length())
 				input.pop_back();
 			break;
+		case '\t':
 		case KEY_LEFT:
-			selection = (selection + 1 ) % 2;
-			break;
 		case KEY_RIGHT:
 			selection = (selection + 1 ) % 2;
 			break;

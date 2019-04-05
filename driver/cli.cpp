@@ -14,6 +14,9 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <signal.h>
+#include <future>
+#include <thread>
+#include <chrono>
 #include "ui/view_selection.h"
 #include "ui/view_info.h"
 #include "ui/view_monitor.h"
@@ -25,8 +28,14 @@ std::string ERR_MSG;
 
 std::vector<View*> win_stack;
 
+volatile int win_changed_cooldown = 0;
+volatile bool t_refresh_active = false;
+std::thread t_refresh;
+
 void cleanup()
 {
+	if(t_refresh.joinable())
+		t_refresh.join();
 	clrtoeol();
 	refresh();
 	endwin();
@@ -36,11 +45,26 @@ void signal_handler(int signal)
 {
 	if(signal == SIGWINCH)
 	{
-		if(win_stack.size())
+		win_changed_cooldown = 10; // 100ms
+		
+		if (!t_refresh_active)
 		{
-			usleep(1000);
-			win_stack.back()->repaint();
+			if(t_refresh.joinable())
+				t_refresh.join();
+			t_refresh_active = true;
+			t_refresh = std::thread([](){
+				
+				while(win_changed_cooldown--)
+					std::this_thread::sleep_for(std::chrono::milliseconds(10));
+					
+				t_refresh_active = false;
+				
+				if(win_stack.size())
+					win_stack.back()->repaint();
+					
+			});
 		}
+		
 	}
 	else if(signal == SIGINT)
 	{
@@ -56,7 +80,7 @@ void init()
 {
 	// init b15 driver
 	B15F::getInstance();
-	//std::cout << std::endl << "Starte in 3s ..." << std::endl;
+	std::cout << std::endl << "Starte in 3s ..." << std::endl;
 	//sleep(3);
 	
 	// init all ncurses stuff
