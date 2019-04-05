@@ -18,7 +18,8 @@ std::function<void(int)> ViewMonitor::keypress(int& key)
 			{
 				size_t column = start_x + close_offset_x;
 				size_t row = start_y + close_offset_y;
-				if(event.y == row && event.x >= column && event.x < column + label_close.length())
+				size_t mouse_x = event.x, mouse_y = event.y;
+				if(mouse_y == row && mouse_x >= column && mouse_x < column + label_close.length())
 					hit = true;
 			}
 			if(!hit)

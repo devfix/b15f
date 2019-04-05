@@ -17,6 +17,7 @@
 #include "ui/view_selection.h"
 #include "ui/view_info.h"
 #include "ui/view_monitor.h"
+#include "ui/view_promt.h"
 #include "drv/b15f.h"
 
 // global error message
@@ -81,6 +82,13 @@ void finish(int)
 	exit(EXIT_SUCCESS);
 }
 
+void view_back(int)
+{
+	win_stack.pop_back();
+	if(win_stack.size())
+		win_stack.back()->repaint();
+}
+
 void input(int)
 {
 	std::function<void(int)> nextCall;
@@ -88,20 +96,16 @@ void input(int)
 	do
 	{
 		key = wgetch(View::getWinContext());
+		win_stack.back()->repaint();
 		nextCall = win_stack.back()->keypress(key);
 		
 		if(key == -1)
-		{
-			win_stack.pop_back();
-			if(win_stack.size())
-				win_stack.back()->repaint();
-			return;
-		}
+			view_back(key);
 			
 		if(nextCall)
 			nextCall(key);
 	}
-	while(!false);
+	while(win_stack.size());
 }
 
 void show_info(int)
@@ -128,13 +132,83 @@ void show_monitor(int)
 	input(0);
 }
 
+void show_invalid_port_input(int)
+{
+	ViewInfo* view = new ViewInfo();
+	view->setTitle("Falsche Eingabe");
+	view->setText("Bitte geben Sie einen Wert aus dem Intervall [00, FF] an.");
+	view->setLabelClose("[ Schliessen ]");
+	view->repaint();
+	
+	win_stack.push_back(view);
+	input(0);
+}
+
+void write_digital_output0(int)
+{
+	try
+	{
+		uint8_t port = std::stoi(static_cast<ViewPromt*>(win_stack.back())->getInput(), 0, 16);
+		
+		B15F& drv = B15F::getInstance();
+		drv.digitalWrite0(port);		
+		view_back(0);
+	}
+	catch(std::invalid_argument& ex)
+	{
+		show_invalid_port_input(0);
+	} 
+}
+
+void write_digital_output1(int)
+{
+	try
+	{
+		uint8_t port = std::stoi(static_cast<ViewPromt*>(win_stack.back())->getInput(), 0, 16);
+		
+		B15F& drv = B15F::getInstance();
+		drv.digitalWrite1(port);		
+		view_back(0);
+	}
+	catch(std::invalid_argument& ex)
+	{
+		show_invalid_port_input(0);
+	} 
+}
+
+void show_digital_output0(int)
+{
+	ViewPromt* view = new ViewPromt();
+	view->setTitle("Digitale Ausgabe BE0");
+	view->setMessage("\nEingabe Port-Wert (hex): 0x");
+	view->setCancel("[ Zurueck ]", true);
+	view->setConfirm("[ OK ]", &write_digital_output0);
+	view->repaint();
+	
+	win_stack.push_back(view);
+	input(0);
+}
+
+void show_digital_output1(int)
+{
+	ViewPromt* view = new ViewPromt();
+	view->setTitle("Digitale Ausgabe BE1");
+	view->setMessage("\nEingabe Port-Wert (hex): 0x");
+	view->setCancel("[ Zurueck ]", true);
+	view->setConfirm("[ OK ]", &write_digital_output1);
+	view->repaint();
+	
+	win_stack.push_back(view);
+	input(0);
+}
+
 void show_main(int)
 {
 	ViewSelection* view = new ViewSelection();	
 	view->setTitle("B15F - Command Line Interface");
 	view->addChoice("[ Monitor - Eingaben beobachten ]", &show_monitor);
-	view->addChoice("[ Digitale Ausgabe BE0 ]", &show_monitor);
-	view->addChoice("[ Digitale Ausgabe BE1 ]", &show_monitor);
+	view->addChoice("[ Digitale Ausgabe BE0 ]", &show_digital_output0);
+	view->addChoice("[ Digitale Ausgabe BE1 ]", &show_digital_output1);
 	view->addChoice("[ Analoge  Ausgabe AA0 ]", &show_monitor);
 	view->addChoice("[ Analoge  Ausgabe AA1 ]", &show_monitor);
 	view->addChoice("[ Informationen ]", &show_info);
