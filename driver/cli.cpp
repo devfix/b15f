@@ -1,3 +1,10 @@
+/** TODO
+ * 
+ * - throw exception -> raise SIGINT
+ * 
+ */
+
+
 #include <stdio.h>
 #include <ncurses.h> // sudo apt-get install libncurses5-dev
 #include <vector>
@@ -7,9 +14,9 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <signal.h>
-#include "ui/view_main.h"
+#include "ui/view_selection.h"
 #include "ui/view_info.h"
-#include "drv/b15f.h"
+//#include "drv/b15f.h"
 
 // global error message
 std::string ERR_MSG;
@@ -46,7 +53,7 @@ void signal_handler(int signal)
 void init()
 {
 	// init b15 driver
-	B15F::getInstance();
+	//B15F::getInstance();
 	
 	// init all ncurses stuff
 	initscr();
@@ -108,10 +115,11 @@ void show_info(int)
 
 void show_main(int)
 {
-	ViewMain* view = new ViewMain();	
+	ViewSelection* view = new ViewSelection();	
 	view->setTitle("B15F - Command Line Interface");
-	view->addCall(&show_info);
-	view->addCall(&finish);
+	view->addChoice("[ Informationen ]", &show_info);
+	view->addChoice("", nullptr);
+	view->addChoice("[ Beenden ]", &finish);
 	view->repaint();
 	
 	win_stack.push_back(view);

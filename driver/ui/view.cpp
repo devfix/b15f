@@ -23,10 +23,23 @@ WINDOW* View::getWinContext()
 	return win;
 }
 
-void View::addCall(std::function<void(int)> call)
+// from: https://stackoverflow.com/a/37454181
+std::vector<std::string> View::str_split(const std::string& str, const std::string delim)
 {
-	calls.push_back(call);
+    std::vector<std::string> tokens;
+    size_t prev = 0, pos = 0;
+    do
+    {
+        pos = str.find(delim, prev);
+        if (pos == std::string::npos) pos = str.length();
+        std::string token = str.substr(prev, pos-prev);
+        if (!token.empty()) tokens.push_back(token);
+        prev = pos + delim.length();
+    }
+    while (pos < str.length() && prev < str.length());
+    return tokens;
 }
+
 
 void View::setTitle(std::string title)
 {
@@ -58,21 +71,4 @@ void View::repaint()
 
 	refresh();
 	wrefresh(win);
-}
-
-// from: https://stackoverflow.com/a/37454181
-std::vector<std::string> View::str_split(const std::string& str, const std::string delim)
-{
-    std::vector<std::string> tokens;
-    size_t prev = 0, pos = 0;
-    do
-    {
-        pos = str.find(delim, prev);
-        if (pos == std::string::npos) pos = str.length();
-        std::string token = str.substr(prev, pos-prev);
-        if (!token.empty()) tokens.push_back(token);
-        prev = pos + delim.length();
-    }
-    while (pos < str.length() && prev < str.length());
-    return tokens;
 }

@@ -2,6 +2,7 @@
 
 ViewInfo::ViewInfo()
 {
+	calls.push_back(nullptr);
 }
 
 void ViewInfo::setText(std::string text)
@@ -12,6 +13,11 @@ void ViewInfo::setText(std::string text)
 void ViewInfo::setLabelClose(std::string label)
 {
 	this->label_close = label;
+}
+
+void ViewInfo::setCall(std::function<void(int)> call)
+{
+	calls[0] = call;
 }
 
 void ViewInfo::draw()
@@ -30,7 +36,6 @@ void ViewInfo::draw()
 
 std::function<void(int)> ViewInfo::keypress(int& key)
 {
-	std::function<void(int)> ret = nullptr;
 	switch(key)
 	{
 		
@@ -53,5 +58,5 @@ std::function<void(int)> ViewInfo::keypress(int& key)
 		default:
 			break;
 	}
-	return ret;
+	return calls[0];
 }

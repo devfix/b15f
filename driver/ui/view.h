@@ -19,14 +19,11 @@ public:
 	
 	static void setWinContext(WINDOW* win);
 	static WINDOW* getWinContext(void);
-
-	virtual void addCall(std::function<void(int)> call);
+	static std::vector<std::string> str_split(const std::string& str, const std::string delim);
 	
-	void setSize(int width, int height);
-	void setTitle(std::string title);
+	virtual void setTitle(std::string title);
 	
 	virtual void repaint(void);
-	static std::vector<std::string> str_split(const std::string& str, const std::string delim);
 	
 	virtual void draw(void) = 0;
 	virtual std::function<void(int)> keypress(int& key) = 0;
@@ -38,9 +35,8 @@ protected:
 	std::string title;
 	std::vector<std::function<void(int)>> calls;
 	
-	constexpr static int KEY_ENT = 10;
-	
 	static WINDOW* win;
+	constexpr static int KEY_ENT = 10;
 };
 
 #endif // VIEW_H
