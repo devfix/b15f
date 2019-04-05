@@ -1,7 +1,7 @@
 /** TODO
  * 
  * - throw exception -> raise SIGINT
- * 
+ * - delete view stack
  */
 
 
@@ -16,6 +16,7 @@
 #include <signal.h>
 #include "ui/view_selection.h"
 #include "ui/view_info.h"
+#include "ui/view_monitor.h"
 //#include "drv/b15f.h"
 
 // global error message
@@ -113,10 +114,23 @@ void show_info(int)
 	input(0);
 }
 
+void show_monitor(int)
+{
+	ViewMonitor* view = new ViewMonitor();
+	view->setTitle("Monitor");
+	view->setText("U0 = ");
+	view->setLabelClose("[ Zurueck ]");
+	view->repaint();
+	
+	win_stack.push_back(view);
+	input(0);
+}
+
 void show_main(int)
 {
 	ViewSelection* view = new ViewSelection();	
 	view->setTitle("B15F - Command Line Interface");
+	view->addChoice("[ Monitor - Eingaben beobachten ]", &show_monitor);
 	view->addChoice("[ Informationen ]", &show_info);
 	view->addChoice("", nullptr);
 	view->addChoice("[ Beenden ]", &finish);
