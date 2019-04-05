@@ -108,14 +108,18 @@ void finish(int)
 
 void view_back(int)
 {
-	win_stack.pop_back();
+	if(win_stack.size())
+	{
+		delete win_stack.back();
+		win_stack.pop_back();
+	}
 	if(win_stack.size())
 		win_stack.back()->repaint();
 }
 
 void input(int)
 {
-	std::function<void(int)> nextCall;
+	call_t nextCall;
 	int key;
 	do
 	{
@@ -136,7 +140,7 @@ void show_info(int)
 {
 	ViewInfo* view = new ViewInfo();
 	view->setTitle("Info");
-	view->setText("Informationen zu Board 15 Famulus Edition\nEs war einmal");
+	view->setText("Informationen zu Board 15 Famulus Edition\nEs war einmal...");
 	view->setLabelClose("[ Zurueck ]");
 	view->repaint();
 	
@@ -184,7 +188,10 @@ void write_digital_output0(int)
 {
 	try
 	{
-		uint8_t port = std::stoi(static_cast<ViewPromt*>(win_stack.back())->getInput(), 0, 16);
+		int d = std::stoi(static_cast<ViewPromt*>(win_stack.back())->getInput(), 0, 16);
+		if(d > 255 || 0 > d)
+			throw std::invalid_argument("bad value");
+		uint8_t port = static_cast<uint8_t>(d);
 		
 		B15F& drv = B15F::getInstance();
 		drv.digitalWrite0(port);		
@@ -200,7 +207,10 @@ void write_digital_output1(int)
 {
 	try
 	{
-		uint8_t port = std::stoi(static_cast<ViewPromt*>(win_stack.back())->getInput(), 0, 16);
+		int d = std::stoi(static_cast<ViewPromt*>(win_stack.back())->getInput(), 0, 16);
+		if(d > 255 || 0 > d)
+			throw std::invalid_argument("bad value");
+		uint8_t port = static_cast<uint8_t>(d);
 		
 		B15F& drv = B15F::getInstance();
 		drv.digitalWrite1(port);		
@@ -300,6 +310,42 @@ void show_analog_output1(int)
 	input(0);
 }
 
+
+void stop_selftest(int)
+{
+	B15F& drv = B15F::getInstance();
+	drv.discard();
+}
+
+void start_selftest(int)
+{
+	B15F& drv = B15F::getInstance();
+	drv.activateSelfTestMode();
+	
+	ViewInfo* view = new ViewInfo();
+	view->setTitle("Selbsttest aktiv");
+	view->setText("Das B15 befindet sich jetzt im Selbsttestmodus.\n \nSelbsttest:\nZu Beginn geht der Reihe nach jede LED von BA0 bis BA1 an.\nDanach leuchten die LEDs an AA0 und AA1 kurz auf.\nZum Schluss spiegelt in einer Endlosschleife:\n* BA0 Port BE0\n* BA1 die DIP-Schalter S7\n* AA0 ADC0\n* AA1 ADC1");
+	view->setLabelClose("[ Selbsttest Beenden ]");
+	view->setCall(&stop_selftest);
+	view->repaint();
+	
+	win_stack.push_back(view);
+	input(0);
+}
+
+void show_selftest(int)
+{
+	ViewInfo* view = new ViewInfo();
+	view->setTitle("Selbsttest");
+	view->setText("Bitte entfernen Sie jetzt alle Draehte von den Anschlussklemmen und bestaetigen\nmit Enter.");
+	view->setLabelClose("[ Weiter ]");
+	view->setCall(&start_selftest);
+	view->repaint();
+	
+	win_stack.push_back(view);
+	input(0);
+}
+
 void show_main(int)
 {
 	ViewSelection* view = new ViewSelection();	
@@ -309,6 +355,7 @@ void show_main(int)
 	view->addChoice("[ Digitale Ausgabe BE1 ]", &show_digital_output1);
 	view->addChoice("[ Analoge  Ausgabe AA0 ]", &show_analog_output0);
 	view->addChoice("[ Analoge  Ausgabe AA1 ]", &show_analog_output1);
+	view->addChoice("[ Selbsttest des B15 ]", &show_selftest);
 	view->addChoice("[ Informationen ]", &show_info);
 	view->addChoice("", nullptr);
 	view->addChoice("[ Beenden ]", &finish);

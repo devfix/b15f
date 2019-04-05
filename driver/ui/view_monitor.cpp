@@ -4,7 +4,7 @@ ViewMonitor::ViewMonitor() : t_worker(&ViewMonitor::worker, this)
 {	
 }
 
-std::function<void(int)> ViewMonitor::keypress(int& key)
+call_t ViewMonitor::keypress(int& key)
 {
 	switch(key)
 	{

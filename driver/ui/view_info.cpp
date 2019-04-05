@@ -15,7 +15,7 @@ void ViewInfo::setLabelClose(std::string label)
 	this->label_close = label;
 }
 
-void ViewInfo::setCall(std::function<void(int)> call)
+void ViewInfo::setCall(call_t call)
 {
 	calls[0] = call;
 }
@@ -34,7 +34,7 @@ void ViewInfo::draw()
 	wattroff(win, A_REVERSE);
 }
 
-std::function<void(int)> ViewInfo::keypress(int& key)
+call_t ViewInfo::keypress(int& key)
 {
 	switch(key)
 	{

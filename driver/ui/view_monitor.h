@@ -13,7 +13,7 @@ class ViewMonitor : public ViewInfo
 	
 public:
 	ViewMonitor(void);
-	virtual std::function<void(int)> keypress(int& key) override;
+	virtual call_t keypress(int& key) override;
 
 private:
 	std::string fancyDigitalString(uint8_t& b);

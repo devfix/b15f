@@ -2,12 +2,18 @@
 
 void ViewPromt::draw()
 {
+	curs_set(2); // show cursor
+	
 	int li = text_offset_y;
+	int ci = 0;
 	for(std::string line : str_split(message + input, "\n"))
-		mvwprintw(win, li++, text_offset_x, "%s", line.c_str());
+	{
+		mvwprintw(win, ++li, text_offset_x, "%s", line.c_str());
+		ci = line.length() + text_offset_x;
+	}
 	
 	button_offset_x = (width - label_cancel.length() - sep.length() - label_confirm.length()) / 2;
-	button_offset_y = height - text_offset_y + 1;
+	button_offset_y = height - text_offset_y;
 	
 	if(selection == 0)
 	{
@@ -25,6 +31,7 @@ void ViewPromt::draw()
 		mvwprintw(win, button_offset_y, button_offset_x + label_cancel.length() + sep.length(), "%s", label_confirm.c_str());
 		wattroff(win, A_REVERSE);
 	}
+	wmove(win, li, ci);
 }
 
 void ViewPromt::setMessage(std::string message)
@@ -99,7 +106,8 @@ std::function<void(int)> ViewPromt::keypress(int& key)
 			if(selection == 0) // exit
 				key = -1; // do return from view
 			else
-				ret = call_confirm;			
+				ret = call_confirm;
+			curs_set(0); // hide cursor again
 			break;
 		default:
 			break;
@@ -108,6 +116,7 @@ std::function<void(int)> ViewPromt::keypress(int& key)
 	if(key >= ' ' && key <= '~')
 		input += (char) key;
 	
-	repaint();
+	if(key != KEY_ENT)
+		repaint();
 	return ret;
 }

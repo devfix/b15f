@@ -55,8 +55,6 @@ void B15F::init()
 
 void B15F::reconnect()
 {
-	std::cout << PRE << "Verbindung unterbrochen, stelle Verbindung neu her: " << std::flush;
-		
 	uint8_t tries = RECONNECT_TRIES;		
 	while(tries--)
 	{
@@ -228,6 +226,8 @@ uint16_t B15F::analogRead(uint8_t channel)
 	usart.writeByte(RQ_ADC);
 	usart.writeByte(channel);
 	uint16_t adc = usart.readInt();
+	if(adc > 1023)
+		throw DriverException("Bad ADC data detected");
 	delay_us(1);
 	return adc;
 }
@@ -251,7 +251,7 @@ void B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 		buffer_a[i] = usart.readInt();
 		buffer_b[i] = usart.readInt();
 		if(buffer_a[i] > 1023 || buffer_b[i] > 1023)
-			std::cout << PRE << "bad data detected" << std::endl;
+			throw DriverException("Bad ADC data detected");
 	}
 	
 	uint8_t aw = usart.readByte();		

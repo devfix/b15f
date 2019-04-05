@@ -9,8 +9,8 @@ class ViewSelection : public View
 {
 public:
 	virtual void draw(void) override;
-	virtual void addChoice(std::string name, std::function<void(int)> call);
-	virtual std::function<void(int)> keypress(int& key) override;
+	virtual void addChoice(std::string name, call_t call);
+	virtual call_t keypress(int& key) override;
 	
 
 protected:

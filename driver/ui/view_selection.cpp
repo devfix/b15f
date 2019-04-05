@@ -13,15 +13,15 @@ void ViewSelection::draw()
 	}
 }
 
-void ViewSelection::addChoice(std::string name, std::function<void(int)> call)
+void ViewSelection::addChoice(std::string name, call_t call)
 {
 	choices.push_back(name);
 	calls.push_back(call);
 }
 
-std::function<void(int)> ViewSelection::keypress(int& key)
+call_t ViewSelection::keypress(int& key)
 {
-	std::function<void(int)> ret = nullptr;
+	call_t ret = nullptr;
 	switch(key)
 	{
 		case KEY_UP:

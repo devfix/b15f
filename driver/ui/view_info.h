@@ -9,9 +9,9 @@ public:
 	ViewInfo(void);
 	virtual void setText(std::string text);
 	virtual void setLabelClose(std::string label);;
-	virtual void setCall(std::function<void(int)> call);
+	virtual void setCall(call_t call);
 	virtual void draw(void) override;
-	virtual std::function<void(int)> keypress(int& key) override;
+	virtual call_t keypress(int& key) override;
 
 protected:
 	std::string text;

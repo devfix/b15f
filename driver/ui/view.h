@@ -11,11 +11,13 @@
 #include <signal.h>
 
 extern std::string ERR_MSG;
+typedef std::function<void(int)> call_t;
 
 class View
 {
 public:
 	View(void);
+	virtual ~View(void);
 	
 	static void setWinContext(WINDOW* win);
 	static WINDOW* getWinContext(void);
@@ -26,14 +28,14 @@ public:
 	virtual void repaint(void);
 	
 	virtual void draw(void) = 0;
-	virtual std::function<void(int)> keypress(int& key) = 0;
+	virtual call_t keypress(int& key) = 0;
 	
 	
 protected:
 	int width, height;
 	int start_x = 0, start_y = 0;
 	std::string title;
-	std::vector<std::function<void(int)>> calls;
+	std::vector<call_t> calls;
 	
 	static WINDOW* win;
 	constexpr static int KEY_ENT = 10;

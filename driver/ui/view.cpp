@@ -13,6 +13,10 @@ View::View()
 	keypad(win, TRUE);
 }
 
+View::~View()
+{
+}
+
 void View::setWinContext(WINDOW* win)
 {
 	View::win = win;
