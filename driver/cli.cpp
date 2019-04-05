@@ -17,7 +17,7 @@
 #include "ui/view_selection.h"
 #include "ui/view_info.h"
 #include "ui/view_monitor.h"
-//#include "drv/b15f.h"
+#include "drv/b15f.h"
 
 // global error message
 std::string ERR_MSG;
@@ -54,7 +54,9 @@ void signal_handler(int signal)
 void init()
 {
 	// init b15 driver
-	//B15F::getInstance();
+	B15F::getInstance();
+	//std::cout << std::endl << "Starte in 3s ..." << std::endl;
+	//sleep(3);
 	
 	// init all ncurses stuff
 	initscr();
@@ -70,7 +72,7 @@ void init()
 	signal(SIGINT, signal_handler);
 	
 	// set view context
-	View::setWinContext(newwin(32, 128, 0, 0));
+	View::setWinContext(newwin(25, 85, 0, 0));
 }
 
 void finish(int)
@@ -118,7 +120,7 @@ void show_monitor(int)
 {
 	ViewMonitor* view = new ViewMonitor();
 	view->setTitle("Monitor");
-	view->setText("U0 = ");
+	view->setText("\nErfasse Messwerte...");
 	view->setLabelClose("[ Zurueck ]");
 	view->repaint();
 	
@@ -131,6 +133,10 @@ void show_main(int)
 	ViewSelection* view = new ViewSelection();	
 	view->setTitle("B15F - Command Line Interface");
 	view->addChoice("[ Monitor - Eingaben beobachten ]", &show_monitor);
+	view->addChoice("[ Digitale Ausgabe BE0 ]", &show_monitor);
+	view->addChoice("[ Digitale Ausgabe BE1 ]", &show_monitor);
+	view->addChoice("[ Analoge  Ausgabe AA0 ]", &show_monitor);
+	view->addChoice("[ Analoge  Ausgabe AA1 ]", &show_monitor);
 	view->addChoice("[ Informationen ]", &show_info);
 	view->addChoice("", nullptr);
 	view->addChoice("[ Beenden ]", &finish);

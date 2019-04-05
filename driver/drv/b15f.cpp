@@ -27,18 +27,6 @@ void B15F::init()
 	std::cout << "OK" << std::endl;
 	
 	
-	// Temporärer Test
-	/*
-	uint8_t block[16];
-	while(1)
-	{
-		usart.writeBlock(&block[0], 0, sizeof(block));
-		usart.printStatistics();
-		usleep(1000);
-	}
-	throw std::runtime_error("SCHLUSS");*/
-	
-	
 
 	std::cout << PRE << "Teste Verbindung... " << std::flush;	
 	uint8_t tries = 3;
@@ -154,7 +142,7 @@ std::vector<std::string> B15F::getBoardInfo(void)
 
 bool B15F::activateSelfTestMode()
 {
-	usart.clearInputBuffer();
+	//usart.clearInputBuffer();
 	usart.writeByte(RQ_ST);
 	
 	uint8_t aw = usart.readByte();	
@@ -163,71 +151,85 @@ bool B15F::activateSelfTestMode()
 
 bool B15F::digitalWrite0(uint8_t port)
 {
-	usart.clearInputBuffer();
+	//usart.clearInputBuffer();
 	usart.writeByte(RQ_BA0);
 	usart.writeByte(port);
 	
-	uint8_t aw = usart.readByte();	
+	uint8_t aw = usart.readByte();
+	delay_us(1);
 	return aw == MSG_OK;
 }
 
 bool B15F::digitalWrite1(uint8_t port)
 {
-	usart.clearInputBuffer();
+	//usart.clearInputBuffer();
 	usart.writeByte(RQ_BA1);
 	usart.writeByte(port);
 	
-	uint8_t aw = usart.readByte();	
+	uint8_t aw = usart.readByte();
+	delay_us(1);
 	return aw == MSG_OK;
 }
 
 uint8_t B15F::digitalRead0()
 {
-	usart.clearInputBuffer();
+	//usart.clearInputBuffer();
 	usart.writeByte(RQ_BE0);
-	return usart.readByte();
+	uint8_t byte = usart.readByte();
+	delay_us(1);
+	return byte;
 }
 
 uint8_t B15F::digitalRead1()
 {
-	usart.clearInputBuffer();
+	//usart.clearInputBuffer();
 	usart.writeByte(RQ_BE1);
-	return usart.readByte();
+	uint8_t byte = usart.readByte();
+	delay_us(1);
+	return byte;
 }
 
 uint8_t B15F::readDipSwitch()
 {
-	usart.clearInputBuffer();
+	//usart.clearInputBuffer();
 	usart.writeByte(RQ_DSW);
-	return usart.readByte();
+	uint8_t byte = usart.readByte();
+	delay_us(1);
+	return byte;
 }
 
 bool B15F::analogWrite0(uint16_t value)
 {
-	usart.clearInputBuffer();
+	//usart.clearInputBuffer();
 	usart.writeByte(RQ_AA0);
 	usart.writeInt(value);
 	
-	uint8_t aw = usart.readByte();	
+	uint8_t aw = usart.readByte();
+	delay_us(1);
 	return aw == MSG_OK;
 }
 
 bool B15F::analogWrite1(uint16_t value)
 {
-	usart.clearInputBuffer();
+	//usart.clearInputBuffer();
 	usart.writeByte(RQ_AA1);
 	usart.writeInt(value);
 	
-	uint8_t aw = usart.readByte();	
+	uint8_t aw = usart.readByte();
+	delay_us(1);
 	return aw == MSG_OK;
 }
 
 uint16_t B15F::analogRead(uint8_t channel)
 {
-	usart.clearInputBuffer();
+	if(channel > 7)
+		throw DriverException("Bad ADC channel: " + std::to_string(channel));
+	//usart.clearInputBuffer();
 	usart.writeByte(RQ_ADC);
 	usart.writeByte(channel);
-	return usart.readInt();
+	uint16_t adc = usart.readInt();
+	delay_us(1);
+	return adc;
 }
 
 void B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
@@ -243,12 +245,6 @@ void B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 	usart.writeInt(static_cast<uint16_t>(delta));
 	usart.writeInt(count);
 	
-	/*
-	uint8_t aw = usart.readByte();
-	
-	if(aw != MSG_OK)
-		throw DriverException("Mikrocontroller nicht synchron");
-	*/
 	
 	for(uint16_t i = 0; i < count; i++)
 	{

@@ -12,10 +12,10 @@ public:
 	{
       	}
 
-	explicit TimeoutException(const std::string& message, int timeout) : msg(message), timeout(timeout)
+	explicit TimeoutException(const std::string& message, int timeout) : msg(message), m_timeout(timeout)
 	{		
 		if(!msg.length())
-			msg = "Timeout reached (" + std::to_string(timeout) + ")";
+			msg = "Timeout reached (" + std::to_string(m_timeout) + ")";
 	}
 
     	virtual ~TimeoutException() throw ()
@@ -29,7 +29,7 @@ public:
 
 protected:
 	std::string msg;
-	int timeout;
+	int m_timeout;
 };
 
 #endif // TIMEOUTEXCEPTION_H
