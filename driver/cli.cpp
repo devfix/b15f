@@ -1,7 +1,6 @@
 /** TODO
  * 
  * - throw exception -> raise SIGINT
- * - delete view stack
  */
 
 
@@ -81,7 +80,7 @@ void init()
 	// init b15 driver
 	B15F::getInstance();
 	std::cout << std::endl << "Starte in 3s ..." << std::endl;
-	//sleep(3);
+	sleep(3);
 	
 	// init all ncurses stuff
 	initscr();
@@ -262,7 +261,7 @@ void show_digital_output0(int)
 {
 	ViewPromt* view = new ViewPromt();
 	view->setTitle("Digitale Ausgabe BE0");
-	view->setMessage("\nEingabe Port-Wert (hex): 0x");
+	view->setMessage("\nAusgabe Port-Wert (hex): 0x");
 	view->setCancel("[ Zurueck ]", true);
 	view->setConfirm("[ OK ]", &write_digital_output0);
 	view->repaint();
@@ -275,7 +274,7 @@ void show_digital_output1(int)
 {
 	ViewPromt* view = new ViewPromt();
 	view->setTitle("Digitale Ausgabe BE1");
-	view->setMessage("\nEingabe Port-Wert (hex): 0x");
+	view->setMessage("\nAusgabe Port-Wert (hex): 0x");
 	view->setCancel("[ Zurueck ]", true);
 	view->setConfirm("[ OK ]", &write_digital_output1);
 	view->repaint();
@@ -288,7 +287,7 @@ void show_analog_output0(int)
 {
 	ViewPromt* view = new ViewPromt();
 	view->setTitle("Analoge Ausgabe AA0");
-	view->setMessage("\nEingabe 10-Bit-Wert (0...1023): ");
+	view->setMessage("\nAusgabe 10-Bit-Wert (0...1023): ");
 	view->setCancel("[ Zurueck ]", true);
 	view->setConfirm("[ OK ]", &write_analog_output0);
 	view->repaint();
@@ -301,7 +300,7 @@ void show_analog_output1(int)
 {
 	ViewPromt* view = new ViewPromt();
 	view->setTitle("Analoge Ausgabe AA1");
-	view->setMessage("\nEingabe 10-Bit-Wert (0...1023): ");
+	view->setMessage("\nAusgabe 10-Bit-Wert (0...1023): ");
 	view->setCancel("[ Zurueck ]", true);
 	view->setConfirm("[ OK ]", &write_analog_output1);
 	view->repaint();
