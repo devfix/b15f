@@ -215,12 +215,20 @@ uint16_t B15F::analogRead(uint8_t channel)
 	usart.clearInputBuffer();
 	if(channel > 7)
 		throw DriverException("Bad ADC channel: " + std::to_string(channel));
-	usart.writeByte(RQ_ADC);
-	usart.writeByte(channel);
+	
+	uint8_t rq[] = {
+		RQ_ADC,
+		channel
+	};
+	
+	int n_sent = usart.write_timeout(&rq[0], 0, sizeof(rq), 1000);
+	if(n_sent != sizeof(rq))
+		throw DriverException("Sent failed");
+	
 	uint16_t adc = usart.readInt();
+	
 	if(adc > 1023)
 		throw DriverException("Bad ADC data detected");
-	delay_us(50);
 	return adc;
 }
 

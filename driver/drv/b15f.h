@@ -192,7 +192,7 @@ private:
 	constexpr static uint8_t  MSG_FAIL = 0xFE;
 	constexpr static uint16_t RECONNECT_TIMEOUT = 64; // ms
 	constexpr static uint8_t  RECONNECT_TRIES = 3;
-	constexpr static uint32_t BAUDRATE = 115200;
+	constexpr static uint32_t BAUDRATE = 57600;
 	
 	// REQUESTS
 	constexpr static uint8_t RQ_DISC = 0;

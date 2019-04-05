@@ -75,7 +75,7 @@ void ViewMonitor::worker()
 	{
 		try
 		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(200));
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 			
 			uint8_t be0 = drv.digitalRead0();
 			uint8_t be1 = drv.digitalRead1();
@@ -117,6 +117,11 @@ void ViewMonitor::worker()
 			
 			text = str.str();
 			repaint();
+		}
+		catch(DriverException& ex)
+		{	
+			std::cout << "DriverException: " << ex.what() << std::endl;
+			drv.delay_ms(1000);
 		}
 		catch(...)
 		{

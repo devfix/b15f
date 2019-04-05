@@ -49,6 +49,13 @@ void USART::clearOutputBuffer()
 	if(code)
 		throw USARTException("Fehler beim Leeren des Ausgangspuffers");
 }
+	
+void USART::flushOutputBuffer()
+{
+	int code = tcdrain(file_desc);
+	if(code)
+		throw USARTException("Fehler beim Versenden des Ausgangspuffers");
+}
 
 void USART::printStatistics()
 {
@@ -108,6 +115,7 @@ int USART::write_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t
 	while(elapsed < timeout)
 	{
 		n_sent = write(file_desc, buffer + offset, len);
+		flushOutputBuffer();
 		if (n_sent == len)
 			return n_sent;
 				

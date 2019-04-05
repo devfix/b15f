@@ -1,8 +1,4 @@
-/** TODO
- * 
- * - throw exception -> raise SIGINT
- */
-
+#define B15F_CLI_DEBUG
 
 #include <stdio.h>
 #include <ncurses.h> // sudo apt-get install libncurses5-dev
@@ -79,8 +75,10 @@ void init()
 {
 	// init b15 driver
 	B15F::getInstance();
+#ifndef B15F_CLI_DEBUG
 	std::cout << std::endl << "Starte in 3s ..." << std::endl;
 	sleep(3);
+#endif
 	
 	// init all ncurses stuff
 	initscr();

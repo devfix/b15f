@@ -47,6 +47,12 @@ public:
 	void clearOutputBuffer(void);
 	
 	/**
+	 * Schreibt Daten, die bereits im Puffer liegen, aber noch nicht gesendet wurden
+	 * \throws USARTException 
+	 */
+	void flushOutputBuffer(void);
+	
+	/**
 	 * Gibt Anzahl an erfolgreichen und fehlgeschlagenen Block-Übertragungen an
 	 */
 	void printStatistics(void);
@@ -130,7 +136,7 @@ public:
 private:
 	
 	int file_desc = -1; // Linux Dateideskriptor
-	uint32_t baudrate = 9600;
+	uint32_t baudrate = 9600; // Standard-Baudrate, sollte mit setBaudrate() überschrieben werden! 
 	int TEST = 0;
 	uint8_t timeout = 10; // in Dezisekunden
 	uint8_t block_buffer[MAX_BLOCK_SIZE + 3];

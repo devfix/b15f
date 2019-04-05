@@ -124,7 +124,7 @@ private:
 	volatile bool active = false;
 
 	// constants
-	constexpr static uint32_t BAUDRATE       = 115200; // 38400
+	constexpr static uint32_t BAUDRATE       = 57600; // 38400
 	constexpr static uint8_t  CRC7_POLY      = 0x91;
 	constexpr static uint8_t  MAX_BLOCK_SIZE = 64;
 	constexpr static uint8_t  BLOCK_END      = 0x80;
