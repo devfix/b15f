@@ -16,7 +16,7 @@ void B15F::init()
 		device.pop_back();
 			
 	if(device.length() == 0)
-		throw DriverException("Adapter nicht gefunden");
+		abort("Adapter nicht gefunden");
 		
 	std::cout << PRE << "Verwende Adapter: " << device << std::endl;
 	
@@ -45,7 +45,7 @@ void B15F::init()
 		break;
 	}
 	if(tries == 0)
-			throw DriverException("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
+			abort("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
 	std::cout << "OK" << std::endl;
 	
 	
@@ -68,7 +68,7 @@ void B15F::reconnect()
 			
 	}
 	
-	throw DriverException("Verbindung kann nicht repariert werden");
+	abort("Verbindung kann nicht repariert werden");
 }
 
 void B15F::discard(void)
@@ -131,7 +131,7 @@ std::vector<std::string> B15F::getBoardInfo(void)
 	
 	uint8_t aw = usart.readByte();	
 	if(aw != MSG_OK)
-		throw DriverException("Board Info fehlerhalft: code " + std::to_string((int) aw));
+		abort("Board Info fehlerhalft: code " + std::to_string((int) aw));
 	
 	return info;
 }
@@ -215,7 +215,7 @@ uint16_t B15F::analogRead(uint8_t channel)
 {
 	usart.clearInputBuffer();
 	if(channel > 7)
-		throw DriverException("Bad ADC channel: " + std::to_string(channel));
+		abort("Bad ADC channel: " + std::to_string(channel));
 	
 	uint8_t rq[] = {
 		RQ_ADC,
@@ -224,12 +224,12 @@ uint16_t B15F::analogRead(uint8_t channel)
 	
 	int n_sent = usart.write_timeout(&rq[0], 0, sizeof(rq), 1000);
 	if(n_sent != sizeof(rq))
-		throw DriverException("Sent failed");
+		abort("Sent failed");
 	
 	uint16_t adc = usart.readInt();
 	
 	if(adc > 1023)
-		throw DriverException("Bad ADC data detected (1)");
+		abort("Bad ADC data detected (1)");
 	return adc;
 }
 
@@ -252,12 +252,12 @@ void B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 		buffer_a[i] = usart.readInt();
 		buffer_b[i] = usart.readInt();
 		if(buffer_a[i] > 1023 || buffer_b[i] > 1023)
-			throw DriverException("Bad ADC data detected (2)");
+			abort("Bad ADC data detected (2)");
 	}
 	
 	uint8_t aw = usart.readByte();		
 	if(aw != MSG_OK)		
-		throw DriverException("Sequenz unterbrochen");
+		abort("Sequenz unterbrochen");
 	
 	delay_us(10);
 }
@@ -294,21 +294,20 @@ std::string B15F::exec(std::string cmd) {
     return result;
 }
 
-
 void B15F::abort(std::string msg)
 {
 	DriverException ex(msg);
 	abort(ex);
 }
-
 void B15F::abort(std::exception& ex)
 {
 	if(errorhandler)
 		errorhandler(ex);
 	else
 	{
-		std::cerr << "NOTICE: B15F::errorhandler not set" << std::endl;
-		throw ex;
+		std::cerr << "NOTICE: B15F::errorhandler not set" << std::endl;		
+		std::cout << ex.what() << std::endl;
+		throw DriverException(ex.what());
 	}
 }
 

@@ -9,6 +9,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <signal.h>
+#include "../drv/b15f.h"
 
 extern std::string ERR_MSG;
 typedef std::function<void(int)> call_t;

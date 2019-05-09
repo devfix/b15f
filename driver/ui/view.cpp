@@ -6,8 +6,7 @@ View::View()
 {
 	if(!win)
 	{
-		ERR_MSG = "View::win not initialized, missing context!";
-		raise(SIGINT);
+		B15F::abort("View::win not initialized, missing context");
 	}
 	getmaxyx(win, height, width); // init width and height	
 	keypad(win, TRUE);

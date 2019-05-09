@@ -19,9 +19,6 @@
 #include "ui/view_monitor.h"
 #include "ui/view_promt.h"
 
-// global error message
-std::string ERR_MSG;
-
 volatile int win_changed_cooldown = 0;
 volatile bool t_refresh_active = false;
 
@@ -54,8 +51,6 @@ void signal_handler(int signal)
 	{
 		cleanup();
 		std::cout << "SIGINT - Abbruch." << std::endl;
-		if(ERR_MSG.length())
-			std::cout << "ERR_MSG: " << ERR_MSG << std::endl;
 		exit(EXIT_FAILURE);
 	}
 }
