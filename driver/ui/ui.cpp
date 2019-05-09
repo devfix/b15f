@@ -262,6 +262,10 @@ void stop_selftest(int)
 {
 	B15F& drv = B15F::getInstance();
 	drv.discard();
+	drv.delay_ms(B15F::WDT_TIMEOUT);
+	drv.reconnect();
+	drv.digitalWrite0(0);
+	drv.digitalWrite1(0);
 }
 
 void show_selftest_info(int)

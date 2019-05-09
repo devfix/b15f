@@ -201,20 +201,21 @@ public:
 	
 	/*************************/
 
-private:
-
-	USART usart;
-	static B15F* instance;
-	static errorhandler_t errorhandler;
-
 
 	// CONSTANTS
 	const std::string PRE = "[B15F] ";
 	constexpr static uint8_t  MSG_OK = 0xFF;
 	constexpr static uint8_t  MSG_FAIL = 0xFE;
 	constexpr static uint16_t RECONNECT_TIMEOUT = 64; // ms
+	constexpr static uint16_t WDT_TIMEOUT = 15;       // ms
 	constexpr static uint8_t  RECONNECT_TRIES = 3;
 	constexpr static uint32_t BAUDRATE = 57600;
+
+private:
+
+	USART usart;
+	static B15F* instance;
+	static errorhandler_t errorhandler;
 	
 	// REQUESTS
 	constexpr static uint8_t RQ_DISC = 0;

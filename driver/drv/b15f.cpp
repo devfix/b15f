@@ -57,15 +57,13 @@ void B15F::init()
 void B15F::reconnect()
 {
 	uint8_t tries = RECONNECT_TRIES;		
-	while(tries-- && false)
+	while(tries--)
 	{
 		delay_ms(RECONNECT_TIMEOUT);
-		
-		discard();
+		discard();	
 		
 		if(testConnection())
 			return;
-			
 	}
 	
 	abort("Verbindung kann nicht repariert werden");
@@ -73,13 +71,20 @@ void B15F::reconnect()
 
 void B15F::discard(void)
 {
-	usart.clearOutputBuffer();
-	for(uint8_t i = 0; i < 16; i++)
+	try
 	{
-		usart.writeByte(RQ_DISC);	// sende discard Befehl (verwerfe input)
-		delay_ms(4);
+		usart.clearOutputBuffer();
+		for(uint8_t i = 0; i < 16; i++)
+		{
+			usart.writeByte(RQ_DISC);	// sende discard Befehl (verwerfe input)
+			delay_ms(4);
+		}
+		usart.clearInputBuffer();
 	}
-	usart.clearInputBuffer();
+	catch(std::exception& ex)
+	{
+		abort(ex);
+	}
 }
 
 bool B15F::testConnection()
