@@ -18,6 +18,9 @@
 #include "driverexception.h"
 #include "timeoutexception.h"
 
+typedef std::function<void(std::exception&)> errorhandler_t;
+
+
 class B15F
 {
 private:
@@ -88,7 +91,25 @@ public:
 	 * \param cmd Der Befehl
 	 */
 	static std::string exec(std::string cmd);
-	
+
+	/**
+	 * Multithread sicherer Abbruch des B15F-Treibers
+	 * \param msg Beschreibung der Abbruchursache
+	 */
+	static void abort(std::string msg);
+
+	/**
+	 * Multithread sicherer Abbruch des B15F-Treibers
+	 * \param ex Exception als Abbruchursache
+	 */
+	static void abort(std::exception& ex);
+
+	/**
+	 * Setzt eine Fehlerbehandlungsroutine für den Treiberabbruch (abort) 
+	 * \param func Funktion, die Exception als Parameter bekommt
+	 */
+	static void setAbortHandler(errorhandler_t func);
+
 	/*************************************/
 	
 	
@@ -184,6 +205,7 @@ private:
 
 	USART usart;
 	static B15F* instance;
+	static errorhandler_t errorhandler;
 
 
 	// CONSTANTS

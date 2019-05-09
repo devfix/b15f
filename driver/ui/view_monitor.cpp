@@ -125,7 +125,15 @@ void ViewMonitor::worker()
 		}
 		catch(...)
 		{
-			drv.reconnect();
+			try
+			{
+				drv.reconnect();
+			}
+			catch(...)
+			{
+				B15F::abort("yoho meine dudes");
+				return;
+			}
 		}
 	}
 }

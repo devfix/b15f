@@ -1,6 +1,7 @@
 #include "b15f.h"
 
 B15F* B15F::instance = nullptr;
+errorhandler_t B15F::errorhandler = nullptr;
 
 B15F::B15F()
 {
@@ -228,7 +229,7 @@ uint16_t B15F::analogRead(uint8_t channel)
 	uint16_t adc = usart.readInt();
 	
 	if(adc > 1023)
-		throw DriverException("Bad ADC data detected");
+		throw DriverException("Bad ADC data detected (1)");
 	return adc;
 }
 
@@ -251,7 +252,7 @@ void B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 		buffer_a[i] = usart.readInt();
 		buffer_b[i] = usart.readInt();
 		if(buffer_a[i] > 1023 || buffer_b[i] > 1023)
-			throw DriverException("Bad ADC data detected");
+			throw DriverException("Bad ADC data detected (2)");
 	}
 	
 	uint8_t aw = usart.readByte();		
@@ -270,6 +271,14 @@ void B15F::delay_us(uint16_t us)
 {
 	std::this_thread::sleep_for(std::chrono::microseconds(us));
 }
+	
+B15F& B15F::getInstance(void)
+{
+	if(!instance)
+		instance = new B15F();
+
+	return *instance;
+}
 
 // https://stackoverflow.com/a/478960
 std::string B15F::exec(std::string cmd) {
@@ -284,11 +293,26 @@ std::string B15F::exec(std::string cmd) {
     }
     return result;
 }
-	
-B15F& B15F::getInstance(void)
-{
-	if(!instance)
-		instance = new B15F();
 
-	return *instance;
+
+void B15F::abort(std::string msg)
+{
+	DriverException ex(msg);
+	abort(ex);
+}
+
+void B15F::abort(std::exception& ex)
+{
+	if(errorhandler)
+		errorhandler(ex);
+	else
+	{
+		std::cerr << "NOTICE: B15F::errorhandler not set" << std::endl;
+		throw ex;
+	}
+}
+
+void B15F::setAbortHandler(errorhandler_t func)
+{
+	errorhandler = func;
 }

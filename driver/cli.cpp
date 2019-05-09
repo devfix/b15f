@@ -71,6 +71,23 @@ void signal_handler(int signal)
 	}
 }
 
+void abort_handler(std::exception& ex)
+{
+	ViewInfo* view = new ViewInfo();
+	view->setTitle("Fehler");
+	std::string msg(ex.what());
+	msg += "\n\nBeende in 5 Sekunden.";
+	view->setText(msg.c_str());
+	view->setLabelClose("");
+	view->repaint();
+	
+	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+	
+	cleanup();
+	std::cerr << std::endl << "*** EXCEPTION ***" << std::endl << ex.what() << std::endl;
+	exit(EXIT_FAILURE);
+}
+
 void init()
 {
 	// init b15 driver
@@ -79,6 +96,7 @@ void init()
 	std::cout << std::endl << "Starte in 3s ..." << std::endl;
 	sleep(3);
 #endif
+	B15F::setAbortHandler(&abort_handler);
 	
 	// init all ncurses stuff
 	initscr();
@@ -366,8 +384,11 @@ int main()
 {
 	init();
 	
-	show_main(0);	
+	int exit_code = EXIT_SUCCESS;
+	
+	show_main(0);
 	
 	cleanup();
-	return EXIT_SUCCESS;
+	
+	return exit_code;
 }
