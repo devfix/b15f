@@ -14,7 +14,7 @@ OBJ_CLI  = cli.o
 CFLAGS   = -std=c++14 -O3 -Wall -Wextra
 LDFLAGS  = -lcurses -lpthread
 OBJECTS_DRV  = drv/usart.o drv/b15f.o drv/plottyfile.o drv/dot.o
-OBJECTS_UI   = ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info.o ui/view_monitor.o
+OBJECTS_UI   = ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info.o ui/view_monitor.o ui/ui.o
 
 COMPILE = $(COMPILER_PATH) $(CFLAGS)
 
