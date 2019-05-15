@@ -7,11 +7,11 @@
 COMPILER_PATH = g++
 
 # Options
-OUT_MAIN = main.elf
+LIB_DRV = ../lib/libb15fdrv.so
 OBJ_MAIN = main.o
 OUT_CLI  = cli.elf
 OBJ_CLI  = cli.o
-CFLAGS   = -std=c++17 -O3 -Wall -Wextra
+CFLAGS   = -std=c++17 -O3 -Wall -Wextra -fPIC
 LDFLAGS  = -lcurses -lpthread
 OBJECTS_DRV  = drv/usart.o drv/b15f.o drv/plottyfile.o drv/dot.o
 OBJECTS_UI   = ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info.o ui/view_monitor.o ui/ui.o
@@ -20,24 +20,24 @@ COMPILE = $(COMPILER_PATH) $(CFLAGS)
 
 all: drv cli
 
-drv: $(OBJECTS_DRV) $(OBJ_MAIN)
-	@echo "Linking..."
-	$(COMPILE) $(OBJ_MAIN) $(OBJECTS_DRV) -o $(OUT_MAIN) $(LDFLAGS)
+drv: $(OBJECTS_DRV)
+	@echo "Linking driver library..."
+	$(COMPILE) $(OBJECTS_DRV) -o $(LIB_DRV) $(LDFLAGS)
 
-cli: $(OBJECTS_DRV) $(OBJECTS_UI) $(OBJ_CLI)
-	@echo "Linking..."
-	$(COMPILE) $(OBJ_CLI) $(OBJECTS_DRV) $(OBJECTS_UI) -o $(OUT_CLI) $(LDFLAGS)
+cli: drv $(OBJECTS_UI) $(OBJ_CLI)
+	@echo "Linking cli..."
+	$(COMPILE) $(OBJ_CLI) $(OBJECTS_UI) -L../lib -Wl,-rpath=../lib -lb15fdrv -o $(OUT_CLI) $(LDFLAGS)
 
 help:
-	@echo "This Makefile compiles the b15f driver and command line interface (CLI):"
+	@echo "This Makefile compiles the b15f driver lib and command line interface (CLI):"
 	@echo "make ......... to compile all"
-	@echo "make drv ..... to compile the b15f driver"
+	@echo "make drv ..... to compile the b15f driver lib"
 	@echo "make cli  .... to compile the cli"
 	@echo "make clean ... to delete objects and executables"
 	
 clean:
 	@echo "Cleaning..."
-	rm -f $(OBJECTS_DRV) $(OBJECTS_UI) $(OBJ_CLI) $(OUT_CLI) $(OBJ_MAIN) $(OUT_MAIN)
+	rm -f $(OBJECTS_DRV) $(OBJECTS_UI) $(OBJ_CLI) $(OUT_CLI) $(OBJ_MAIN) $(LIB_DRV)
 
 .cpp.o:
 	$(COMPILE) -c $< -o $@
