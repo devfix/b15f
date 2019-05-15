@@ -100,7 +100,7 @@ std::function<void(int)> ViewPromt::keypress(int& key)
 				break;
 			
 			// fall through to next case
-			__attribute__ ((fallthrough));
+			[[fallthrough]];
 		}
 		case KEY_ENT:
 			if(selection == 0) // exit

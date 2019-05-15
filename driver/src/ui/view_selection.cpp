@@ -59,7 +59,7 @@ call_t ViewSelection::keypress(int& key)
 				break;
 			
 			// fall through to next case
-			__attribute__ ((fallthrough));
+			[[fallthrough]];
 		}
 		
 		case KEY_ENT:
