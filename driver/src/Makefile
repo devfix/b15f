@@ -18,7 +18,9 @@ OBJECTS_UI   = ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info.o ui/v
 
 COMPILE = $(COMPILER_PATH) $(CFLAGS)
 
-main: $(OBJECTS_DRV) $(OBJ_MAIN)
+all: drv cli
+
+drv: $(OBJECTS_DRV) $(OBJ_MAIN)
 	@echo "Linking..."
 	$(COMPILE) $(OBJ_MAIN) $(OBJECTS_DRV) -o $(OUT_MAIN) $(LDFLAGS)
 
@@ -27,9 +29,10 @@ cli: $(OBJECTS_DRV) $(OBJECTS_UI) $(OBJ_CLI)
 	$(COMPILE) $(OBJ_CLI) $(OBJECTS_DRV) $(OBJECTS_UI) -o $(OUT_CLI) $(LDFLAGS)
 
 help:
-	@echo "This Makefile has the following rules:"
-	@echo "make main .... to compile main.cpp"
-	@echo "make cli  .... to compile Command Line Interface"
+	@echo "This Makefile compiles the b15f driver and command line interface (CLI):"
+	@echo "make ......... to compile all"
+	@echo "make drv ..... to compile the b15f driver"
+	@echo "make cli  .... to compile the cli"
 	@echo "make clean ... to delete objects and executables"
 	
 clean:
