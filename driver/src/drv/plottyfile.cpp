@@ -192,7 +192,7 @@ void PlottyFile::writeToFile(std::string filename)
 
 void PlottyFile::startPlotty(std::string filename)
 {
-	int code = system(("./plotty --in " + filename).c_str());
+	int code = system(("plotty --in " + filename).c_str());
 	if(code)
 		throw std::runtime_error("Fehler beim Aufruf von plotty");
 }

@@ -9,7 +9,8 @@ COMPILER_PATH = g++
 # Options
 LIB_DRV = ../lib/libb15fdrv.so
 LIB_PATH = /usr/lib/
-INCLUDE_PATH = /usr/include/b15f
+INCLUDE_PATH = /usr/include/b15f/
+BIN_PATH = /usr/bin/
 OBJ_MAIN = main.o
 OUT_CLI  = ../bin/cli.elf
 OBJ_CLI  = cli.o
@@ -35,6 +36,7 @@ install: drv
 	cp $(LIB_DRV) $(LIB_PATH)
 	mkdir -p $(INCLUDE_PATH)
 	cp drv/*.h $(INCLUDE_PATH)
+	cp plotty $(BIN_PATH)
 	
 help:
 	@echo "This Makefile compiles the b15f driver lib and command line interface (CLI):"
