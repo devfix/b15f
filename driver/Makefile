@@ -7,9 +7,9 @@
 COMPILER_PATH = g++
 
 # Options
-OUT_MAIN = main
+OUT_MAIN = main.elf
 OBJ_MAIN = main.o
-OUT_CLI  = cli
+OUT_CLI  = cli.elf
 OBJ_CLI  = cli.o
 CFLAGS   = -std=c++14 -O3 -Wall -Wextra
 LDFLAGS  = -lcurses -lpthread
