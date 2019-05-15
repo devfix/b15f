@@ -9,7 +9,7 @@ COMPILER_PATH = g++
 # Options
 LIB_DRV = ../lib/libb15fdrv.so
 OBJ_MAIN = main.o
-OUT_CLI  = cli.elf
+OUT_CLI  = ../bin/cli.elf
 OBJ_CLI  = cli.o
 CFLAGS   = -std=c++17 -O3 -Wall -Wextra -fPIC
 LDFLAGS  = -lcurses -lpthread
@@ -22,10 +22,12 @@ all: drv cli
 
 drv: $(OBJECTS_DRV)
 	@echo "Linking driver library..."
-	$(COMPILE) $(OBJECTS_DRV) -o $(LIB_DRV) $(LDFLAGS)
+	mkdir -p ../lib
+	$(COMPILE) $(OBJECTS_DRV) -shared -o $(LIB_DRV) $(LDFLAGS)
 
 cli: drv $(OBJECTS_UI) $(OBJ_CLI)
 	@echo "Linking cli..."
+	mkdir -p ../bin
 	$(COMPILE) $(OBJ_CLI) $(OBJECTS_UI) -L../lib -Wl,-rpath=../lib -lb15fdrv -o $(OUT_CLI) $(LDFLAGS)
 
 help:
