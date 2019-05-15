@@ -20,10 +20,8 @@ COMPILE = $(COMPILER_PATH) $(CFLAGS)
 
 all: drv cli
 
-drv: $(OBJECTS_DRV)
-	@echo "Linking driver library..."
-	mkdir -p ../lib
-	$(COMPILE) $(OBJECTS_DRV) -shared -o $(LIB_DRV) $(LDFLAGS)
+drv: $(OBJECTS_DRV) $(LIB_DRV)
+	
 
 cli: drv $(OBJECTS_UI) $(OBJ_CLI)
 	@echo "Linking cli..."
@@ -43,3 +41,8 @@ clean:
 
 .cpp.o:
 	$(COMPILE) -c $< -o $@
+
+$(LIB_DRV):
+	@echo "Linking driver library..."
+	mkdir -p ../lib
+	$(COMPILE) $(OBJECTS_DRV) -shared -o $(LIB_DRV) $(LDFLAGS)
