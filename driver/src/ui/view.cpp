@@ -60,6 +60,7 @@ void View::repaint()
 	start_x = floor((size.ws_col - width) / 2.);
 	start_y = floor((size.ws_row - height) / 2.);
 	
+    curs_set(0); // hide cursor
 	mvwin(win, start_y, start_x);
 	clear();
 	wclear(win);

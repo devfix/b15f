@@ -2,7 +2,7 @@
 
 void ViewPromt::draw()
 {
-	curs_set(2); // show cursor
+	curs_set(1); // show cursor
 	
 	int li = text_offset_y;
 	int ci = 0;
@@ -107,7 +107,6 @@ std::function<void(int)> ViewPromt::keypress(int& key)
 				key = -1; // do return from view
 			else
 				ret = call_confirm;
-			curs_set(0); // hide cursor again
 			break;
 		default:
 			break;
@@ -117,6 +116,6 @@ std::function<void(int)> ViewPromt::keypress(int& key)
 		input += (char) key;
 	
 	if(key != KEY_ENT)
-		repaint();
+        repaint();
 	return ret;
 }

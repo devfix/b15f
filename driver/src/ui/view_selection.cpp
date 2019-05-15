@@ -2,7 +2,7 @@
 
 void ViewSelection::draw()
 {
-	
+	//curs_set(0); // hide cursor
 	for(size_t i = 0; i < choices.size(); i++)
 	{
 		if(selection == i)
