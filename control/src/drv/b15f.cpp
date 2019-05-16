@@ -241,10 +241,8 @@ uint16_t B15F::analogRead(uint8_t channel)
 void B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
 	// check pointers
-	if(buffer_a)
-		buffer_a += offset_a;
-	if(buffer_b)
-		buffer_b += offset_b;
+	buffer_a += offset_a;
+	buffer_b += offset_b;
 	
 	
 	usart.clearInputBuffer();
