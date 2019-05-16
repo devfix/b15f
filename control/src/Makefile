@@ -4,39 +4,52 @@
 # Creation Date: 2019-03-22
 
 # Environment
-COMPILER_PATH = g++
+PATH_COMPILER = g++
 
-# Options
-LIB_DRV = ../lib/libb15fdrv.so
-LIB_PATH = /usr/lib/
-INCLUDE_PATH = /usr/include/b15f/
-BIN_PATH = /usr/bin/
-OBJ_MAIN = main.o
-OUT_CLI  = ../bin/cli.elf
-OBJ_CLI  = cli.o
+# install paths
+PATH_BIN     = /usr/bin/
+PATH_LIB     = /usr/lib/
+PATH_INCLUDE = /usr/include/b15f/
+
+# tmp paths
+PATH_TMP_BIN = ../bin/
+PATH_TMP_LIB = ../lib/
+
+# outputs
+OUT_TMP_DRV = $(PATH_TMP_LIB)/libb15fdrv.so
+OUT_TMP_CLI  = $(PATH_TMP_BIN)/cli.elf
+OUT_DRV = $(PATH_LIB)/libb15fdrv.so
+
+# compiling & linking parameters
 CFLAGS   = -std=c++17 -O3 -Wall -Wextra -fPIC
 LDFLAGS_DRV  = -lcurses -lpthread
-LDFLAGS  = $(LDFLAGS_DRV) -lb15fdrv
-OBJECTS_DRV  = drv/usart.o drv/b15f.o drv/plottyfile.o drv/dot.o
-OBJECTS_UI   = ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info.o ui/view_monitor.o ui/ui.o
+LDFLAGS_CLI  = $(LDFLAGS_DRV) -lb15fdrv
 
-COMPILE = $(COMPILER_PATH) $(CFLAGS)
+# objects
+OBJECTS_DRV  = drv/usart.o drv/b15f.o drv/plottyfile.o drv/dot.o
+OBJECTS_CLI   = cli.o ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info.o ui/view_monitor.o ui/ui.o
+
+
+
+# *** TARGETS ***
 
 all: drv cli
 
-drv: $(OBJECTS_DRV) $(LIB_DRV)
+drv: $(OBJECTS_DRV) $(OUT_TMP_DRV)
 	
 
-cli: drv $(OBJECTS_UI) $(OBJ_CLI)
+cli: drv $(OBJECTS_CLI)
 	@echo "Linking cli..."
-	mkdir -p ../bin
-	$(COMPILE) $(OBJ_CLI) $(OBJECTS_UI) -L../lib -Wl,-rpath=../lib -o $(OUT_CLI) $(LDFLAGS)
+	@mkdir -p ../bin
+	$(PATH_COMPILER) $(CFLAGS) $(OBJECTS_CLI) -L $(PATH_TMP_LIB) -o $(OUT_TMP_CLI) $(LDFLAGS_CLI)
+	@bash -c 'if [ ! -f "$(OUT_DRV)" ]; then echo -e "\n*** Warning ***: driver not installed\nType \"sudo make install\" to install or update b15fdrv."; fi'
 
 install: drv
-	cp $(LIB_DRV) $(LIB_PATH)
-	mkdir -p $(INCLUDE_PATH)
-	cp drv/*.h $(INCLUDE_PATH)
-	cp plotty $(BIN_PATH)
+	@echo "Installing driver..."
+	@mkdir -p $(PATH_INCLUDE)
+	cp plotty $(PATH_BIN)
+	cp $(OUT_TMP_DRV) $(PATH_LIB)
+	cp drv/*.h $(PATH_INCLUDE)
 	
 help:
 	@echo "This Makefile compiles the b15f driver lib and command line interface (CLI):"
@@ -48,12 +61,12 @@ help:
 	
 clean:
 	@echo "Cleaning..."
-	rm -f $(OBJECTS_DRV) $(OBJECTS_UI) $(OBJ_CLI) $(OUT_CLI) $(OBJ_MAIN) $(LIB_DRV)
+	rm -f $(OBJECTS_DRV) $(OBJECTS_CLI) $(OUT_TMP_CLI) $(OUT_TMP_DRV)
 
 .cpp.o:
-	$(COMPILE) -c $< -o $@
+	$(PATH_COMPILER) $(CFLAGS) -c $< -o $@
 
-$(LIB_DRV):
+$(OUT_TMP_DRV):
 	@echo "Linking driver library..."
-	mkdir -p ../lib
-	$(COMPILE) $(OBJECTS_DRV) -shared -o $(LIB_DRV) $(LDFLAGS_DRV)
+	@mkdir -p ../lib
+	$(PATH_COMPILER) $(CFLAGS) $(OBJECTS_DRV) -shared -o $(OUT_TMP_DRV) $(LDFLAGS_CLI_DRV)
