@@ -24,7 +24,7 @@ help:
 	
 clean:
 	@echo "Cleaning..."
-	rm -f $(OBJECTS) $(OUT)
+	rm -f $(OBJECTS) $(OUT) *.bin gnuplotscript.gp
 
 .cpp.o:
 	$(COMPILE) -c $< -o $@

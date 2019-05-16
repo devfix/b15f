@@ -240,8 +240,12 @@ uint16_t B15F::analogRead(uint8_t channel)
 
 void B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
-	buffer_a += offset_a;
-	buffer_b += offset_b;
+	// check pointers
+	if(buffer_a)
+		buffer_a += offset_a;
+	if(buffer_b)
+		buffer_b += offset_b;
+	
 	
 	usart.clearInputBuffer();
 	usart.writeByte(RQ_ADC_DAC_STROKE);
@@ -249,15 +253,33 @@ void B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
 	usart.writeByte(channel_b);
 	usart.writeInt(start);
 	usart.writeInt(static_cast<uint16_t>(delta));
-	usart.writeInt(count);
-	
+	usart.writeInt(count);	
 	
 	for(uint16_t i = 0; i < count; i++)
 	{
-		buffer_a[i] = usart.readInt();
-		buffer_b[i] = usart.readInt();
-		if(buffer_a[i] > 1023 || buffer_b[i] > 1023)
-			abort("Bad ADC data detected (2)");
+		if(buffer_a)
+		{
+			buffer_a[i] = usart.readInt();
+			
+			if(buffer_a[i] > 1023) // check for broken usart connection
+				abort("Bad ADC data detected (2)");
+		}
+		else
+		{
+			usart.readInt();
+		}
+		
+		if(buffer_b)
+		{
+			buffer_b[i] = usart.readInt();
+			
+			if(buffer_b[i] > 1023) // check for broken usart connection
+				abort("Bad ADC data detected (3)");
+		}
+		else
+		{
+			usart.readInt();
+		}
 	}
 	
 	uint8_t aw = usart.readByte();		

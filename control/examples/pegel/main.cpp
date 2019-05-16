@@ -3,7 +3,7 @@
 #include <b15f/b15f.h>
 #include <b15f/plottyfile.h>
 
-constexpr char * PLOT_FILE = "plot.bin";
+const char PLOT_FILE[] = "plot.bin";
 
 int main()
 {
@@ -12,7 +12,6 @@ int main()
 	PlottyFile pf;
 	
 	uint16_t ba[1024];
-	uint16_t bb[1024];
 	
 	const uint16_t sample_count = 1024;
 	const uint16_t delta = 1;
@@ -31,14 +30,12 @@ int main()
 	uint8_t curve = 0;
 		
 	
-    drv.analogSequence(0, &ba[0], 0, 1, &bb[0], 0, 0, delta, sample_count);
+    drv.analogSequence(0, &ba[0], 0, 1, nullptr, 0, 0, delta, sample_count);
     
     for(uint16_t x = 0; x < sample_count * delta; x += delta)
     {
-		drv.analogWrite0(x);
-		uint16_t y = drv.analogRead(0);
-		std::cout << x << " - " << y << std::endl;
-        pf.addDot(Dot(x, y, curve));
+		std::cout << x << " - " << ba[x] << std::endl;
+        pf.addDot(Dot(x, ba[x], curve));
     }
     
 	// speichern und plotty starten
