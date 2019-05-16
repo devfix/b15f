@@ -16,10 +16,12 @@ PATH_TMP_BIN = ../bin/
 PATH_TMP_LIB = ../lib/
 
 # outputs
-OUT_TMP_DRV = $(PATH_TMP_LIB)/libb15fdrv.so
-OUT_TMP_CLI = $(PATH_TMP_BIN)/cli.elf
-OUT_DRV     = $(PATH_LIB)/libb15fdrv.so
-OUT_PLOTTY  = $(PATH_TMP_BIN)/plotty
+OUT_TMP_DRV    = $(PATH_TMP_LIB)/libb15fdrv.so
+OUT_TMP_CLI    = $(PATH_TMP_BIN)/cli.elf
+OUT_TMP_PLOTTY = $(PATH_TMP_BIN)/plotty
+OUT_DRV        = $(PATH_LIB)/libb15fdrv.so
+OUT_CLI        = $(PATH_BIN)/b15fcli
+OUT_PLOTTY     = $(PATH_BIN)/plotty
 
 # compiling & linking parameters
 CFLAGS   = -std=c++17 -O3 -Wall -Wextra -fPIC
@@ -48,9 +50,14 @@ cli: drv $(OBJECTS_CLI)
 install: drv
 	@echo "Installing driver..."
 	@mkdir -p $(PATH_INCLUDE)
-	cp $(OUT_PLOTTY) $(PATH_BIN)
-	cp $(OUT_TMP_DRV) $(PATH_LIB)
+	cp $(OUT_TMP_DRV) $(OUT_DRV)
+	cp $(OUT_TMP_CLI) $(OUT_CLI)
+	cp $(OUT_TMP_PLOTTY) $(OUT_PLOTTY)
 	cp drv/*.h $(PATH_INCLUDE)
+	
+uninstall:
+	@echo "Uninstalling driver..."
+	rm -rf $(PATH_INCLUDE) $(OUT_DRV) $(OUT_CLI) $(OUT_PLOTTY)
 	
 help:
 	@echo "This Makefile compiles the b15f driver lib and command line interface (CLI):"
@@ -58,6 +65,7 @@ help:
 	@echo "make drv ..... to compile the b15f driver lib"
 	@echo "make cli ..... to compile the cli"
 	@echo "make install . to install or update the lib and headers on this machine"
+	@echo "make uninstall to remove the lib and headers on this machine"
 	@echo "make clean ... to delete objects and executables"
 	
 clean:
