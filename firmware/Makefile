@@ -44,7 +44,7 @@ clean:
 
 checkfuses:
 	@echo "Checking fuses..."
-	@bash -c 'diff -B <( echo "$(FUSES)" ) <( avrdude -Pusb -p $(MCU) -c $(PROGRAMMER) 2>&1 | grep "safemode: Fuses OK" | tail -c 19 ) >/dev/null || avrdude -Pusb -p $(MCU) -c $(PROGRAMMER) -U lfuse:w:0x$(LFUSE):m -U hfuse:w:0x$(HFUSE):m -U efuse:w:0x$(EFUSE):m'
+	@bash -c 'diff -B <( echo "$(FUSES)" ) <( avrdude -Pusb -p $(MCU) -c $(PROGRAMMER) 2>&1 | grep "safemode: Fuses OK" | tail -c 19 ) >/dev/null && echo "Fuses okay" || avrdude -Pusb -p $(MCU) -c $(PROGRAMMER) -U lfuse:w:0x$(LFUSE):m -U hfuse:w:0x$(HFUSE):m -U efuse:w:0x$(EFUSE):m'
 
 upload: b15f checkfuses
 	@echo "Uploading hex file..."

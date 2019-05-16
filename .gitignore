@@ -1,5 +1,6 @@
 # Prerequisites
 *.d
+gnuplotscript.gp
 
 # Compiled Object files
 *.slo

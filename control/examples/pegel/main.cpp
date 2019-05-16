@@ -34,7 +34,10 @@ int main()
     
     for(uint16_t x = 0; x < sample_count * delta; x += delta)
     {
-        pf.addDot(Dot(x, ba[x], curve));
+		drv.analogWrite0(x);
+		uint16_t y = drv.analogRead(0);
+		std::cout << x << " - " << y << std::endl;
+        pf.addDot(Dot(x, y, curve));
     }
     
 	// speichern und plotty starten

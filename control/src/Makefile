@@ -47,7 +47,7 @@ cli: drv $(OBJECTS_CLI)
 	$(PATH_COMPILER) $(CFLAGS) $(OBJECTS_CLI) -L $(PATH_TMP_LIB) -o $(OUT_TMP_CLI) $(LDFLAGS_CLI)
 	@bash -c 'if [ ! -f "$(OUT_DRV)" ]; then echo -e "\n*** Warning ***: driver not installed\nType \"sudo make install\" to install or update b15fdrv."; fi'
 
-install: drv
+install: all
 	@echo "Installing driver..."
 	@mkdir -p $(PATH_INCLUDE)
 	cp $(OUT_TMP_DRV) $(OUT_DRV)
@@ -55,7 +55,7 @@ install: drv
 	cp $(OUT_TMP_PLOTTY) $(OUT_PLOTTY)
 	cp drv/*.h $(PATH_INCLUDE)
 	
-uninstall:
+uninstall: clean
 	@echo "Uninstalling driver..."
 	rm -rf $(PATH_INCLUDE) $(OUT_DRV) $(OUT_CLI) $(OUT_PLOTTY)
 	
