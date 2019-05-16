@@ -1,5 +1,5 @@
 # Name: Makefile
-# Project: B15F (board15 Famulus Edition)
+# Project: B15F (Board 15 Famulus Edition)
 # Author: Tristan Krause
 # Creation Date: 2019-03-22
 
@@ -17,8 +17,9 @@ PATH_TMP_LIB = ../lib/
 
 # outputs
 OUT_TMP_DRV = $(PATH_TMP_LIB)/libb15fdrv.so
-OUT_TMP_CLI  = $(PATH_TMP_BIN)/cli.elf
-OUT_DRV = $(PATH_LIB)/libb15fdrv.so
+OUT_TMP_CLI = $(PATH_TMP_BIN)/cli.elf
+OUT_DRV     = $(PATH_LIB)/libb15fdrv.so
+OUT_PLOTTY  = $(PATH_TMP_BIN)/plotty
 
 # compiling & linking parameters
 CFLAGS   = -std=c++17 -O3 -Wall -Wextra -fPIC
@@ -47,7 +48,7 @@ cli: drv $(OBJECTS_CLI)
 install: drv
 	@echo "Installing driver..."
 	@mkdir -p $(PATH_INCLUDE)
-	cp plotty $(PATH_BIN)
+	cp $(OUT_PLOTTY) $(PATH_BIN)
 	cp $(OUT_TMP_DRV) $(PATH_LIB)
 	cp drv/*.h $(PATH_INCLUDE)
 	
