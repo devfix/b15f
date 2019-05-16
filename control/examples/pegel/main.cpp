@@ -3,6 +3,7 @@
 #include <b15f/b15f.h>
 #include <b15f/plottyfile.h>
 
+constexpr char * PLOT_FILE = "plot.bin";
 
 int main()
 {
@@ -41,6 +42,6 @@ int main()
     }
     
 	// speichern und plotty starten
-	pf.writeToFile("test_plot");	
-	pf.startPlotty("test_plot");
+	pf.writeToFile(PLOT_FILE);	
+	pf.startPlotty(PLOT_FILE);
 }
