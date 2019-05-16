@@ -53,10 +53,10 @@ install: drv
 	
 help:
 	@echo "This Makefile compiles the b15f driver lib and command line interface (CLI):"
-	@echo "make ......... to compile all"
+	@echo "make ......... to compile all (no install)"
 	@echo "make drv ..... to compile the b15f driver lib"
 	@echo "make cli ..... to compile the cli"
-	@echo "make install . to install the lib and headers on this machine"
+	@echo "make install . to install or update the lib and headers on this machine"
 	@echo "make clean ... to delete objects and executables"
 	
 clean:
