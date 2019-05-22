@@ -3,7 +3,7 @@
 void ADU::init() volatile
 {
 	// externe Referenz an AREF
-	ADMUX = 0;
+	ADMUX = _BV(REFS0);
 
 	// ADC aktiviert, Interruptbetrieb, prescaler = 128
 	ADCSRA = _BV(ADEN) | _BV(ADIE) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
