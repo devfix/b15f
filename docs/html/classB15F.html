@@ -75,8 +75,6 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a74d8cca6edbb4e24a2f760829b3742a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#a74d8cca6edbb4e24a2f760829b3742a5">init</a> (void)</td></tr>
-<tr class="separator:a74d8cca6edbb4e24a2f760829b3742a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52557b375443c180a044e7d4e80a1ae7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#a52557b375443c180a044e7d4e80a1ae7">reconnect</a> (void)</td></tr>
 <tr class="separator:a52557b375443c180a044e7d4e80a1ae7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4740cd473f40a1a4121dfa66b25e1d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#ae4740cd473f40a1a4121dfa66b25e1d5">discard</a> (void)</td></tr>
@@ -110,7 +108,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae0bd1f69751e2dc3c462db9213fc4627"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#ae0bd1f69751e2dc3c462db9213fc4627">analogRead</a> (uint8_t channel)</td></tr>
 <tr class="separator:ae0bd1f69751e2dc3c462db9213fc4627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab82a324426c3063318c6cafb3089ae02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#ab82a324426c3063318c6cafb3089ae02">analogSequence</a> (uint8_t channel_a, uint16_t *buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t *buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)</td></tr>
-<tr class="memdesc:ab82a324426c3063318c6cafb3089ae02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Komplexe Analoge Sequenz DAC 0 wird auf den Startwert gesetzt und dann schrittweise um Delta inkrementiert. Für jeden eingestelleten DAC-Wert werden zwei ADCs (channel_a und channel_b) angesprochen und die Werte übermittelt. Die Werte werden in buffer_a für Kanal a und buffer_b für Kanal b gespeichert.  <a href="classB15F.html#ab82a324426c3063318c6cafb3089ae02">More...</a><br /></td></tr>
 <tr class="separator:ab82a324426c3063318c6cafb3089ae02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
@@ -350,9 +347,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Komplexe Analoge Sequenz DAC 0 wird auf den Startwert gesetzt und dann schrittweise um Delta inkrementiert. Für jeden eingestelleten DAC-Wert werden zwei ADCs (channel_a und channel_b) angesprochen und die Werte übermittelt. Die Werte werden in buffer_a für Kanal a und buffer_b für Kanal b gespeichert. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>DAC 0 wird auf den Startwert gesetzt und dann schrittweise um Delta inkrementiert. Für jeden eingestelleten DAC-Wert werden zwei ADCs (channel_a und channel_b) angesprochen und die Werte übermittelt. Die Werte werden in buffer_a für Kanal a und buffer_b für Kanal b gespeichert. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">channel_a</td><td>Auswahl des ADC a, von 0 - 7 </td></tr>
     <tr><td class="paramname">buffer_a</td><td>Speichertort für Werte des Kanals a </td></tr>
@@ -728,32 +723,6 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00300">300</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a74d8cca6edbb4e24a2f760829b3742a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74d8cca6edbb4e24a2f760829b3742a5">&#9670;&nbsp;</a></span>init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void B15F::init </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initialisiert und testet die Verbindung zum B15 </p><dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00011">11</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>

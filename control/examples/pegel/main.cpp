@@ -11,7 +11,7 @@ int main()
 	B15F& drv = B15F::getInstance();
 	PlottyFile pf;
 	
-	uint16_t ba[1024];
+	uint16_t buf[1024];
 	
 	const uint16_t sample_count = 1024;
 	const uint16_t delta = 1;
@@ -30,12 +30,12 @@ int main()
 	uint8_t curve = 0;
 		
 	
-    drv.analogSequence(0, &ba[0], 0, 1, nullptr, 0, 0, delta, sample_count);
+    drv.analogSequence(0, &buf[0], 0, 1, nullptr, 0, 0, delta, sample_count);
     
     for(uint16_t x = 0; x < sample_count * delta; x += delta)
     {
-		std::cout << x << " - " << ba[x] << std::endl;
-        pf.addDot(Dot(x, ba[x], curve));
+		std::cout << x << " - " << buf[x] << std::endl;
+        pf.addDot(Dot(x, buf[x], curve));
     }
     
 	// speichern und plotty starten

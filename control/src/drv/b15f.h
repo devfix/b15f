@@ -33,12 +33,6 @@ public:
 	 *************************************/
 	
 	/**
-	 * Initialisiert und testet die Verbindung zum B15
-	 * \throws DriverException
-	 */	 
-	void init(void);
-	
-	/**
 	 * Versucht die Verbindung zum B15 wiederherzustellen
 	 * \throws DriverException
 	 */	 
@@ -182,7 +176,6 @@ public:
 	uint16_t analogRead(uint8_t channel);
 	 
 	/**
-	 * \brief Komplexe Analoge Sequenz
 	 * DAC 0 wird auf den Startwert gesetzt und dann schrittweise um Delta inkrementiert.
 	 * Für jeden eingestelleten DAC-Wert werden zwei ADCs (channel_a und channel_b) angesprochen und die Werte übermittelt.
 	 * Die Werte werden in buffer_a für Kanal a und buffer_b für Kanal b gespeichert.
@@ -212,6 +205,12 @@ public:
 	constexpr static uint32_t BAUDRATE = 57600;
 
 private:
+	
+	/**
+	 * Initialisiert und testet die Verbindung zum B15
+	 * \throws DriverException
+	 */	 
+	void init(void);
 
 	USART usart;
 	static B15F* instance;

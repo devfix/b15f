@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['init',['init',['../classB15F.html#a74d8cca6edbb4e24a2f760829b3742a5',1,'B15F']]]
+  ['opendevice',['openDevice',['../classUSART.html#a5f7e2abda2ec4a68a5fdb8ee2f8a940a',1,'USART']]]
 ];
