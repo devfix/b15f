@@ -1,0 +1,2 @@
+#!/bin/sh
+../control/bin/doxygen doxygen-cfg
