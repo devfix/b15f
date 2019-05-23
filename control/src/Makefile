@@ -38,7 +38,7 @@ OBJECTS_CLI   = cli.o ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info
 
 # *** TARGETS ***
 
-all: drv cli doc
+all: drv cli style doc
 
 drv: $(OBJECTS_DRV) $(OUT_TMP_DRV)
 	
@@ -50,8 +50,13 @@ cli: drv $(OBJECTS_CLI)
 	@bash -c 'if [ ! -f "$(OUT_DRV)" ]; then echo -e "\n*** Warning ***: driver not installed\nType \"sudo make install\" to install or update b15fdrv."; fi'
 
 doc:
-	@echo "Creating documentation with doxygen.."
+	@echo "Creating documentation with doxygen..."
 	$(PATH_DOXYGEN) doxygen-cfg
+	@echo problems found: `($(PATH_DOXYGEN) doxygen-cfg 3>&2 2>&1 1>&3) 2>/dev/null | wc -l`
+	
+style:
+	@echo "Formatting source code with astyle..."
+	astyle --recursive --style=allman *.cpp,*.h,*.c,*.hpp
 	
 install:
 	@echo "Installing driver..."
@@ -78,6 +83,7 @@ clean:
 	@echo "Cleaning..."
 	rm -f $(OBJECTS_DRV) $(OBJECTS_CLI) $(OUT_TMP_CLI) $(OUT_TMP_DRV)
 	rm -rf $(OUT_DOC)
+	find . -type f -name '*.orig' -delete
 
 .cpp.o:
 	$(PATH_COMPILER) $(CFLAGS) -c $< -o $@

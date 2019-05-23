@@ -13,8 +13,9 @@ int main()
 	
 	uint16_t buf[1024];
 	
-	const uint16_t sample_count = 1024;
+	const uint16_t count = 1024;
 	const uint16_t delta = 1;
+    const uint16_t start = 0;
 	
 	pf.setUnitX("V");
 	pf.setUnitY("V");
@@ -27,18 +28,17 @@ int main()
 	pf.setParaFirstCurve(0);
 	pf.setParaStepWidth(0);
 	
-	uint8_t curve = 0;
-		
+	const uint8_t curve = 0;		
 	
-    drv.analogSequence(0, &buf[0], 0, 1, nullptr, 0, 0, delta, sample_count);
+    drv.analogSequence(0, &buf[0], 0, 1, nullptr, 0, start, delta, count);
     
-    for(uint16_t x = 0; x < sample_count * delta; x += delta)
+    for(uint16_t x = 0; x < count; x++)
     {
 		std::cout << x << " - " << buf[x] << std::endl;
         pf.addDot(Dot(x, buf[x], curve));
     }
     
 	// speichern und plotty starten
-	pf.writeToFile(PLOT_FILE);	
+	pf.writeToFile(PLOT_FILE);
 	pf.startPlotty(PLOT_FILE);
 }
