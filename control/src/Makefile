@@ -18,7 +18,7 @@ PATH_TMP_LIB = ../lib/
 
 # outputs
 OUT_TMP_DRV    = $(PATH_TMP_LIB)/libb15fdrv.so
-OUT_TMP_CLI    = $(PATH_TMP_BIN)/cli.elf
+OUT_TMP_CLI    = $(PATH_TMP_BIN)/b15fcli
 OUT_TMP_PLOTTY = $(PATH_TMP_BIN)/plotty
 OUT_DRV        = $(PATH_LIB)/libb15fdrv.so
 OUT_CLI        = $(PATH_BIN)/b15fcli
@@ -61,9 +61,9 @@ install:
 	cp $(OUT_TMP_PLOTTY) $(OUT_PLOTTY)
 	cp drv/*.h $(PATH_INCLUDE)
 	
-uninstall: clean
+uninstall:
 	@echo "Uninstalling driver..."
-	rm -rf $(PATH_INCLUDE) $(OUT_DRV) $(OUT_CLI) $(OUT_PLOTTY)
+	rm -rf $(OUT_DRV) $(OUT_CLI) $(OUT_PLOTTY) $(PATH_INCLUDE)
 	
 help:
 	@echo "This Makefile compiles the b15f driver lib and command line interface (CLI):"

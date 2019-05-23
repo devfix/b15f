@@ -8,7 +8,7 @@ Die Projekt-Dokumentation befindet sich unter [github pages](https://devfix.gith
 - [ ] Monitor: Refresh visualisieren, z.B. - / - \ |
 - [ ] Main Menu: Informationen ergänzen
 - [X] Selbsttest bei discard richtig beenden (momentan wird wahrscheinlich WDT angeschmissen, besser global bool für selbsttest-loop)
-- [ ] Lizenz
+- [x] Lizenz
 - [x] gitignore checken
 - [x] readme schreiben
 - [ ] CLI: Farbe?
