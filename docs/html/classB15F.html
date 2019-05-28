@@ -111,6 +111,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae0bd1f69751e2dc3c462db9213fc4627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab82a324426c3063318c6cafb3089ae02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#ab82a324426c3063318c6cafb3089ae02">analogSequence</a> (uint8_t channel_a, uint16_t *buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t *buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)</td></tr>
 <tr class="separator:ab82a324426c3063318c6cafb3089ae02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6f6532bb9550a0632c28b98c157d0a1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#ac6f6532bb9550a0632c28b98c157d0a1">pwmSetFrequency</a> (uint32_t freq)</td></tr>
+<tr class="separator:ac6f6532bb9550a0632c28b98c157d0a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9aad3c0db5d5a8b37219d713e1977ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#af9aad3c0db5d5a8b37219d713e1977ee">pwmSetValue</a> (uint8_t value)</td></tr>
+<tr class="separator:af9aad3c0db5d5a8b37219d713e1977ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -194,7 +198,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00332">332</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00373">373</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -228,7 +232,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00327">327</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00368">368</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -468,7 +472,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00292">292</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00333">333</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -494,7 +498,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00297">297</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00338">338</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -672,7 +676,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00311">311</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00352">352</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -732,7 +736,72 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00302">302</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00343">343</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ac6f6532bb9550a0632c28b98c157d0a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6f6532bb9550a0632c28b98c157d0a1">&#9670;&nbsp;</a></span>pwmSetFrequency()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t B15F::pwmSetFrequency </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>freq</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Setzt die Register so, dass näherungsweise die gewünschte Frequenz erzeugt wird. Ist freq == 0 wird PWM deaktiviert. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">freq</td><td>PWM Frequenz </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Top Wert des PWM Value für die gesetzte Frequenz </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00292">292</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af9aad3c0db5d5a8b37219d713e1977ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9aad3c0db5d5a8b37219d713e1977ee">&#9670;&nbsp;</a></span>pwmSetValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool B15F::pwmSetValue </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Setzt den PWM Wert. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>PWM Wert [0..0xFF] </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00314">314</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -819,7 +888,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00344">344</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00385">385</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -882,7 +951,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 23 2019 15:04:21 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 28 2019 12:31:39 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

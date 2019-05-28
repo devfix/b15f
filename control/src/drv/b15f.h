@@ -194,6 +194,22 @@ public:
      */
     void analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count);
 
+    /**
+     * Setzt die Register so, dass näherungsweise die gewünschte Frequenz erzeugt wird.
+     * Ist freq == 0 wird PWM deaktiviert.
+     * \param freq PWM Frequenz
+     * \return Top Wert des PWM Value für die gesetzte Frequenz
+     * \throws DriverException
+     */
+    uint8_t pwmSetFrequency(uint32_t freq);
+
+    /**
+     * Setzt den PWM Wert.
+     * \param value PWM Wert [0..0xFF]
+     * \throws DriverException
+     */
+    bool pwmSetValue(uint8_t value);
+
     /*************************/
 
 
@@ -233,6 +249,8 @@ private:
     constexpr static uint8_t RQ_AA1  = 11;
     constexpr static uint8_t RQ_ADC  = 12;
     constexpr static uint8_t RQ_ADC_DAC_STROKE  = 13;
+    constexpr static uint8_t RQ_PWM_SET_FREQ    = 14;
+    constexpr static uint8_t RQ_PWM_SET_VALUE   = 15;
 };
 
 #endif // B15F_H

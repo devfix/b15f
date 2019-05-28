@@ -62,6 +62,14 @@ void handleRequest()
 		case RQ_ADC_DAC_STROKE:
 			rqAdcDacStroke();
 			break;
+			
+		case RQ_PWM_SET_FREQ:
+			rqPwmSetFreq();
+			break;
+			
+		case RQ_PWM_SET_VALUE:
+			rqPwmSetValue();
+			break;
 
 		default:
 			break;
@@ -217,11 +225,21 @@ void rqAdcDacStroke()
 	usart.flush();
 }
 
-void rqSetPwm()
+void rqPwmSetFreq()
+{
+	usart.initTX();
+	uint32_t freq = usart.readU32();
+    pwm.setFrequency(freq);
+
+	usart.writeByte(pwm.getTop());
+	usart.flush();
+}
+
+void rqPwmSetValue()
 {
 	usart.initTX();
 	uint16_t value = usart.readByte();
-    OCR0A = value;
+    pwm.setValue(value);
 
 	usart.writeByte(USART::MSG_OK);
 	usart.flush();

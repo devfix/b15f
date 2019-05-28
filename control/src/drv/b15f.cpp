@@ -289,6 +289,47 @@ void B15F::analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset
     delay_us(10);
 }
 
+uint8_t B15F::pwmSetFrequency(uint32_t freq)
+{
+    usart.clearInputBuffer();
+
+    uint8_t rq[] =
+    {
+        RQ_PWM_SET_FREQ,
+        static_cast<uint8_t>((freq >>  0) & 0xFF),
+        static_cast<uint8_t>((freq >>  8) & 0xFF),
+        static_cast<uint8_t>((freq >> 16) & 0xFF),
+        static_cast<uint8_t>((freq >> 24) & 0xFF)
+    };
+
+    int n_sent = usart.write_timeout(&rq[0], 0, sizeof(rq), 1000);
+    if(n_sent != sizeof(rq))
+        abort("Sent failed");
+
+    uint8_t byte = usart.readByte();
+    delay_us(10);
+    return byte;
+}
+
+bool B15F::pwmSetValue(uint8_t value)
+{
+    usart.clearInputBuffer();
+
+    uint8_t rq[] =
+    {
+        RQ_PWM_SET_VALUE,
+        value
+    };
+
+    int n_sent = usart.write_timeout(&rq[0], 0, sizeof(rq), 1000);
+    if(n_sent != sizeof(rq))
+        abort("Sent failed");
+
+    uint8_t aw = usart.readByte();
+    delay_us(10);
+    return aw == MSG_OK;
+}
+
 void B15F::delay_ms(uint16_t ms)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));

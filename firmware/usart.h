@@ -102,6 +102,12 @@ public:
 	 * \return gelesenes Integer
 	 */
 	uint16_t readInt(void) volatile;
+
+	/**
+	 * Liest ein uint32_t aus dem Eingangspuffer
+	 * \return gelesenes uint32_t
+	 */
+	uint32_t readU32(void) volatile;
 	
 	/**********************/
 	

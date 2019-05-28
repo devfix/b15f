@@ -76,10 +76,17 @@ public:
 
     /**
      * Sendet ein Integer über die USART Schnittstelle
-     * \param b das zu sendende Byte
+     * \param b das zu sendende Int
      * \throws USARTException
      */
     void writeInt(uint16_t d);
+
+    /**
+     * Sendet ein uint32_t über die USART Schnittstelle
+     * \param b das zu sendende uint32_t
+     * \throws USARTException
+     */
+    void writeU32(uint32_t d);
 
     /**
      * Empfängt ein Byte über die USART Schnittstelle

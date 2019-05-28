@@ -21,7 +21,8 @@ constexpr static uint8_t RQ_AA0  = 10;
 constexpr static uint8_t RQ_AA1  = 11;
 constexpr static uint8_t RQ_ADC  = 12;
 constexpr static uint8_t RQ_ADC_DAC_STROKE  = 13;
-constexpr static uint8_t RQ_SET_PWM  = 14;
+constexpr static uint8_t RQ_PWM_SET_FREQ    = 14;
+constexpr static uint8_t RQ_PWM_SET_VALUE   = 15;
 
 uint8_t const rq_len[] = {
 	/* RQ_DISC */ 1,
@@ -38,7 +39,8 @@ uint8_t const rq_len[] = {
 	/* RQ_AA1  */ 3,
 	/* RQ_ADC  */ 2,
 	/* RQ_ADC_DAC_STROKE */ 9,
-	/* RQ_SET_PWM */ 2
+	/* RQ_PWM_SET_FREQ */ 5,
+	/* RQ_PWM_SET_VALUE */ 2
 };
 
 /**
@@ -61,6 +63,7 @@ void rqAnalogWrite0(void);
 void rqAnalogWrite1(void);
 void rqAnalogRead(void);
 void rqAdcDacStroke(void);
-void rqSetPwm(void);
+void rqPwmSetFreq(void);
+void rqPwmSetValue(void);
 
 #endif // REQUESTS_H

@@ -28,6 +28,8 @@ int main()
 	
 	usart.init();
 	usart.initRX();
+    
+    pwm.init();
 	
 	// Hauptschleife, Verarbeitung der Requests
 	while(1)

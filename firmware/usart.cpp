@@ -130,3 +130,10 @@ uint16_t USART::readInt() volatile
 	v |= readByte() << 8;
 	return v;
 }
+
+uint32_t USART::readU32() volatile
+{
+	uint32_t v = readInt();
+	v |= ((uint32_t) readInt()) << 16;
+	return v;
+}

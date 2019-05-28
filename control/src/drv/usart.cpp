@@ -85,7 +85,12 @@ void USART::writeInt(uint16_t d)
         throw USARTException("Fehler beim Senden: writeInt()");
 }
 
-
+void USART::writeU32(uint32_t w)
+{
+    int sent = write(file_desc, reinterpret_cast<char*>(&w), 4);
+    if(sent != 4)
+        throw USARTException("Fehler beim Senden: writeU32()");
+}
 
 int USART::read_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t timeout)
 {
