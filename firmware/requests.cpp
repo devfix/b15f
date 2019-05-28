@@ -216,3 +216,13 @@ void rqAdcDacStroke()
 	usart.writeByte(USART::MSG_OK);
 	usart.flush();
 }
+
+void rqSetPwm()
+{
+	usart.initTX();
+	uint16_t value = usart.readByte();
+    OCR0A = value;
+
+	usart.writeByte(USART::MSG_OK);
+	usart.flush();
+}

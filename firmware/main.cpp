@@ -6,6 +6,7 @@
 #include "selftest.h"
 #include "requests.h"
 
+
 int main()
 {
 	// deactivate WDT ENTIRELY!
@@ -27,8 +28,6 @@ int main()
 	
 	usart.init();
 	usart.initRX();
-	
-	
 	
 	// Hauptschleife, Verarbeitung der Requests
 	while(1)
