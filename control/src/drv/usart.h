@@ -54,11 +54,6 @@ public:
      */
     void flushOutputBuffer(void);
 
-    /**
-     * Gibt Anzahl an erfolgreichen und fehlgeschlagenen Block-Übertragungen an
-     */
-    void printStatistics(void);
-
     /*************************************************/
 
 
@@ -100,11 +95,8 @@ public:
      */
     uint16_t readInt(void);
 
-    int transmit(uint8_t *buffer, uint16_t offset, uint8_t len, uint32_t timeout);
-    int receive(uint8_t *buffer, uint16_t offset, uint8_t len, uint32_t timeout);
-
-    void writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len);
-    bool readBlock(uint8_t* buffer, uint16_t offset);
+    int transmit(uint8_t *buffer, uint16_t offset, uint8_t len);
+    int receive(uint8_t *buffer, uint16_t offset, uint8_t len);
 
     /*************************************/
 

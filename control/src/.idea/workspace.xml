@@ -12,221 +12,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d13a1bae-0fd7-48fc-b53c-d6dd1aaf95b9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/src.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeCCompiler.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeCXXCompiler.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeSystem.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdC/CMakeCCompilerId.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cmake.check_cache" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.cxx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/src.dir/DependInfo.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/src.dir/build.make" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/src.dir/cmake_clean.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/src.dir/depend.make" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/src.dir/flags.make" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/src.dir/link.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/src.dir/progress.make" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/src.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../bin/b15fcli" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/drv/b15f.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/drv/b15f.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/drv/usart.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/drv/usart.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/drv/usart.h" beforeDir="false" afterPath="$PROJECT_DIR$/drv/usart.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/annotated.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/b15f_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/b15f_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/bc_s.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/bdwn.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classB15F-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classB15F.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classDot-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classDot.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classDriverException-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classDriverException.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classDriverException.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classPlottyFile-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classPlottyFile.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classTimeoutException-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classTimeoutException.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classTimeoutException.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classUSART-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classUSART.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classUSARTException-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classUSARTException.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classUSARTException.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classView-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classView.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classView.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewInfo-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewInfo.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewInfo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewMonitor-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewMonitor.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewMonitor.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewPromt-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewPromt.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewPromt.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewSelection-members.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewSelection.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewSelection.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/classes.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/cli_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/closed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/dir_1788f8309b1a812dcb800a185471cf6c.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/dir_587c94d866dbb2f408f78cf41f9b2f8d.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/doc.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/dot_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/dot_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/doxygen.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/doxygen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/driverexception_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/dynsections.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/files.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/folderclosed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/folderopen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/functions.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/functions_func.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/functions_vars.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/hierarchy.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/jquery.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/menu.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/menudata.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/nav_f.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/nav_g.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/nav_h.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/open.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/plottyfile_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/plottyfile_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_0.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_1.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_3.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_4.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_4.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_5.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_6.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_6.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_7.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_7.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_8.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_8.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_9.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_a.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_a.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_b.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_b.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_c.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_c.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_d.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_d.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_e.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_e.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_f.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_f.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_0.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_1.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_3.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_4.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_4.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_5.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/classes_5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/close.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_0.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_1.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_3.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_4.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_4.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_5.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_6.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_6.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_7.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_7.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_8.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_8.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_9.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_a.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_a.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_b.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_b.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/mag_sel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/nomatches.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/pages_0.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/pages_0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/search.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/search.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/search_l.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/search_m.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/search_r.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/searchdata.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_0.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_1.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_3.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_4.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_4.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/splitbar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/sync_off.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/sync_on.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/tab_a.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/tab_b.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/tab_h.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/tab_s.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/tabs.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/timeoutexception_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/ui_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/ui_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/usart_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/usart_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/usartexception_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/view_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/view_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/view__info_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/view__info_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/view__monitor_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/view__monitor_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/view__promt_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/view__promt_8h_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/view__selection_8cpp_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docs/html/view__selection_8h_source.html" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -250,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drv/usart.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="106" column="42" selection-start-line="106" selection-start-column="42" selection-end-line="106" selection-end-column="42" />
+            <state relative-caret-position="206">
+              <caret line="98" column="61" selection-start-line="98" selection-start-column="61" selection-end-line="98" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -262,8 +50,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drv/usart.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="167" column="28" selection-start-line="167" selection-start-column="21" selection-end-line="167" selection-end-column="28" />
+            <state relative-caret-position="45">
+              <caret line="87" column="65" selection-start-line="87" selection-start-column="65" selection-end-line="87" selection-end-column="65" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/drv/b15f.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-528">
+              <caret line="362" column="52" selection-start-line="362" selection-start-column="52" selection-end-line="362" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -289,8 +86,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/drv/usart.cpp" />
         <option value="$PROJECT_DIR$/drv/usart.h" />
+        <option value="$PROJECT_DIR$/drv/usart.cpp" />
+        <option value="$PROJECT_DIR$/drv/b15f.cpp" />
       </list>
     </option>
   </component>
@@ -361,24 +159,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1559118962147</updated>
-      <workItem from="1559118964304" duration="410000" />
+      <workItem from="1559118964304" duration="620000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="410000" />
+    <option name="totallyTimeSpent" value="620000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24958494" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24958494" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Messages" weight="0.32937366" />
-      <window_info anchor="bottom" id="Terminal" weight="0.32937366" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.32937366" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="CMake" weight="0.33045357" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -406,17 +204,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/drv/usart.cpp">
+    <entry file="file://$PROJECT_DIR$/drv/usart.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="167" column="28" selection-start-line="167" selection-start-column="21" selection-end-line="167" selection-end-column="28" />
+        <state relative-caret-position="206">
+          <caret line="98" column="61" selection-start-line="98" selection-start-column="61" selection-end-line="98" selection-end-column="61" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/drv/usart.h">
+    <entry file="file://$PROJECT_DIR$/drv/usart.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="106" column="42" selection-start-line="106" selection-start-column="42" selection-end-line="106" selection-end-column="42" />
+        <state relative-caret-position="45">
+          <caret line="87" column="65" selection-start-line="87" selection-start-column="65" selection-end-line="87" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drv/b15f.h">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drv/b15f.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-528">
+          <caret line="362" column="52" selection-start-line="362" selection-start-column="52" selection-end-line="362" selection-end-column="52" />
         </state>
       </provider>
     </entry>
