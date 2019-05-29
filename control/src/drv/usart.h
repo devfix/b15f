@@ -95,8 +95,21 @@ public:
      */
     uint16_t readInt(void);
 
-    int transmit(uint8_t *buffer, uint16_t offset, uint8_t len);
-    int receive(uint8_t *buffer, uint16_t offset, uint8_t len);
+    /**
+     * Sends n bytes from the buffer over USART
+     * \param buffer target buffer
+     * \param offset in buffer (mostly 0)
+     * \throws USARTException
+     */
+    void transmit(uint8_t *buffer, uint16_t offset, uint8_t len);
+
+    /**
+     * Receives n bytes from USART and writes them into the buffer
+     * \param buffer target buffer
+     * \param offset in buffer (mostly 0)
+     * \throws USARTException
+     */
+    void receive(uint8_t *buffer, uint16_t offset, uint8_t len);
 
     /*************************************/
 

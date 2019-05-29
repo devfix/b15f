@@ -229,9 +229,7 @@ uint16_t B15F::analogRead(uint8_t channel)
         channel
     };
 
-    int n_sent = usart.receive(&rq[0], 0, sizeof(rq));
-    if(n_sent != sizeof(rq))
-        abort("Sent failed");
+    usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint16_t adc = usart.readInt();
 
@@ -302,9 +300,7 @@ uint8_t B15F::pwmSetFrequency(uint32_t freq)
         static_cast<uint8_t>((freq >> 24) & 0xFF)
     };
 
-    int n_sent = usart.receive(&rq[0], 0, sizeof(rq));
-    if(n_sent != sizeof(rq))
-        abort("Sent failed");
+    usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t byte = usart.readByte();
     delay_us(10);
@@ -321,9 +317,7 @@ bool B15F::pwmSetValue(uint8_t value)
         value
     };
 
-    int n_sent = usart.receive(&rq[0], 0, sizeof(rq));
-    if(n_sent != sizeof(rq))
-        abort("Sent failed");
+    usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw = usart.readByte();
     delay_us(10);
@@ -341,9 +335,7 @@ bool B15F::setRegister(uint8_t adr, uint8_t val)
         val
     };
 
-    int n_sent = usart.receive(&rq[0], 0, sizeof(rq));
-    if(n_sent != sizeof(rq))
-        abort("Sent failed");
+    usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t byte = usart.readByte();
     delay_us(10);
@@ -360,9 +352,7 @@ uint8_t B15F::getRegister(uint8_t adr)
         adr
     };
 
-    int n_sent = usart.receive(&rq[0], 0, sizeof(rq));
-    if(n_sent != sizeof(rq))
-        abort("Sent failed");
+    usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw = usart.readByte();
     delay_us(10);

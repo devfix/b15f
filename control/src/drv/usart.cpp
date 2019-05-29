@@ -85,43 +85,18 @@ void USART::writeU32(uint32_t w)
         throw USARTException("Fehler beim Senden: writeU32()");
 }
 
-int USART::transmit(uint8_t *buffer, uint16_t offset, uint8_t len)
+void USART::receive(uint8_t *buffer, uint16_t offset, uint8_t len)
 {
-    uint32_t elapsed = 0;
-    int n_read = -1;
-    auto start = std::chrono::steady_clock::now();
-    auto end = start;
-    while(elapsed < timeout)
-    {
-        n_read = read(file_desc, buffer + offset, len);
-        if (n_read == len)
-            return n_read;
-
-        end = std::chrono::steady_clock::now();
-        elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-    }
-
-    return 0;
+    int n = read(file_desc, buffer + offset, len);
+    if(n != len)
+        throw USARTException(std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__));
 }
 
-int USART::receive(uint8_t *buffer, uint16_t offset, uint8_t len)
+void USART::transmit(uint8_t *buffer, uint16_t offset, uint8_t len)
 {
-    uint32_t elapsed = 0;
-    int n_sent = -1;
-    auto start = std::chrono::steady_clock::now();
-    auto end = start;
-    while(elapsed < timeout)
-    {
-        n_sent = write(file_desc, buffer + offset, len);
-        flushOutputBuffer();
-        if (n_sent == len)
-            return n_sent;
-
-        end = std::chrono::steady_clock::now();
-        elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-    }
-
-    return n_sent;
+    int n = write(file_desc, buffer + offset, len);
+    if(n != len)
+        throw USARTException(std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__));
 }
 uint8_t USART::readByte(void)
 {
