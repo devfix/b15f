@@ -100,8 +100,9 @@ public:
      */
     uint16_t readInt(void);
 
-    int read_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t timeout);
-    int write_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t timeout);
+    int transmit(uint8_t *buffer, uint16_t offset, uint8_t len, uint32_t timeout);
+    int receive(uint8_t *buffer, uint16_t offset, uint8_t len, uint32_t timeout);
+
     void writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len);
     bool readBlock(uint8_t* buffer, uint16_t offset);
 

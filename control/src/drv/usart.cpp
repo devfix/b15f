@@ -92,7 +92,7 @@ void USART::writeU32(uint32_t w)
         throw USARTException("Fehler beim Senden: writeU32()");
 }
 
-int USART::read_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t timeout)
+int USART::transmit(uint8_t *buffer, uint16_t offset, uint8_t len, uint32_t timeout)
 {
     uint32_t elapsed = 0;
     int n_read = -1;
@@ -111,7 +111,7 @@ int USART::read_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t 
     return 0;
 }
 
-int USART::write_timeout(uint8_t* buffer, uint16_t offset, uint8_t len, uint32_t timeout)
+int USART::receive(uint8_t *buffer, uint16_t offset, uint8_t len, uint32_t timeout)
 {
     uint32_t elapsed = 0;
     int n_sent = -1;
@@ -165,13 +165,13 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
         // send block
         clearOutputBuffer();
         clearInputBuffer();
-        int n_sent = write_timeout(&block_buffer[0], 0, len + 3, us_per_bit * n_total);
+        int n_sent = receive(&block_buffer[0], 0, len + 3, us_per_bit * n_total);
         if(n_sent != n_total)
             throw std::runtime_error("fatal (send): " + std::to_string(n_sent));
 
         /*for(uint8_t i = 0; i < len + 3; i++)
         {
-        	write_timeout(&block_buffer[i], 0, 1, us_per_bit * n_total);
+        	receive(&block_buffer[i], 0, 1, us_per_bit * n_total);
         	//tcdrain(file_desc);
         	//usleep(1000);
         }*/
@@ -182,7 +182,7 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
         //usleep(us_per_bit * n_total * 10);
 
         // check response
-        int n_read = read_timeout(&aw, 0, 1, us_per_bit * n_blocks_total * 10);
+        int n_read = transmit(&aw, 0, 1, us_per_bit * n_blocks_total * 10);
         for(uint16_t i = 0; i < 255 && n_read != 1; i++)
         {
             writeByte(0x80); // Stoppzeichen für Block
@@ -192,7 +192,7 @@ void USART::writeBlock(uint8_t* buffer, uint16_t offset, uint8_t len)
             }
             std::cout << "WARNING: read error (" << n_read << "), retry #" << (int) i << std::endl;
             usleep(us_per_bit*100);
-            n_read = read_timeout(&aw, 0, 1, us_per_bit);
+            n_read = transmit(&aw, 0, 1, us_per_bit);
         }
 
         if(n_read != 1)
