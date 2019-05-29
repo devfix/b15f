@@ -13,6 +13,7 @@ var searchData=
   ['getquadrant',['getQuadrant',['../classPlottyFile.html#a54e94e80061a27614f2d4d63697d3376',1,'PlottyFile']]],
   ['getrefx',['getRefX',['../classPlottyFile.html#a7dd84b9f0826f3220fc6b5a4f1ce9890',1,'PlottyFile']]],
   ['getrefy',['getRefY',['../classPlottyFile.html#ae6650c61a3b1a610ce716253418bd7f2',1,'PlottyFile']]],
+  ['getregister',['getRegister',['../classB15F.html#a43b477a9e2e5b1b2142958fa5e1a78b3',1,'B15F']]],
   ['gettimeout',['getTimeout',['../classUSART.html#a19cf777956a038878fc2d2b58c3d2b41',1,'USART']]],
   ['getunitpara',['getUnitPara',['../classPlottyFile.html#abcda4139adf8c5ab8a93b13b84ac097c',1,'PlottyFile']]],
   ['getunitx',['getUnitX',['../classPlottyFile.html#af952ac5e2c40896acaf6a86063874fe3',1,'PlottyFile']]],

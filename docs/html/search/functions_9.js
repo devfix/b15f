@@ -11,6 +11,7 @@ var searchData=
   ['setquadrant',['setQuadrant',['../classPlottyFile.html#a1953ee0d9a87b7353c16139584e9c2ae',1,'PlottyFile']]],
   ['setrefx',['setRefX',['../classPlottyFile.html#a80c2c2e97a454566f9c1f2c51e1d7f3e',1,'PlottyFile']]],
   ['setrefy',['setRefY',['../classPlottyFile.html#a3a371228ddcc007e97eebe7cc04dffc2',1,'PlottyFile']]],
+  ['setregister',['setRegister',['../classB15F.html#a2735424cf98bd0e2892b5a9b6eb24582',1,'B15F']]],
   ['settimeout',['setTimeout',['../classUSART.html#ad7fe866cebe920784d2b17602824c7ff',1,'USART']]],
   ['setunitpara',['setUnitPara',['../classPlottyFile.html#abbac84109a1e0958a4ca5c270fac0986',1,'PlottyFile']]],
   ['setunitx',['setUnitX',['../classPlottyFile.html#ab8d35a841ca9c325fca671cf34e03527',1,'PlottyFile']]],

@@ -330,6 +330,46 @@ bool B15F::pwmSetValue(uint8_t value)
     return aw == MSG_OK;
 }
 
+bool B15F::setRegister(uint8_t adr, uint8_t val)
+{
+    usart.clearInputBuffer();
+
+    uint8_t rq[] =
+    {
+        RQ_SET_REG,
+        adr,
+        val
+    };
+
+    int n_sent = usart.write_timeout(&rq[0], 0, sizeof(rq), 1000);
+    if(n_sent != sizeof(rq))
+        abort("Sent failed");
+
+    uint8_t byte = usart.readByte();
+    delay_us(10);
+    return byte == val;
+}
+
+uint8_t B15F::getRegister(uint8_t adr)
+{
+    usart.clearInputBuffer();
+
+    uint8_t rq[] =
+    {
+        RQ_GET_REG,
+        adr
+    };
+
+    int n_sent = usart.write_timeout(&rq[0], 0, sizeof(rq), 1000);
+    if(n_sent != sizeof(rq))
+        abort("Sent failed");
+
+    uint8_t aw = usart.readByte();
+    delay_us(10);
+    return aw;
+}
+
+
 void B15F::delay_ms(uint16_t ms)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));

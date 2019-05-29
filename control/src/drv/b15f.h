@@ -210,6 +210,22 @@ public:
      */
     bool pwmSetValue(uint8_t value);
 
+    /**
+     * Setzt direkt den Wert eines MCU Registers.
+     * *Wichtig:* bei einer falschen Adresse kann das Board 15 ernsthaften Schaden nehmen!
+     * \param adr Speicheradresse des Registers
+     * \param val Neuer Wert für das Register
+     * \throws DriverException
+     */
+    bool setRegister(uint8_t adr, uint8_t val);
+
+    /**
+     * Liefert den Wert eines MCU Registers.
+     * \param adr Speicheradresse des Registers
+     * \throws DriverException
+     */
+    uint8_t getRegister(uint8_t adr);
+
     /*************************/
 
 
@@ -248,9 +264,11 @@ private:
     constexpr static uint8_t RQ_AA0  = 10;
     constexpr static uint8_t RQ_AA1  = 11;
     constexpr static uint8_t RQ_ADC  = 12;
-    constexpr static uint8_t RQ_ADC_DAC_STROKE  = 13;
-    constexpr static uint8_t RQ_PWM_SET_FREQ    = 14;
-    constexpr static uint8_t RQ_PWM_SET_VALUE   = 15;
+    constexpr static uint8_t RQ_ADC_DAC_STROKE = 13;
+    constexpr static uint8_t RQ_PWM_SET_FREQ   = 14;
+    constexpr static uint8_t RQ_PWM_SET_VALUE  = 15;
+    constexpr static uint8_t RQ_SET_REG        = 16;
+    constexpr static uint8_t RQ_GET_REG        = 17;
 };
 
 #endif // B15F_H

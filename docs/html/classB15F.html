@@ -115,6 +115,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac6f6532bb9550a0632c28b98c157d0a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9aad3c0db5d5a8b37219d713e1977ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#af9aad3c0db5d5a8b37219d713e1977ee">pwmSetValue</a> (uint8_t value)</td></tr>
 <tr class="separator:af9aad3c0db5d5a8b37219d713e1977ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2735424cf98bd0e2892b5a9b6eb24582"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#a2735424cf98bd0e2892b5a9b6eb24582">setRegister</a> (uint8_t adr, uint8_t val)</td></tr>
+<tr class="separator:a2735424cf98bd0e2892b5a9b6eb24582"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b477a9e2e5b1b2142958fa5e1a78b3"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#a43b477a9e2e5b1b2142958fa5e1a78b3">getRegister</a> (uint8_t adr)</td></tr>
+<tr class="separator:a43b477a9e2e5b1b2142958fa5e1a78b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -198,7 +202,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00373">373</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00413">413</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -232,7 +236,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00368">368</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00408">408</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -472,7 +476,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00333">333</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00373">373</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -498,7 +502,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00338">338</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00378">378</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -676,7 +680,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00352">352</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00392">392</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -736,7 +740,39 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00343">343</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00383">383</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a43b477a9e2e5b1b2142958fa5e1a78b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43b477a9e2e5b1b2142958fa5e1a78b3">&#9670;&nbsp;</a></span>getRegister()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t B15F::getRegister </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>adr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Liefert den Wert eines MCU Registers. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">adr</td><td>Speicheradresse des Registers </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00353">353</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -888,7 +924,50 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00385">385</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00425">425</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2735424cf98bd0e2892b5a9b6eb24582"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2735424cf98bd0e2892b5a9b6eb24582">&#9670;&nbsp;</a></span>setRegister()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool B15F::setRegister </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>adr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Setzt direkt den Wert eines MCU Registers. <em>Wichtig:</em> bei einer falschen Adresse kann das Board 15 ernsthaften Schaden nehmen! </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">adr</td><td>Speicheradresse des Registers </td></tr>
+    <tr><td class="paramname">val</td><td>Neuer Wert für das Register </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00333">333</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
@@ -951,7 +1030,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2019 12:31:39 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2019 09:52:09 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
