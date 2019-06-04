@@ -23,6 +23,8 @@ public:
      * Methoden für die Verwaltung der Schnittstelle *
      *************************************************/
 
+    ~USART(void);
+
     /**
      * Öffnet die USART Schnittstelle
      * \param device Linux-Gerätepfad
