@@ -1,17 +1,12 @@
 #ifndef USART_H
 #define USART_H
 
-#include <iostream>
 #include <cstdint>
-#include <chrono>
-#include <unistd.h>
-#include <cstring>
 #include <fcntl.h>
-#include <sys/ioctl.h>
+#include <unistd.h>
 #include <termios.h>
-#include <cmath>
+#include <sys/ioctl.h>
 #include "usartexception.h"
-#include "timeoutexception.h"
 
 /*! C++ Wrapper class for termios usart library. */
 
@@ -23,7 +18,15 @@ public:
      * Methoden für die Verwaltung der Schnittstelle *
      *************************************************/
 
-    ~USART(void);
+    /**
+     * Standard-Konstruktor
+     */
+    explicit USART() = default;
+
+    /**
+     * Destructor, ruft automatisch closeDevice() auf
+     */
+    virtual ~USART(void);
 
     /**
      * Öffnet die USART Schnittstelle
@@ -65,42 +68,10 @@ public:
      *************************************/
 
     /**
-     * Sendet ein Byte über die USART Schnittstelle
-     * \param b das zu sendende Byte
-     * \throws USARTException
-     */
-    void writeByte(uint8_t b);
-
-    /**
-     * Sendet ein Integer über die USART Schnittstelle
-     * \param b das zu sendende Int
-     * \throws USARTException
-     */
-    void writeInt(uint16_t d);
-
-    /**
-     * Sendet ein uint32_t über die USART Schnittstelle
-     * \param b das zu sendende uint32_t
-     * \throws USARTException
-     */
-    void writeU32(uint32_t d);
-
-    /**
-     * Empfängt ein Byte über die USART Schnittstelle
-     * \throws USARTException
-     */
-    uint8_t readByte(void);
-
-    /**
-     * Empfängt ein Integer über die USART Schnittstelle
-     * \throws USARTException
-     */
-    uint16_t readInt(void);
-
-    /**
      * Sends n bytes from the buffer over USART
      * \param buffer target buffer
      * \param offset in buffer (mostly 0)
+     * \param len count of bytes to send
      * \throws USARTException
      */
     void transmit(uint8_t *buffer, uint16_t offset, uint8_t len);
@@ -109,6 +80,7 @@ public:
      * Receives n bytes from USART and writes them into the buffer
      * \param buffer target buffer
      * \param offset in buffer (mostly 0)
+     * \param len count of bytes to receive
      * \throws USARTException
      */
     void receive(uint8_t *buffer, uint16_t offset, uint8_t len);
@@ -135,33 +107,23 @@ public:
 
     /**
      * Setzt die Baudrate
-     * <b>Änderungen werden erst nach einem open() wirksam</b>
+     * <b>Änderungen werden erst nach openDevice() wirksam</b>
      */
     void setBaudrate(uint32_t baudrate);
 
     /**
      * Setzt den Timeout (in Dezisekunden)
-     * <b>Änderungen werden erst nach einem open() wirksam</b>
+     * <b>Änderungen werden erst nach openDevice() wirksam</b>
      */
     void setTimeout(uint8_t timeout);
 
     /***************************************/
 
-    constexpr static uint8_t CRC7_POLY = 0x91;
-    constexpr static uint8_t MAX_BLOCK_SIZE = 64;
-    constexpr static uint8_t BLOCK_END = 0x80;
 private:
 
-    int file_desc = -1; // Linux Dateideskriptor
-    uint32_t baudrate = 9600; // Standard-Baudrate, sollte mit setBaudrate() überschrieben werden!
-    int TEST = 0;
-    uint8_t timeout = 10; // in Dezisekunden
-    uint8_t block_buffer[MAX_BLOCK_SIZE + 3];
-
-    // debug statistics
-    uint32_t n_blocks_total = 0;
-    uint32_t n_blocks_failed = 0;
+    int file_desc = -1; //!< Linux Dateideskriptor
+    uint32_t baudrate = 9600; //!< Standard-Baudrate, sollte mit setBaudrate() überschrieben werden!
+    uint8_t timeout = 10; //!< in Dezisekunden
 };
-
 
 #endif // USART_H
