@@ -38,6 +38,8 @@ OBJECTS_CLI   = cli.o ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info
 
 # *** TARGETS ***
 
+.PHONY: $(OUT_TMP_DRV) clean help
+
 all: drv cli style doc
 
 drv: $(OBJECTS_DRV) $(OUT_TMP_DRV)
@@ -78,7 +80,7 @@ help:
 	@echo "make install . to install or update the lib and headers on this machine"
 	@echo "make uninstall to remove the lib and headers on this machine"
 	@echo "make clean ... to delete objects and executables"
-	
+
 clean:
 	@echo "Cleaning..."
 	rm -f $(OBJECTS_DRV) $(OBJECTS_CLI) $(OUT_TMP_CLI) $(OUT_TMP_DRV)
