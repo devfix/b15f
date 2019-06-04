@@ -1,14 +1,12 @@
 #include "usart.h"
 
-USART::~USART()
-{
+USART::~USART() {
     closeDevice();
 }
 
-void USART::openDevice(std::string device)
-{
+void USART::openDevice(std::string device) {
     // Benutze blockierenden Modus
-    file_desc = open(device.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+    file_desc = open(device.c_str(), O_RDWR | O_NOCTTY);// | O_NDELAY
     if (file_desc <= 0)
         throw USARTException("Fehler beim Öffnen des Gerätes");
 
@@ -21,7 +19,7 @@ void USART::openDevice(std::string device)
     options.c_iflag = IGNPAR;
     options.c_oflag = 0;
     options.c_lflag = 0;
-    options.c_cc[VMIN] = 0; // #bytes read returns at least
+    options.c_cc[VMIN] = 1; // #bytes read returns at least
     options.c_cc[VTIME] = timeout;
     code = cfsetspeed(&options, baudrate);
     if (code)
@@ -31,14 +29,16 @@ void USART::openDevice(std::string device)
     if (code)
         throw USARTException("Fehler beim Setzen der Geräteparameter");
 
+    code = fcntl(file_desc, F_SETFL, 0); // blockierender Modus
+    if (code)
+        throw USARTException("Fehler beim Aktivieren des blockierenden Modus'");
+
     clearOutputBuffer();
     clearInputBuffer();
 }
 
-void USART::closeDevice()
-{
-    if (file_desc > 0)
-    {
+void USART::closeDevice() {
+    if (file_desc > 0) {
         int code = close(file_desc);
         if (code)
             throw USARTException("Fehler beim Schließen des Gerätes");
@@ -46,59 +46,52 @@ void USART::closeDevice()
     }
 }
 
-void USART::clearInputBuffer()
-{
+void USART::clearInputBuffer() {
     int code = tcflush(file_desc, TCIFLUSH);
     if (code)
         throw USARTException("Fehler beim Leeren des Eingangspuffers");
 }
 
-void USART::clearOutputBuffer()
-{
+void USART::clearOutputBuffer() {
     int code = tcflush(file_desc, TCOFLUSH);
     if (code)
         throw USARTException("Fehler beim Leeren des Ausgangspuffers");
 }
 
-void USART::flushOutputBuffer()
-{
+void USART::flushOutputBuffer() {
     int code = tcdrain(file_desc);
     if (code)
         throw USARTException("Fehler beim Versenden des Ausgangspuffers");
 }
 
-void USART::receive(uint8_t *buffer, uint16_t offset, uint8_t len)
-{
-    int n = read(file_desc, buffer + offset, len);
-    if (n != len && false)
+void USART::receive(uint8_t *buffer, uint16_t offset, uint8_t len) {
+    int code = read(file_desc, buffer + offset, len);
+    if (code != len)
         throw USARTException(
-            std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__));
+                std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__) +
+                ", " + strerror(code) + " (code " + std::to_string(code) + " / " + std::to_string(len) + ")");
 }
 
-void USART::transmit(uint8_t *buffer, uint16_t offset, uint8_t len)
-{
-    int n = write(file_desc, buffer + offset, len);
-    if (n != len)
+void USART::transmit(uint8_t *buffer, uint16_t offset, uint8_t len) {
+    int code = write(file_desc, buffer + offset, len);
+    if (code != len)
         throw USARTException(
-            std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__));
+                std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__) +
+                ", " + strerror(code) + " (code " + std::to_string(code) + " / " + std::to_string(len) + ")");
 }
 
-uint32_t USART::getBaudrate()
-{
+uint32_t USART::getBaudrate() {
     return baudrate;
 }
 
-uint8_t USART::getTimeout()
-{
+uint8_t USART::getTimeout() {
     return timeout;
 }
 
-void USART::setBaudrate(uint32_t baudrate)
-{
+void USART::setBaudrate(uint32_t baudrate) {
     this->baudrate = baudrate;
 }
 
-void USART::setTimeout(uint8_t timeout)
-{
+void USART::setTimeout(uint8_t timeout) {
     this->timeout = timeout;
 }
