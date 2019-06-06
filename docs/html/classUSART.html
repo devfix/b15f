@@ -92,6 +92,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a41b19dd58f307015b73e154048cd74ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fdc238203852f00bd750127602b2a6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUSART.html#a0fdc238203852f00bd750127602b2a6a">receive</a> (uint8_t *buffer, uint16_t offset, uint8_t len)</td></tr>
 <tr class="separator:a0fdc238203852f00bd750127602b2a6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a038d00c0b3d8c0c13c3e7eae5dad7813"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUSART.html#a038d00c0b3d8c0c13c3e7eae5dad7813">drop</a> (uint8_t len)</td></tr>
+<tr class="separator:a038d00c0b3d8c0c13c3e7eae5dad7813"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4918672d8069df205378a528b1892db3"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUSART.html#a4918672d8069df205378a528b1892db3">getBaudrate</a> (void)</td></tr>
 <tr class="separator:a4918672d8069df205378a528b1892db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19cf777956a038878fc2d2b58c3d2b41"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUSART.html#a19cf777956a038878fc2d2b58c3d2b41">getTimeout</a> (void)</td></tr>
@@ -104,7 +106,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>C++ Wrapper class for termios usart library. </p>
 
-<p class="definition">Definition at line <a class="el" href="usart_8h_source.html#l00015">15</a> of file <a class="el" href="usart_8h_source.html">usart.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="usart_8h_source.html#l00016">16</a> of file <a class="el" href="usart_8h_source.html">usart.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5daed20dc595c43d87c4c28bb08a7449"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5daed20dc595c43d87c4c28bb08a7449">&#9670;&nbsp;</a></span>USART()</h2>
@@ -240,6 +242,38 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a038d00c0b3d8c0c13c3e7eae5dad7813"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a038d00c0b3d8c0c13c3e7eae5dad7813">&#9670;&nbsp;</a></span>drop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void USART::drop </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>len</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Receives n bytes but discards them </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">len</td><td>count of bytes to receive </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classUSARTException.html">USARTException</a></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00114">114</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
+
+</div>
+</div>
 <a id="adb6ff4d1cf1af79ca255c5a81780200d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb6ff4d1cf1af79ca255c5a81780200d">&#9670;&nbsp;</a></span>flushOutputBuffer()</h2>
 
@@ -283,7 +317,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Liefert die eingestellte Baudrate <b>Änderungen werden erst nach einem open() wirksam</b> </p>
 
-<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00104">104</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00121">121</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
 
 </div>
 </div>
@@ -304,7 +338,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Liefert den eingestellten Timeout (in Dezisekunden) <b>Änderungen werden erst nach einem open() wirksam</b> </p>
 
-<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00109">109</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00126">126</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
 
 </div>
 </div>
@@ -386,7 +420,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00075">75</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00084">84</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
 
 </div>
 </div>
@@ -407,7 +441,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Setzt die Baudrate <b>Änderungen werden erst nach <a class="el" href="classUSART.html#a5f7e2abda2ec4a68a5fdb8ee2f8a940a">openDevice()</a> wirksam</b> </p>
 
-<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00114">114</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00131">131</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
 
 </div>
 </div>
@@ -428,7 +462,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Setzt den Timeout (in Dezisekunden) <b>Änderungen werden erst nach <a class="el" href="classUSART.html#a5f7e2abda2ec4a68a5fdb8ee2f8a940a">openDevice()</a> wirksam</b> </p>
 
-<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00119">119</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00136">136</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
 
 </div>
 </div>
@@ -478,7 +512,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00095">95</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="usart_8cpp_source.html#l00075">75</a> of file <a class="el" href="usart_8cpp_source.html">usart.cpp</a>.</p>
 
 </div>
 </div>
@@ -489,7 +523,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 6 2019 11:46:51 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 6 2019 12:08:38 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

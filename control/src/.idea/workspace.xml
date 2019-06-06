@@ -12,12 +12,86 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d13a1bae-0fd7-48fc-b53c-d6dd1aaf95b9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/cli.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/cli.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bin/b15fcli" beforeDir="false" afterPath="$PROJECT_DIR$/../bin/b15fcli" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/drv/b15f.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/drv/b15f.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/drv/timeoutexception.h" beforeDir="false" afterPath="$PROJECT_DIR$/drv/timeoutexception.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/drv/usart.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/drv/usart.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/drv/usart.cpp.orig" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/drv/usart.h" beforeDir="false" afterPath="$PROJECT_DIR$/drv/usart.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/CMakeCCompilerId_8c_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/CMakeCCompilerId_8c_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/CMakeCXXCompilerId_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/CMakeCXXCompilerId_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/annotated.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/annotated.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/b15f_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/b15f_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/b15f_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/b15f_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/backup_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/backup_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classB15F-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classB15F-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classB15F.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classB15F.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classDot-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classDot-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classDot.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classDot.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classDriverException-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classDriverException-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classDriverException.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classDriverException.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classPlottyFile-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classPlottyFile-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classPlottyFile.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classPlottyFile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classTimeoutException-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classTimeoutException-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classTimeoutException.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classTimeoutException.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classUSART-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classUSART-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classUSART.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classUSART.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classUSARTException-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classUSARTException-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classUSARTException.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classUSARTException.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classView-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classView-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classView.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewInfo-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classViewInfo-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classViewInfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewMonitor-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classViewMonitor-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewMonitor.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classViewMonitor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewPromt-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classViewPromt-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewPromt.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classViewPromt.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewSelection-members.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classViewSelection-members.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classViewSelection.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classViewSelection.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/classes.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/classes.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/cli_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/cli_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/dir_1788f8309b1a812dcb800a185471cf6c.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/dir_1788f8309b1a812dcb800a185471cf6c.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/dir_19f2f1b99f19c12fa55b8d312cf373ed.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/dir_19f2f1b99f19c12fa55b8d312cf373ed.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/dir_3d3c8ff3ebf9841b39117ac899f41936.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/dir_3d3c8ff3ebf9841b39117ac899f41936.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/dir_587c94d866dbb2f408f78cf41f9b2f8d.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/dir_587c94d866dbb2f408f78cf41f9b2f8d.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/dir_90e361ec3542f3dd076ea3ad19547437.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/dir_90e361ec3542f3dd076ea3ad19547437.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/dir_95e29a8b8ee7c54052c171a88bb95675.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/dir_95e29a8b8ee7c54052c171a88bb95675.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/dir_f89abcb304c928c7d889aa5625570de5.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/dir_f89abcb304c928c7d889aa5625570de5.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/dot_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/dot_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/dot_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/dot_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/driverexception_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/driverexception_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/feature__tests_8c_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/feature__tests_8c_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/feature__tests_8cxx_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/feature__tests_8cxx_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/files.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/files.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/functions.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/functions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/functions_func.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/functions_func.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/functions_vars.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/functions_vars.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/hierarchy.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/hierarchy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/plottyfile_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/plottyfile_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/plottyfile_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/plottyfile_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_10.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/search/all_10.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_7.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/search/all_7.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_c.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/search/all_c.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/search/all_f.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/search/all_f.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_a.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/search/functions_a.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_c.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/search/functions_c.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/search/functions_d.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/search/functions_d.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/search/variables_1.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/search/variables_1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/timeoutexception_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/timeoutexception_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/ui_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/ui_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/ui_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/ui_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/usart_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/usart_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/usart_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/usart_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/usartexception_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/usartexception_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/view_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/view_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/view_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/view_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/view__info_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/view__info_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/view__info_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/view__info_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/view__monitor_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/view__monitor_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/view__monitor_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/view__monitor_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/view__promt_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/view__promt_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/view__promt_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/view__promt_8h_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/view__selection_8cpp_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/view__selection_8cpp_source.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docs/html/view__selection_8h_source.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../docs/html/view__selection_8h_source.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,10 +117,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drv/usart.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="126" column="44" selection-start-line="126" selection-start-column="44" selection-end-line="126" selection-end-column="44" />
+            <state relative-caret-position="291">
+              <caret line="83" column="34" lean-forward="true" selection-start-line="83" selection-start-column="34" selection-end-line="83" selection-end-column="34" />
               <folding>
                 <element signature="e#33#51#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drv/usart.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="366">
+              <caret line="115" column="49" selection-start-line="115" selection-start-column="49" selection-end-line="115" selection-end-column="49" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -88,26 +174,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drv/b15f.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="34" column="41" selection-start-line="34" selection-start-column="41" selection-end-line="34" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drv/b15f.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="154" selection-start-line="154" selection-end-line="154" />
+            <state relative-caret-position="352">
+              <caret line="266" column="46" selection-start-line="266" selection-start-column="29" selection-end-line="266" selection-end-column="46" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/drv/b15f.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="347">
+              <caret line="324" column="11" selection-start-line="324" selection-start-column="11" selection-end-line="324" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cli.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="2" selection-start-column="2" selection-end-column="2" />
+            <state relative-caret-position="135">
+              <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -118,8 +204,8 @@
     <findStrings>
       <find>read</find>
       <find>read_timeout</find>
-      <find>read_timeout</find>
       <find>write_timeout</find>
+      <find>RQ_ADC_DAC_STROKE</find>
     </findStrings>
     <replaceStrings>
       <replace>::read_timeout</replace>
@@ -137,10 +223,10 @@
         <option value="$PROJECT_DIR$/drv/usartexception.h" />
         <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/drv/timeoutexception.h" />
+        <option value="$PROJECT_DIR$/cli.cpp" />
         <option value="$PROJECT_DIR$/drv/usart.h" />
         <option value="$PROJECT_DIR$/drv/usart.cpp" />
         <option value="$PROJECT_DIR$/drv/b15f.cpp" />
-        <option value="$PROJECT_DIR$/cli.cpp" />
       </list>
     </option>
   </component>
@@ -224,18 +310,18 @@
       <updated>1559118962147</updated>
       <workItem from="1559118964304" duration="1913000" />
       <workItem from="1559633658436" duration="5344000" />
-      <workItem from="1559813060146" duration="2140000" />
+      <workItem from="1559813060146" duration="2642000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9397000" />
+    <option name="totallyTimeSpent" value="9899000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.255119" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.255119" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -247,7 +333,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.32937366" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4997233" visible="true" weight="0.32181427" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4997233" visible="true" weight="0.32181427" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5002767" side_tool="true" weight="0.32181427" />
       <window_info anchor="bottom" id="Version Control" order="11" />
       <window_info anchor="bottom" id="CMake" order="12" weight="0.33045357" />
@@ -303,44 +389,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/drv/b15f.h">
+    <entry file="file://$PROJECT_DIR$/cli.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="34" column="41" selection-start-line="34" selection-start-column="41" selection-end-line="34" selection-end-column="41" />
+        <state relative-caret-position="135">
+          <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/drv/usart.cpp">
+    <entry file="file://$PROJECT_DIR$/drv/b15f.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="93" column="45" selection-start-line="93" selection-start-column="45" selection-end-line="93" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="352">
+          <caret line="266" column="46" selection-start-line="266" selection-start-column="29" selection-end-line="266" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/drv/usart.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="126" column="44" selection-start-line="126" selection-start-column="44" selection-end-line="126" selection-end-column="44" />
+        <state relative-caret-position="291">
+          <caret line="83" column="34" lean-forward="true" selection-start-line="83" selection-start-column="34" selection-end-line="83" selection-end-column="34" />
           <folding>
             <element signature="e#33#51#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/drv/b15f.cpp">
+    <entry file="file://$PROJECT_DIR$/drv/usart.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="154" selection-start-line="154" selection-end-line="154" />
+        <state relative-caret-position="366">
+          <caret line="115" column="49" selection-start-line="115" selection-start-column="49" selection-end-line="115" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cli.cpp">
+    <entry file="file://$PROJECT_DIR$/drv/b15f.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="2" selection-start-column="2" selection-end-column="2" />
+        <state relative-caret-position="347">
+          <caret line="324" column="11" selection-start-line="324" selection-start-column="11" selection-end-line="324" selection-end-column="11" />
         </state>
       </provider>
     </entry>

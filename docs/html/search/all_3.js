@@ -8,5 +8,6 @@ var searchData=
   ['digitalwrite1',['digitalWrite1',['../classB15F.html#aa225e7fc813849634063e071ef25db1b',1,'B15F']]],
   ['discard',['discard',['../classB15F.html#ae4740cd473f40a1a4121dfa66b25e1d5',1,'B15F']]],
   ['dot',['Dot',['../classDot.html',1,'Dot'],['../classDot.html#ad975f119c0627a928790b3cd5ca6da05',1,'Dot::Dot()']]],
-  ['driverexception',['DriverException',['../classDriverException.html',1,'']]]
+  ['driverexception',['DriverException',['../classDriverException.html',1,'']]],
+  ['drop',['drop',['../classUSART.html#a038d00c0b3d8c0c13c3e7eae5dad7813',1,'USART']]]
 ];

@@ -77,8 +77,8 @@ void USART::transmit(uint8_t *buffer, uint16_t offset, uint8_t len)
     int code = write(file_desc, buffer + offset, len);
     if (code != len)
         throw USARTException(
-            std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__) +
-            ", " + strerror(code) + " (code " + std::to_string(code) + " / " + std::to_string(len) + ")");
+                std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__) +
+                ", " + strerror(code) + " (code " + std::to_string(code) + " / " + std::to_string(len) + ")");
 }
 
 void USART::receive(uint8_t *buffer, uint16_t offset, uint8_t len)

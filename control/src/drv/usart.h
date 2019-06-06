@@ -88,6 +88,13 @@ public:
      */
     void receive(uint8_t *buffer, uint16_t offset, uint8_t len);
 
+    /**
+     * Receives n bytes but discards them
+     * \param len count of bytes to receive
+     * \throws USARTException
+     */
+    void drop(uint8_t len);
+
     /*************************************/
 
 

@@ -3,17 +3,15 @@
 B15F *B15F::instance = nullptr;
 errorhandler_t B15F::errorhandler = nullptr;
 
-B15F::B15F()
-{
+B15F::B15F() {
     init();
 }
 
-void B15F::init()
-{
+void B15F::init() {
 
     std::string device = exec("bash -c 'ls /dev/ttyUSB*'");
     while (device.find(' ') != std::string::npos || device.find('\n') != std::string::npos ||
-            device.find('\t') != std::string::npos)
+           device.find('\t') != std::string::npos)
         device.pop_back();
 
     if (device.length() == 0)
@@ -30,8 +28,7 @@ void B15F::init()
 
     std::cout << PRE << "Teste Verbindung... " << std::flush;
     uint8_t tries = 3;
-    while (tries--)
-    {
+    while (tries--) {
         // verwerfe Daten, die µC noch hat
         //discard();
 
@@ -54,11 +51,9 @@ void B15F::init()
               << std::endl;
 }
 
-void B15F::reconnect()
-{
+void B15F::reconnect() {
     uint8_t tries = RECONNECT_TRIES;
-    while (tries--)
-    {
+    while (tries--) {
         delay_ms(RECONNECT_TIMEOUT);
         discard();
 
@@ -69,40 +64,35 @@ void B15F::reconnect()
     abort("Verbindung kann nicht repariert werden");
 }
 
-void B15F::discard(void)
-{
-    try
-    {
+void B15F::discard(void) {
+    try {
         uint8_t rq[] =
-        {
-            RQ_DISC
-        };
+                {
+                        RQ_DISC
+                };
 
         usart.clearOutputBuffer();
-        for (uint8_t i = 0; i < 16; i++)
-        {
+        for (uint8_t i = 0; i < 16; i++) {
             usart.transmit(&rq[0], 0, sizeof(rq)); // sende discard Befehl (verwerfe input)
             delay_ms(4);
         }
         usart.clearInputBuffer();
     }
-    catch (std::exception &ex)
-    {
+    catch (std::exception &ex) {
         abort(ex);
     }
 }
 
-bool B15F::testConnection()
-{
+bool B15F::testConnection() {
     // erzeuge zufälliges Byte
     srand(time(NULL));
     uint8_t dummy = rand() % 256;
 
     uint8_t rq[] =
-    {
-        RQ_TEST,
-        dummy
-    };
+            {
+                    RQ_TEST,
+                    dummy
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw[2];
@@ -111,17 +101,16 @@ bool B15F::testConnection()
     return aw[0] == MSG_OK && aw[1] == dummy;
 }
 
-bool B15F::testIntConv()
-{
+bool B15F::testIntConv() {
     srand(time(NULL));
     uint16_t dummy = rand() % (0xFFFF / 3);
 
     uint8_t rq[] =
-    {
-        RQ_INT,
-        static_cast<uint8_t >(dummy & 0xFF),
-        static_cast<uint8_t >(dummy >> 8)
-    };
+            {
+                    RQ_INT,
+                    static_cast<uint8_t >(dummy & 0xFF),
+                    static_cast<uint8_t >(dummy >> 8)
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint16_t aw;
@@ -131,20 +120,18 @@ bool B15F::testIntConv()
 }
 
 
-std::vector<std::string> B15F::getBoardInfo(void)
-{
+std::vector<std::string> B15F::getBoardInfo(void) {
     std::vector<std::string> info;
 
     uint8_t rq[] =
-    {
-        RQ_INFO
-    };
+            {
+                    RQ_INFO
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t n;
     usart.receive(&n, 0, sizeof(n));
-    while (n--)
-    {
+    while (n--) {
         uint8_t len;
         usart.receive(&len, 0, sizeof(len));
 
@@ -163,12 +150,11 @@ std::vector<std::string> B15F::getBoardInfo(void)
     return info;
 }
 
-bool B15F::activateSelfTestMode()
-{
+bool B15F::activateSelfTestMode() {
     uint8_t rq[] =
-    {
-        RQ_ST
-    };
+            {
+                    RQ_ST
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -176,13 +162,12 @@ bool B15F::activateSelfTestMode()
     return aw == MSG_OK;
 }
 
-bool B15F::digitalWrite0(uint8_t port)
-{
+bool B15F::digitalWrite0(uint8_t port) {
     uint8_t rq[] =
-    {
-        RQ_BA0,
-        port
-    };
+            {
+                    RQ_BA0,
+                    port
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -190,13 +175,12 @@ bool B15F::digitalWrite0(uint8_t port)
     return aw == MSG_OK;
 }
 
-bool B15F::digitalWrite1(uint8_t port)
-{
+bool B15F::digitalWrite1(uint8_t port) {
     uint8_t rq[] =
-    {
-        RQ_BA1,
-        port
-    };
+            {
+                    RQ_BA1,
+                    port
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -204,13 +188,12 @@ bool B15F::digitalWrite1(uint8_t port)
     return aw == MSG_OK;
 }
 
-uint8_t B15F::digitalRead0()
-{
+uint8_t B15F::digitalRead0() {
     usart.clearInputBuffer();
     uint8_t rq[] =
-    {
-        RQ_BE0
-    };
+            {
+                    RQ_BE0
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -218,13 +201,12 @@ uint8_t B15F::digitalRead0()
     return aw;
 }
 
-uint8_t B15F::digitalRead1()
-{
+uint8_t B15F::digitalRead1() {
     usart.clearInputBuffer();
     uint8_t rq[] =
-    {
-        RQ_BE1
-    };
+            {
+                    RQ_BE1
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -232,13 +214,12 @@ uint8_t B15F::digitalRead1()
     return aw;
 }
 
-uint8_t B15F::readDipSwitch()
-{
+uint8_t B15F::readDipSwitch() {
     usart.clearInputBuffer();
     uint8_t rq[] =
-    {
-        RQ_DSW
-    };
+            {
+                    RQ_DSW
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -246,14 +227,13 @@ uint8_t B15F::readDipSwitch()
     return aw;
 }
 
-bool B15F::analogWrite0(uint16_t value)
-{
+bool B15F::analogWrite0(uint16_t value) {
     uint8_t rq[] =
-    {
-        RQ_AA0,
-        static_cast<uint8_t >(value & 0xFF),
-        static_cast<uint8_t >(value >> 8)
-    };
+            {
+                    RQ_AA0,
+                    static_cast<uint8_t >(value & 0xFF),
+                    static_cast<uint8_t >(value >> 8)
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -261,14 +241,13 @@ bool B15F::analogWrite0(uint16_t value)
     return aw == MSG_OK;
 }
 
-bool B15F::analogWrite1(uint16_t value)
-{
+bool B15F::analogWrite1(uint16_t value) {
     uint8_t rq[] =
-    {
-        RQ_AA1,
-        static_cast<uint8_t >(value & 0xFF),
-        static_cast<uint8_t >(value >> 8)
-    };
+            {
+                    RQ_AA1,
+                    static_cast<uint8_t >(value & 0xFF),
+                    static_cast<uint8_t >(value >> 8)
+            };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -276,17 +255,16 @@ bool B15F::analogWrite1(uint16_t value)
     return aw == MSG_OK;
 }
 
-uint16_t B15F::analogRead(uint8_t channel)
-{
+uint16_t B15F::analogRead(uint8_t channel) {
     usart.clearInputBuffer();
     if (channel > 7)
         abort("Bad ADC channel: " + std::to_string(channel));
 
     uint8_t rq[] =
-    {
-        RQ_ADC,
-        channel
-    };
+            {
+                    RQ_ADC,
+                    channel
+            };
 
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -300,8 +278,7 @@ uint16_t B15F::analogRead(uint8_t channel)
 
 void
 B15F::analogSequence(uint8_t channel_a, uint16_t *buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t *buffer_b,
-                     uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
-{
+                     uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count) {
     // prepare pointers
     buffer_a += offset_a;
     buffer_b += offset_b;
@@ -309,43 +286,36 @@ B15F::analogSequence(uint8_t channel_a, uint16_t *buffer_a, uint32_t offset_a, u
 
     usart.clearInputBuffer();
     uint8_t rq[] =
-    {
-        RQ_ADC_DAC_STROKE,
-        channel_a,
-        channel_b,
-        static_cast<uint8_t >(start & 0xFF),
-        static_cast<uint8_t >(start >> 8),
-        static_cast<uint8_t >(delta & 0xFF),
-        static_cast<uint8_t >(delta >> 8),
-        static_cast<uint8_t >(count & 0xFF),
-        static_cast<uint8_t >(count >> 8)
-    };
+            {
+                    RQ_ADC_DAC_STROKE,
+                    channel_a,
+                    channel_b,
+                    static_cast<uint8_t >(start & 0xFF),
+                    static_cast<uint8_t >(start >> 8),
+                    static_cast<uint8_t >(delta & 0xFF),
+                    static_cast<uint8_t >(delta >> 8),
+                    static_cast<uint8_t >(count & 0xFF),
+                    static_cast<uint8_t >(count >> 8)
+            };
 
     usart.transmit(&rq[0], 0, sizeof(rq));
 
-    for (uint16_t i = 0; i < count; i++)
-    {
-        if (buffer_a)
-        {
+    for (uint16_t i = 0; i < count; i++) {
+        if (buffer_a) {
             usart.receive(reinterpret_cast<uint8_t *>(&buffer_a[i]), 0, 2);
 
             if (buffer_a[i] > 1023) // check for broken usart connection
                 abort("Bad ADC data detected (2)");
-        }
-        else
-        {
+        } else {
             usart.drop(2);
         }
 
-        if (buffer_b)
-        {
+        if (buffer_b) {
             usart.receive(reinterpret_cast<uint8_t *>(&buffer_b[i]), 0, 2);
 
             if (buffer_b[i] > 1023) // check for broken usart connection
                 abort("Bad ADC data detected (3)");
-        }
-        else
-        {
+        } else {
             usart.drop(2);
         }
     }
@@ -356,18 +326,17 @@ B15F::analogSequence(uint8_t channel_a, uint16_t *buffer_a, uint32_t offset_a, u
         abort("Sequenz unterbrochen");
 }
 
-uint8_t B15F::pwmSetFrequency(uint32_t freq)
-{
+uint8_t B15F::pwmSetFrequency(uint32_t freq) {
     usart.clearInputBuffer();
 
     uint8_t rq[] =
-    {
-        RQ_PWM_SET_FREQ,
-        static_cast<uint8_t>((freq >> 0) & 0xFF),
-        static_cast<uint8_t>((freq >> 8) & 0xFF),
-        static_cast<uint8_t>((freq >> 16) & 0xFF),
-        static_cast<uint8_t>((freq >> 24) & 0xFF)
-    };
+            {
+                    RQ_PWM_SET_FREQ,
+                    static_cast<uint8_t>((freq >> 0) & 0xFF),
+                    static_cast<uint8_t>((freq >> 8) & 0xFF),
+                    static_cast<uint8_t>((freq >> 16) & 0xFF),
+                    static_cast<uint8_t>((freq >> 24) & 0xFF)
+            };
 
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -376,15 +345,14 @@ uint8_t B15F::pwmSetFrequency(uint32_t freq)
     return aw;
 }
 
-bool B15F::pwmSetValue(uint8_t value)
-{
+bool B15F::pwmSetValue(uint8_t value) {
     usart.clearInputBuffer();
 
     uint8_t rq[] =
-    {
-        RQ_PWM_SET_VALUE,
-        value
-    };
+            {
+                    RQ_PWM_SET_VALUE,
+                    value
+            };
 
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -393,16 +361,15 @@ bool B15F::pwmSetValue(uint8_t value)
     return aw == MSG_OK;
 }
 
-bool B15F::setRegister(uint8_t adr, uint8_t val)
-{
+bool B15F::setRegister(uint8_t adr, uint8_t val) {
     usart.clearInputBuffer();
 
     uint8_t rq[] =
-    {
-        RQ_SET_REG,
-        adr,
-        val
-    };
+            {
+                    RQ_SET_REG,
+                    adr,
+                    val
+            };
 
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -411,15 +378,14 @@ bool B15F::setRegister(uint8_t adr, uint8_t val)
     return aw == val;
 }
 
-uint8_t B15F::getRegister(uint8_t adr)
-{
+uint8_t B15F::getRegister(uint8_t adr) {
     usart.clearInputBuffer();
 
     uint8_t rq[] =
-    {
-        RQ_GET_REG,
-        adr
-    };
+            {
+                    RQ_GET_REG,
+                    adr
+            };
 
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -429,18 +395,15 @@ uint8_t B15F::getRegister(uint8_t adr)
 }
 
 
-void B15F::delay_ms(uint16_t ms)
-{
+void B15F::delay_ms(uint16_t ms) {
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
-void B15F::delay_us(uint16_t us)
-{
+void B15F::delay_us(uint16_t us) {
     std::this_thread::sleep_for(std::chrono::microseconds(us));
 }
 
-B15F &B15F::getInstance(void)
-{
+B15F &B15F::getInstance(void) {
     if (!instance)
         instance = new B15F();
 
@@ -448,41 +411,34 @@ B15F &B15F::getInstance(void)
 }
 
 // https://stackoverflow.com/a/478960
-std::string B15F::exec(std::string cmd)
-{
+std::string B15F::exec(std::string cmd) {
     std::array<char, 128> buffer;
     std::string result;
     std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd.c_str(), "r"), pclose);
-    if (!pipe)
-    {
+    if (!pipe) {
         throw std::runtime_error("popen() failed!");
     }
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
-    {
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
         result += buffer.data();
     }
     return result;
 }
 
-void B15F::abort(std::string msg)
-{
+void B15F::abort(std::string msg) {
     DriverException ex(msg);
     abort(ex);
 }
 
-void B15F::abort(std::exception &ex)
-{
+void B15F::abort(std::exception &ex) {
     if (errorhandler)
         errorhandler(ex);
-    else
-    {
+    else {
         std::cerr << "NOTICE: B15F::errorhandler not set" << std::endl;
         std::cout << ex.what() << std::endl;
         throw DriverException(ex.what());
     }
 }
 
-void B15F::setAbortHandler(errorhandler_t func)
-{
+void B15F::setAbortHandler(errorhandler_t func) {
     errorhandler = func;
 }
