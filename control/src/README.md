@@ -40,7 +40,7 @@
 ## Eigene Programme mit B15F schreiben
 
 ### Grundsätzliches
-Die wichtigste Klasse für die Steuerung des Board 15 ist [B15F](classB15F.html).  
+Die wichtigste Klasse für die Steuerung des Board 15 ist [B15F](https://devfix.github.io/b15f/html/classB15F.html).  
 Dort befindet sich auch eine Übersicht der verfügbaren Befehle.  
 
 ### Beispiele
@@ -58,10 +58,10 @@ Für die Interaktion wird eine Referenz auf die aktuelle Treiberinstanz gespeich
 `B15F& drv = B15F::getInstance();`  
 Falls noch keine existiert, wird automatisch eine erzeugt und Verbindung zum Board hergestellt.  
 
-Ab jetzt können auf dem Object `drv` verschiedene Methoden angewand werden, siehe [B15F](classB15F.html).  
+Ab jetzt können auf dem Object `drv` verschiedene Methoden angewand werden, siehe [B15F](https://devfix.github.io/b15f/html/classB15F.html).  
 
 ### Kennlinien mit plottyfile generieren
-Die Beschreibung zu Plottyfile befindet sich [hier](classPlottyFile.html).  
+Die Beschreibung zu Plottyfile befindet sich [hier](https://devfix.github.io/b15f/html/classPlottyFile.html).  
 Nach dem Include von plottyfile kann ein neues Objekt erzeugt und konfiguriert werden:  
 ```C++
 PlottyFile pf;  
