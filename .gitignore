@@ -1,5 +1,6 @@
 # IDE stuff
 control/src/.idea
+control/.Makefile.swp
 
 # Prerequisites
 *.d
