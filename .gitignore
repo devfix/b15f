@@ -1,3 +1,6 @@
+# IDE stuff
+control/src/.idea
+
 # Prerequisites
 *.d
 gnuplotscript.gp
