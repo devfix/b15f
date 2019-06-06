@@ -80,10 +80,9 @@ void USART::receive(uint8_t *buffer, uint16_t offset, uint8_t len)
         code = ioctl(file_desc, FIONREAD, &bytes_avail);
         if(code)
             throw USARTException(
-                std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__) +
-                ", " + strerror(code) + " (code " + std::to_string(code) + ")");
-    }
-    while(bytes_avail < len);
+                    std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__) +
+                    ", " + strerror(code) + " (code " + std::to_string(code) + ")");
+    } while(bytes_avail < len);
 
     code = read(file_desc, buffer + offset, len);
     if (code != len)

@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <termios.h>
+#include <iostream>
 #include <sys/ioctl.h>
 #include <string.h>
 #include "usartexception.h"

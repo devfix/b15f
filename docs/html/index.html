@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.16"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>B15F: Einführung</title>
+<title>B15F: B15F Benutzerhandbuch</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,16 +63,81 @@ $(function() {
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Einführung </div>  </div>
+<div class="title"><a class="el" href="classB15F.html">B15F</a> Benutzerhandbuch </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Die wichtigste Klasse für die Steuerung des Board 15 ist <a href="classB15F.html">B15F</a>. <br  />
-Dort befindet sich auch eine Übersicht der verfügbaren Befehle. </p>
+<div class="textblock"><p><em>Hinweis</em>: Terminal-Befehle sind <b>fett</b> gedruckt</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Installation</h1>
+<h2><a class="anchor" id="autotoc_md2"></a>
+1. Abhängigkeiten installieren</h2>
+<p>(a) <b>sudo apt-get update</b> <br  />
+ (b) <b>sudo apt-get install git avr-libc avrdude libncurses5-dev g++</b> <br  />
+ </p>
+<h2><a class="anchor" id="autotoc_md3"></a>
+2. Das Repository klonen</h2>
+<p>(a) <b>cd /tmp</b> <br  />
+ (b) <b>git clone "https://github.com/devfix/b15f.git"</b> <br  />
+ </p>
+<h2><a class="anchor" id="autotoc_md4"></a>
+3. Die Firmware installieren</h2>
+<p>(a) <b>cd "/tmp/b15f/firmware"</b> <br  />
+ (b) Passen Sie in der Datei <em>Makefile</em> die Option "MCU = ..." an die MCU des vorliegenden Boards an <br  />
+ (<em>atmega1284</em> und <em>atmega1284p</em> sind nicht identisch!) <br  />
+ (c) <b>make</b> <br  />
+ Wenn udev richtig konfiguriert wurde: <br  />
+ (d I) <b>make upload</b> <br  />
+ Sonst: <br  />
+ (d II) <b>sudo make upload</b> <br  />
+ </p>
+<h2><a class="anchor" id="autotoc_md5"></a>
+4. Die Steuersoftware (Bibliothek &amp; CLI) installieren</h2>
+<p>(a) <b>cd "/tmp/b15f/control/src"</b> <br  />
+ (b) <b>make</b> <br  />
+ (Die Warnungen durch doxygen können ignoriert werden.)</p>
+<p>(c) <b>sudo make install</b> <br  />
+ </p>
+<h1><a class="anchor" id="autotoc_md6"></a>
+Das CommandLineInterface (CLI) benutzen</h1>
+<p>(a) Öffnen Sie ein Terminal und maximieren Sie das Fenster <br  />
+ (b) Start des CLI erfolgt durch <b>b15fcli</b> <br  />
+ (c) Die Navigation erolgt durch &lt;Tab&gt;, die Pfeiltasten und &lt;Enter&gt; oder die Maus <br  />
+ (d) Mit &lt;Strg + c&gt; kann das Programm sofort verlassen werden</p>
+<h1><a class="anchor" id="autotoc_md7"></a>
+Eigene Programme mit B15F schreiben</h1>
+<h2><a class="anchor" id="autotoc_md8"></a>
+Grundsätzliches</h2>
+<p>Die wichtigste Klasse für die Steuerung des Board 15 ist <a href="classB15F.html">B15F</a>. <br  />
+Dort befindet sich auch eine Übersicht der verfügbaren Befehle. <br  />
+ </p>
+<h2><a class="anchor" id="autotoc_md9"></a>
+Beispiele</h2>
+<p>In dem Verzeichnis <a href="https://github.com/devfix/b15f/tree/master/control/examples">b15f/control/examples</a> sind einige Beispiele für die Verwendung einzelner <a class="el" href="classB15F.html">B15F</a> Funktionen. <br  />
+Zu jedem Beispiel gehört eine <em>main.cpp</em> mit dem Quellcode und eine <em>Makefile</em>-Datei. <br  />
+Das Beispiel kann mit <b>make</b> kompiliert und mit **./main.elf** gestartet werden.</p>
+<h2><a class="anchor" id="autotoc_md10"></a>
+Den B15F Treiber verwenden</h2>
+<p>Benötigt wird der B15F-Header: <br  />
+<code>#include &lt;b15f/b15f.h&gt;</code> <br  />
+und der Header für die plottyfile-Generierung, falls mit Kennlinien gearbeitet werden soll: <br  />
+<code>#include &lt;b15f/plottyfile.h&gt;</code></p>
+<p>Für die Interaktion wird eine Referenz auf die aktuelle Treiberinstanz gespeichert: <br  />
+<code><a class="el" href="classB15F.html">B15F</a>&amp; drv = <a class="el" href="classB15F.html#a8b4533d232c55ef2aa967e39e2d23380">B15F::getInstance()</a>;</code> <br  />
+Falls noch keine existiert, wird automatisch eine erzeugt und Verbindung zum Board hergestellt. <br  />
+ Ab jetzt können auf dem Object <code>drv</code> verschiedene Methoden angewand werden, siehe <a href="classB15F.html">B15F</a>. <br  />
+ </p>
+<h2><a class="anchor" id="autotoc_md11"></a>
+Kennlinien mit plottyfile generieren</h2>
+<p>Die Beschreibung zu Plottyfile befindet sich <a href="classPlottyFile.html">hier</a>. <br  />
+Nach dem Include von plottyfile kann ein neues Objekt erzeugt und konfiguriert werden: <br  />
+</p><div class="fragment"><div class="line"> {C++}</div><div class="line">PlottyFile pf;  </div><div class="line">pf.setUnitX(&quot;V&quot;);  </div><div class="line">pf.setUnitY(&quot;V&quot;);  </div><div class="line">pf.setUnitPara(&quot;V&quot;);  </div><div class="line">pf.setDescX(&quot;U_{OUT}&quot;);  </div><div class="line">pf.setDescY(&quot;U_{IN}&quot;);  </div><div class="line">pf.setDescPara(&quot;&quot;);  </div><div class="line">pf.setRefX(5);  </div><div class="line">pf.setRefY(5);  </div><div class="line">pf.setParaFirstCurve(0);  </div><div class="line">pf.setParaStepWidth(0);</div></div><!-- fragment --><p> Messpunkte können anschließend hinzugefügt werden. <br  />
+Dabei gehören Punkte mit dem gleichen Index für <code>curve</code> (<em>uint8_t</em>) zur selben Kurve und erhalten durch Plotty automatisch die gleiche Farbe. <br  />
+</p><div class="fragment"><div class="line"> {C++}</div><div class="line">pf.addDot(Dot(x, y, curve));</div></div><!-- fragment --><p> <code>x</code> und <code>y</code> sind <em>uint16_t</em>, also keine Gleitkommazahlen. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 4 2019 10:27:35 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 6 2019 11:46:51 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
