@@ -1,4 +1,4 @@
-#define B15F_CLI_DEBUG
+//#define B15F_CLI_DEBUG
 
 #include <stdio.h>
 #include <ncurses.h> // sudo apt-get install libncurses5-dev

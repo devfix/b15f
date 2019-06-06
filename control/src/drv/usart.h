@@ -2,13 +2,14 @@
 #define USART_H
 
 #include <cstdint>
+#include <chrono>
 #include <fcntl.h>
 #include <unistd.h>
 #include <termios.h>
-#include <iostream>
 #include <sys/ioctl.h>
 #include <string.h>
 #include "usartexception.h"
+#include "timeoutexception.h"
 
 /*! C++ Wrapper class for termios usart library. */
 
@@ -125,7 +126,7 @@ private:
 
     int file_desc = -1; //!< Linux Dateideskriptor
     uint32_t baudrate = 9600; //!< Standard-Baudrate, sollte mit setBaudrate() überschrieben werden!
-    uint8_t timeout = 100; //!< in Dezisekunden
+    uint8_t timeout = 10; //!< in Dezisekunden
 };
 
 #endif // USART_H

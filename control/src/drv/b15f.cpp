@@ -143,7 +143,6 @@ std::vector<std::string> B15F::getBoardInfo(void)
 
     uint8_t n;
     usart.receive(&n, 0, sizeof(n));
-    std::cout << "len: " << (int) n << std::endl << std::flush;
     while (n--)
     {
         uint8_t len;
@@ -152,8 +151,6 @@ std::vector<std::string> B15F::getBoardInfo(void)
         char str[len + 1];
         str[len] = '\0';
         usart.receive(reinterpret_cast<uint8_t *>(&str[0]), 0, len);
-
-        std::cout << &str[0] << std::endl;
 
         info.push_back(std::string(str));
     }

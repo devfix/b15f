@@ -75,15 +75,25 @@ void USART::flushOutputBuffer()
 void USART::receive(uint8_t *buffer, uint16_t offset, uint8_t len)
 {
     int bytes_avail, code;
+    auto start = std::chrono::steady_clock::now();
+    auto end = std::chrono::steady_clock::now();
     do
     {
         code = ioctl(file_desc, FIONREAD, &bytes_avail);
-        if(code)
+        if (code)
             throw USARTException(
                 std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__) +
                 ", " + strerror(code) + " (code " + std::to_string(code) + ")");
+
+        end = std::chrono::steady_clock::now();
+        long elapsed =
+            std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / 100; // in Dezisekunden
+        if (elapsed >= timeout)
+            throw TimeoutException(
+                std::string(__FUNCTION__) + " failed: " + std::string(__FILE__) + "#" + std::to_string(__LINE__) +
+                ", " + std::to_string(elapsed) + " / " + std::to_string(timeout) + " ds");
     }
-    while(bytes_avail < len);
+    while (bytes_avail < len);
 
     code = read(file_desc, buffer + offset, len);
     if (code != len)
