@@ -8,4 +8,5 @@ volatile TLC5615 dac0(spi, SPIADR::AA0);
 volatile TLC5615 dac1(spi, SPIADR::AA1);
 volatile ADU adu;
 volatile USART usart;
+volatile PWM pwm;
 volatile bool nextRequest = false;

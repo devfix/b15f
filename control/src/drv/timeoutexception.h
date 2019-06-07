@@ -2,34 +2,45 @@
 #define TIMEOUTEXCEPTION_H
 
 #include <exception>
+#include <string>
 
-// SOURCE: https://stackoverflow.com/a/8152888
+/*! Exception for USART related timeouts. */
 
 class TimeoutException: public std::exception
 {
 public:
-	explicit TimeoutException(const char* message, int timeout) : TimeoutException(std::string(message), timeout)
-	{
-      	}
+    /**
+     * Constructor
+     * @param message as c-string
+     */
+    explicit TimeoutException(const char* message) : msg(message)
+    {
+    }
 
-	explicit TimeoutException(const std::string& message, int timeout) : msg(message), m_timeout(timeout)
-	{		
-		if(!msg.length())
-			msg = "Timeout reached (" + std::to_string(m_timeout) + ")";
-	}
+    /**
+     * Constructor
+     * @param message as c++-string
+     */
+    explicit TimeoutException(const std::string& message) : msg(message)
+    {
+    }
 
-    	virtual ~TimeoutException() throw ()
-	{
-	}
+    /**
+     * Standard-destructor
+     */
+    virtual ~TimeoutException() = default;
 
-	virtual const char* what() const throw ()
-	{
-		return msg.c_str();
-	}
+    /**
+     * Get failure description
+     * @return error message as c-string
+     */
+    virtual const char* what() const throw ()
+    {
+        return msg.c_str();
+    }
 
 protected:
-	std::string msg;
-	int m_timeout;
+    std::string msg; //!< failure description
 };
 
 #endif // TIMEOUTEXCEPTION_H

@@ -62,6 +62,22 @@ void handleRequest()
 		case RQ_ADC_DAC_STROKE:
 			rqAdcDacStroke();
 			break;
+			
+		case RQ_PWM_SET_FREQ:
+			rqPwmSetFreq();
+			break;
+			
+		case RQ_PWM_SET_VALUE:
+			rqPwmSetValue();
+			break;
+			
+		case RQ_SET_REG:
+			rqSetRegister();
+			break;
+			
+		case RQ_GET_REG:
+			rqGetRegister();
+			break;
 
 		default:
 			break;
@@ -216,3 +232,44 @@ void rqAdcDacStroke()
 	usart.writeByte(USART::MSG_OK);
 	usart.flush();
 }
+
+void rqPwmSetFreq()
+{
+	usart.initTX();
+	uint32_t freq = usart.readU32();
+    pwm.setFrequency(freq);
+
+	usart.writeByte(pwm.getTop());
+	usart.flush();
+}
+
+void rqPwmSetValue()
+{
+	usart.initTX();
+	uint16_t value = usart.readByte();
+    pwm.setValue(value);
+
+	usart.writeByte(USART::MSG_OK);
+	usart.flush();
+}
+
+void rqSetRegister()
+{
+	usart.initTX();
+	uint16_t reg = usart.readByte();
+	uint16_t val = usart.readByte();
+    
+    (*(volatile uint8_t *) reg) = val;
+	usart.writeByte((*(volatile uint8_t *) reg));    
+	usart.flush();
+}
+
+void rqGetRegister()
+{
+	usart.initTX();
+	uint16_t reg = usart.readByte();
+    
+	usart.writeByte((*(volatile uint8_t *) reg));
+	usart.flush();
+}
+

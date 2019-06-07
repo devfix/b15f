@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['readbyte',['readByte',['../classUSART.html#a8f54b98b26bfe084359a5604bda82562',1,'USART']]],
-  ['readdipswitch',['readDipSwitch',['../classB15F.html#a6f858f21ea81d491b5031b3644a2239a',1,'B15F']]],
-  ['readint',['readInt',['../classUSART.html#a1534c229db71a375e556cf1e7d0b8119',1,'USART']]],
-  ['reconnect',['reconnect',['../classB15F.html#a52557b375443c180a044e7d4e80a1ae7',1,'B15F']]]
+  ['plottyfile',['PlottyFile',['../classPlottyFile.html',1,'']]],
+  ['pre',['PRE',['../classB15F.html#a3b0fc1f85954b2d9c145af4a3af5b1ec',1,'B15F']]],
+  ['pwmsetfrequency',['pwmSetFrequency',['../classB15F.html#ac6f6532bb9550a0632c28b98c157d0a1',1,'B15F']]],
+  ['pwmsetvalue',['pwmSetValue',['../classB15F.html#af9aad3c0db5d5a8b37219d713e1977ee',1,'B15F']]]
 ];

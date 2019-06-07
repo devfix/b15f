@@ -5,6 +5,7 @@
 #include "tlc5615.h"
 #include "adu.h"
 #include "usart.h"
+#include "pwm.h"
 
 
 #define WDT_TIMEOUT WDTO_15MS
@@ -17,6 +18,7 @@ extern volatile TLC5615 dac0;
 extern volatile TLC5615 dac1;
 extern volatile ADU adu;
 extern volatile USART usart;
+extern volatile PWM pwm;
 extern volatile bool nextRequest;
 
 #endif // GLOBAL_VARS_H

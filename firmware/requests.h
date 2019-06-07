@@ -5,6 +5,7 @@
 #include "global_vars.h"
 #include "selftest.h"
 #include "boardinfo.h"
+#include "pwm.h"
 
 constexpr static uint8_t RQ_DISC = 0;
 constexpr static uint8_t RQ_TEST = 1;
@@ -19,7 +20,11 @@ constexpr static uint8_t RQ_DSW  = 9;
 constexpr static uint8_t RQ_AA0  = 10;
 constexpr static uint8_t RQ_AA1  = 11;
 constexpr static uint8_t RQ_ADC  = 12;
-constexpr static uint8_t RQ_ADC_DAC_STROKE  = 13;
+constexpr static uint8_t RQ_ADC_DAC_STROKE = 13;
+constexpr static uint8_t RQ_PWM_SET_FREQ   = 14;
+constexpr static uint8_t RQ_PWM_SET_VALUE  = 15;
+constexpr static uint8_t RQ_SET_REG        = 16;
+constexpr static uint8_t RQ_GET_REG        = 17;
 
 uint8_t const rq_len[] = {
 	/* RQ_DISC */ 1,
@@ -35,7 +40,11 @@ uint8_t const rq_len[] = {
 	/* RQ_AA0  */ 3,
 	/* RQ_AA1  */ 3,
 	/* RQ_ADC  */ 2,
-	/* RQ_ADC_DAC_STROKE */ 9
+	/* RQ_ADC_DAC_STROKE */ 9,
+	/* RQ_PWM_SET_FREQ */ 5,
+	/* RQ_PWM_SET_VALUE */ 2,
+	/* RQ_SET_REG */ 3,
+	/* RQ_GET_REG */ 2
 };
 
 /**
@@ -58,5 +67,9 @@ void rqAnalogWrite0(void);
 void rqAnalogWrite1(void);
 void rqAnalogRead(void);
 void rqAdcDacStroke(void);
+void rqPwmSetFreq(void);
+void rqPwmSetValue(void);
+void rqSetRegister(void);
+void rqGetRegister(void);
 
 #endif // REQUESTS_H

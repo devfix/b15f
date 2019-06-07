@@ -18,7 +18,7 @@ PATH_TMP_LIB = ../lib/
 
 # outputs
 OUT_TMP_DRV    = $(PATH_TMP_LIB)/libb15fdrv.so
-OUT_TMP_CLI    = $(PATH_TMP_BIN)/cli.elf
+OUT_TMP_CLI    = $(PATH_TMP_BIN)/b15fcli
 OUT_TMP_PLOTTY = $(PATH_TMP_BIN)/plotty
 OUT_DRV        = $(PATH_LIB)/libb15fdrv.so
 OUT_CLI        = $(PATH_BIN)/b15fcli
@@ -38,7 +38,9 @@ OBJECTS_CLI   = cli.o ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info
 
 # *** TARGETS ***
 
-all: drv cli doc
+.PHONY: $(OUT_TMP_DRV) clean help
+
+all: drv cli style
 
 drv: $(OBJECTS_DRV) $(OUT_TMP_DRV)
 	
@@ -50,8 +52,13 @@ cli: drv $(OBJECTS_CLI)
 	@bash -c 'if [ ! -f "$(OUT_DRV)" ]; then echo -e "\n*** Warning ***: driver not installed\nType \"sudo make install\" to install or update b15fdrv."; fi'
 
 doc:
-	@echo "Creating documentation with doxygen.."
+	@echo "Creating documentation with doxygen..."
 	$(PATH_DOXYGEN) doxygen-cfg
+	@echo problems found: `($(PATH_DOXYGEN) doxygen-cfg 3>&2 2>&1 1>&3) 2>/dev/null | wc -l`
+	
+style:
+	@echo "Formatting source code with astyle..."
+	astyle --recursive --style=allman *.cpp,*.h,*.c,*.hpp
 	
 install:
 	@echo "Installing driver..."
@@ -61,9 +68,9 @@ install:
 	cp $(OUT_TMP_PLOTTY) $(OUT_PLOTTY)
 	cp drv/*.h $(PATH_INCLUDE)
 	
-uninstall: clean
+uninstall:
 	@echo "Uninstalling driver..."
-	rm -rf $(PATH_INCLUDE) $(OUT_DRV) $(OUT_CLI) $(OUT_PLOTTY)
+	rm -rf $(OUT_DRV) $(OUT_CLI) $(OUT_PLOTTY) $(PATH_INCLUDE)
 	
 help:
 	@echo "This Makefile compiles the b15f driver lib and command line interface (CLI):"
@@ -73,11 +80,12 @@ help:
 	@echo "make install . to install or update the lib and headers on this machine"
 	@echo "make uninstall to remove the lib and headers on this machine"
 	@echo "make clean ... to delete objects and executables"
-	
+
 clean:
 	@echo "Cleaning..."
 	rm -f $(OBJECTS_DRV) $(OBJECTS_CLI) $(OUT_TMP_CLI) $(OUT_TMP_DRV)
 	rm -rf $(OUT_DOC)
+	find . -type f -name '*.orig' -delete
 
 .cpp.o:
 	$(PATH_COMPILER) $(CFLAGS) -c $< -o $@
