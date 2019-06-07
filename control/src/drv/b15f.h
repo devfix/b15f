@@ -202,6 +202,7 @@ public:
     /**
      * Setzt die Register so, dass näherungsweise die gewünschte Frequenz erzeugt wird.
      * Ist freq == 0 wird PWM deaktiviert.
+     * Standardfrequenz: 31300 (empfohlen, da dann TOP == 255) 
      * \param freq PWM Frequenz
      * \return Top Wert des PWM Value für die gesetzte Frequenz
      * \throws DriverException

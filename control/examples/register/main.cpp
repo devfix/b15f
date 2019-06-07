@@ -1,9 +1,5 @@
-#include <iostream>
-#include <cmath>
 #include <b15f/b15f.h>
 #include <b15f/plottyfile.h>
-
-const char PLOT_FILE[] = "plot.bin";
 
 /*
  * Dieses Beispiel erzeugt einen 300ms langen Impuls an PB0.
