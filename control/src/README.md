@@ -55,7 +55,7 @@ Dort befindet sich auch eine Übersicht der verfügbaren Befehle.
 ### Beispiele
 In dem Verzeichnis [b15f/control/examples](https://github.com/devfix/b15f/tree/master/control/examples) sind einige Beispiele für die Verwendung einzelner B15F Funktionen.  
 Zu jedem Beispiel gehört eine *main.cpp* mit dem Quellcode und eine *Makefile*-Datei.  
-Das Beispiel kann mit **make** kompiliert und mit **./main.elf** gestartet werden.
+Das Beispiel kann mit **make** kompiliert und mit ** \./main.elf** gestartet werden.
 
 ### Den B15F Treiber verwenden
 Benötigt wird der B15F-Header:  
@@ -77,7 +77,7 @@ PlottyFile pf;
 pf.setUnitX("V");  
 pf.setUnitY("V");  
 pf.setUnitPara("V");  
-pf.setDescX("U_{OUT}");  
+pf.setDescX("U_{OUT}"); // Markdown wird unterstuetzt  
 pf.setDescY("U_{IN}");  
 pf.setDescPara("");  
 pf.setRefX(5);  
