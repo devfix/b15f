@@ -2,6 +2,7 @@
 control/src/.idea
 control/src/cmake-build-debug
 control/.Makefile.swp
+control/src/CMakeLists.txt
 
 # Prerequisites
 *.d
