@@ -18,6 +18,11 @@
 #include "driverexception.h"
 #include "timeoutexception.h"
 
+// wichtig für die Register-Zugriffe
+#define _AVR_IO_H_ 1 // Erzwinge die Inklusion
+#include "/usr/lib/avr/include/avr/sfr_defs.h"
+#include "/usr/lib/avr/include/avr/iom1284p.h"
+
 typedef std::function<void(std::exception&)> errorhandler_t;
 
 
@@ -217,14 +222,14 @@ public:
      * \param val Neuer Wert für das Register
      * \throws DriverException
      */
-    bool setRegister(uint8_t adr, uint8_t val);
+    bool setRegister(volatile uint8_t* adr, uint8_t val);
 
     /**
      * Liefert den Wert eines MCU Registers.
      * \param adr Speicheradresse des Registers
      * \throws DriverException
      */
-    uint8_t getRegister(uint8_t adr);
+    uint8_t getRegister(volatile uint8_t* adr);
 
     /*************************/
 

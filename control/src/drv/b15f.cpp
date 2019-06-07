@@ -393,14 +393,14 @@ bool B15F::pwmSetValue(uint8_t value)
     return aw == MSG_OK;
 }
 
-bool B15F::setRegister(uint8_t adr, uint8_t val)
+bool B15F::setRegister(volatile uint8_t* adr, uint8_t val)
 {
     usart.clearInputBuffer();
 
     uint8_t rq[] =
     {
         RQ_SET_REG,
-        adr,
+        static_cast<uint8_t>(reinterpret_cast<size_t>(adr)),
         val
     };
 
@@ -411,14 +411,14 @@ bool B15F::setRegister(uint8_t adr, uint8_t val)
     return aw == val;
 }
 
-uint8_t B15F::getRegister(uint8_t adr)
+uint8_t B15F::getRegister(volatile uint8_t* adr)
 {
     usart.clearInputBuffer();
 
     uint8_t rq[] =
     {
         RQ_GET_REG,
-        adr
+        static_cast<uint8_t>(reinterpret_cast<size_t>(adr))
     };
 
     usart.transmit(&rq[0], 0, sizeof(rq));
