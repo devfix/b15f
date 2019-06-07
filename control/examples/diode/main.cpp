@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
-#include "drv/b15f.h"
-#include "drv/plottyfile.h"
+#include <b15f/b15f.h>
+#include <b15f/plottyfile.h>
 
 
 void kennlinieErsterQuadrant()
@@ -156,23 +156,6 @@ void testFunktionen()
 int main()
 {
 	//testFunktionen();
-	//kennlinieZweiterQuadrant();
-
-	B15F& drv = B15F::getInstance();
-	while(1)
-	{
-			//uint8_t be0 = drv.digitalRead0();
-			//uint8_t be1 = drv.digitalRead1();
-			//uint8_t dsw = drv.readDipSwitch();
-			drv.analogRead(0);
-			drv.analogRead(1);
-			drv.analogRead(2);
-			drv.analogRead(3);
-			drv.analogRead(4);
-			drv.analogRead(5);
-			drv.analogRead(6);
-			drv.analogRead(7);
-	}
-	
+	kennlinieZweiterQuadrant();
 	std::cout << "Schluss." << std::endl;
 }

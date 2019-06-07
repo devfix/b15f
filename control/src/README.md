@@ -8,11 +8,11 @@
  (b) **sudo apt-get install git avr-libc avrdude libncurses5-dev g++**  
 
 ### 2. Das Repository klonen
- (a) **cd /tmp**  
+ (a) **cd /home/famulus/**  
  (b) **git clone "https://github.com/devfix/b15f.git"**  
 
 ### 3. Die Firmware installieren
- (a) **cd "/tmp/b15f/firmware"**  
+ (a) **cd "/home/famulus/b15f/firmware"**  
 
  (b) Passen Sie in der Datei *Makefile* die Option "MCU = ..." an die MCU des vorliegenden Boards an  
  (*atmega1284* und *atmega1284p* sind nicht identisch!)  
@@ -25,16 +25,25 @@
  (d II) **sudo make upload**  
 
 ### 4. Die Steuersoftware (Bibliothek & CLI) installieren
- (a) **cd "/tmp/b15f/control/src"**  
+ (a) **cd "/home/famulus/b15f/control/src"**  
  (b) **make**  
  (Die Warnungen durch doxygen können ignoriert werden.)
 
  (c) **sudo make install**  
 
+## Aktualisierung
+ (a) **cd /home/famulus/b15f/**  
+ (b) **git pull --prune**  
+ (c) **cd "/home/famulus/b15f/firmware"**  
+ (d) **make clean**  
+ (e) **cd "/home/famulus/b15f/control/src"**  
+ (f) **make clean**  
+ (g) Installation ab Schritt 3 wiederholen
+ 
 ## Das CommandLineInterface (CLI) benutzen
  (a) Öffnen Sie ein Terminal und maximieren Sie das Fenster  
  (b) Start des CLI erfolgt durch **b15fcli**  
- (c) Die Navigation erolgt durch &lt;Tab&gt;, die Pfeiltasten und &lt;Enter&gt; oder die Maus  
+ (c) Die Navigation erfolgt durch &lt;Tab&gt;, die Pfeiltasten und &lt;Enter&gt; oder die Maus  
  (d) Mit &lt;Strg + c&gt; kann das Programm sofort verlassen werden
 
 ## Eigene Programme mit B15F schreiben
