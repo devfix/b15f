@@ -40,7 +40,7 @@ OBJECTS_CLI   = cli.o ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info
 
 .PHONY: $(OUT_TMP_DRV) clean help
 
-all: drv cli style doc
+all: drv cli style
 
 drv: $(OBJECTS_DRV) $(OUT_TMP_DRV)
 	
