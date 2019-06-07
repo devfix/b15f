@@ -1,3 +1,0 @@
-/home/famulus/Dokumente/b15f/control/src/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/famulus/Dokumente/b15f/control/src/cmake-build-debug/CMakeFiles/src.dir
-/home/famulus/Dokumente/b15f/control/src/cmake-build-debug/CMakeFiles/edit_cache.dir

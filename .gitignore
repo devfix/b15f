@@ -1,5 +1,6 @@
 # IDE stuff
 control/src/.idea
+control/src/cmake-build-debug
 control/.Makefile.swp
 
 # Prerequisites
