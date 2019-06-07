@@ -40,7 +40,7 @@ OBJECTS_CLI   = cli.o ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info
 
 .PHONY: $(OUT_TMP_DRV) clean help
 
-all: drv cli style
+all: drv cli
 
 drv: $(OBJECTS_DRV) $(OUT_TMP_DRV)
 	
@@ -51,7 +51,7 @@ cli: drv $(OBJECTS_CLI)
 	$(PATH_COMPILER) $(CFLAGS) $(OBJECTS_CLI) -L $(PATH_TMP_LIB) -o $(OUT_TMP_CLI) $(LDFLAGS_CLI)
 	@bash -c 'if [ ! -f "$(OUT_DRV)" ]; then echo -e "\n*** Warning ***: driver not installed\nType \"sudo make install\" to install or update b15fdrv."; fi'
 
-doc:
+doc: style
 	@echo "Creating documentation with doxygen..."
 	$(PATH_DOXYGEN) doxygen-cfg
 	@echo problems found: `($(PATH_DOXYGEN) doxygen-cfg 3>&2 2>&1 1>&3) 2>/dev/null | wc -l`

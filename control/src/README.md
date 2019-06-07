@@ -5,7 +5,7 @@
 
 ### 1. Abhängigkeiten installieren
  (a) **sudo apt-get update**  
- (b) **sudo apt-get install git avr-libc avrdude libncurses5-dev g++**  
+ (b) **sudo apt-get install git avr-libc avrdude libncurses5-dev g++ astyle**  
 
 ### 2. Das Repository klonen
  (a) **cd /home/famulus/**  
