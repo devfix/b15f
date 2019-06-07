@@ -3,6 +3,11 @@
 #include <b15f/b15f.h>
 #include <b15f/plottyfile.h>
 
+/*
+ * Inkrementiert DAC 0 von 0 bis 1023 und speichert zu jeder Ausgabe den Wert von ADC 0 in einem Puffer.
+ * Die Funktion ADC 0 abhängig von DAC 0 wird als Graph geplottet.
+ */
+
 const char PLOT_FILE[] = "plot.bin";
 
 int main()

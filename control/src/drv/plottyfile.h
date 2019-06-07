@@ -5,6 +5,7 @@
 #include <fstream>
 #include <exception>
 #include <vector>
+#include <stdexcept>
 #include "dot.h"
 
 enum FunctionType

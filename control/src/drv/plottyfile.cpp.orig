@@ -148,7 +148,7 @@ void PlottyFile::writeToFile(std::string filename)
 {
     if(dots.empty())
         throw std::length_error("Es wurden keine Punkte gespeichert.");
-
+    
     prepStr(unit_x, STR_LEN_SHORT);
     prepStr(desc_x, STR_LEN_LARGE);
     prepStr(unit_y, STR_LEN_SHORT);

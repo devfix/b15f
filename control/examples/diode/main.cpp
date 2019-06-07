@@ -103,6 +103,7 @@ void kennlinieZweiterQuadrant()
 			if(ba[k] > bb[k] && bb[k] % 50 == 0 && bb[k] != 0)
 			{
 				uint16_t i_d = ba[k] - bb[k];
+                std::cout << "added" << std::endl;
 				pf.addDot(Dot(u_gs, i_d, bb[k] / 50));
 			}
 			curve++;
