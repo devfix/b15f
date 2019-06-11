@@ -1,5 +1,16 @@
 # B15F Benutzerhandbuch
-*Hinweis*: Terminal-Befehle sind **fett** gedruckt 
+*Hinweise*:  
+ - Terminal-Befehle sind **fett** gedruckt  
+ - Als Student/Studentin können Sie davon ausgehen, dass die Steuersoftware auf Ihrem Arbeitsplatz bereits installiert ist  
+ - D.h. Sie müssen zu Beginn jeder Übung nur die Firmware neu aufspielen (Installation Abschnitt 3)  
+
+## Einführung
+Das gesamte Softwareprojekt besteht aus zwei Teilen:  
+Die ***Firmware*** ist die Software auf dem Mikrocontroller (MCU) des Board 15. Der Mikrocontroller steuert die Peripherie (ADCs, DACs, ...) über einen SPI-BUS.  
+
+Der zweite Teil von B15F ist die ***Steuersoftware***, die auf dem PC ausgeführt wird. Diese sendet über eine USART-Schnittstelle (RS-232) Befehle an den Mikrocontroller.  
+Die Steuersoftware besitzt ein *CLI* (command line interface) mit einer Benutzerschnittstelle für die einfache Fernsteuerung des B15F.  
+Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwicklung kleiner Steuerprogramme erlaubt.
 
 ## Installation
 
@@ -40,7 +51,7 @@
  (f) **make clean**  
  (g) Installation ab Schritt 3 wiederholen
  
-## Das CommandLineInterface (CLI) benutzen
+## Die CommandLineInterface (CLI) benutzen
  (a) Öffnen Sie ein Terminal und maximieren Sie das Fenster  
  (b) Start des CLI erfolgt durch **b15fcli**  
  (c) Die Navigation erfolgt durch &lt;Tab&gt;, die Pfeiltasten und &lt;Enter&gt; oder die Maus  
@@ -49,13 +60,14 @@
 ## Eigene Programme mit B15F schreiben
 
 ### Grundsätzliches
+Verwendet wird die Bibliothekt *b15fdrv*.
 Die wichtigste Klasse für die Steuerung des Board 15 ist [B15F](https://devfix.github.io/b15f/html/classB15F.html).  
 Dort befindet sich auch eine Übersicht der verfügbaren Befehle.  
 
 ### Beispiele
 In dem Verzeichnis [b15f/control/examples](https://github.com/devfix/b15f/tree/master/control/examples) sind einige Beispiele für die Verwendung einzelner B15F Funktionen.  
-Zu jedem Beispiel gehört eine *main.cpp* mit dem Quellcode und eine *Makefile*-Datei.  
-Das Beispiel kann mit **make** kompiliert und mit **./main.elf** gestartet werden.
+Zu jedem Beispiel gehört eine *main.cpp* mit dem Quellcode und eine *Makefile*-Datei. Durch das Makefile wird beim Kompilieren und Linken die Bibliothek *b15fdrv* automatisch einbezogen.  
+Das Beispiel muss durch Sie also nur mit **make** kompiliert und mit .**/main.elf** gestartet werden.
 
 ### Den B15F Treiber verwenden
 Benötigt wird der B15F-Header:  
@@ -90,5 +102,4 @@ Dabei gehören Punkte mit dem gleichen Index für `curve` (*uint8_t*) zur selben
 ```C++
 pf.addDot(Dot(x, y, curve));
 ```
-`x` und `y` sind *uint16_t*, also keine Gleitkommazahlen.
-
+*Wichtig*: Die Werte für `x` und `y` sind *uint16_t*, also keine Gleitkommazahlen. Stattdessen sind sie auf RefX und RefY bezogen.
