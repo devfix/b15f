@@ -16,7 +16,7 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
 
 ### 1. Abhängigkeiten installieren
  (a) **sudo apt-get update**  
- (b) **sudo apt-get install git avr-libc avrdude libncurses5-dev g++**  
+ (b) **sudo apt-get install git avr-libc avrdude libncurses5-dev g++ astyle**  
 
 ### 2. Das Repository klonen
  (a) **cd /home/famulus/**  
@@ -89,7 +89,7 @@ PlottyFile pf;
 pf.setUnitX("V");  
 pf.setUnitY("V");  
 pf.setUnitPara("V");  
-pf.setDescX("U_{OUT}");  
+pf.setDescX("U_{OUT}"); // Markdown wird unterstuetzt  
 pf.setDescY("U_{IN}");  
 pf.setDescPara("");  
 pf.setRefX(5);  

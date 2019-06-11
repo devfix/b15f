@@ -83,7 +83,7 @@ Installation</h1>
 <h2><a class="anchor" id="autotoc_md3"></a>
 1. Abhängigkeiten installieren</h2>
 <p>(a) <b>sudo apt-get update</b> <br  />
- (b) <b>sudo apt-get install git avr-libc avrdude libncurses5-dev g++</b> <br  />
+ (b) <b>sudo apt-get install git avr-libc avrdude libncurses5-dev g++ astyle</b> <br  />
  </p>
 <h2><a class="anchor" id="autotoc_md4"></a>
 2. Das Repository klonen</h2>
@@ -150,14 +150,14 @@ Falls noch keine existiert, wird automatisch eine erzeugt und Verbindung zum Boa
 Kennlinien mit plottyfile generieren</h2>
 <p>Die Beschreibung zu Plottyfile befindet sich <a href="https://devfix.github.io/b15f/html/classPlottyFile.html">hier</a>. <br  />
 Nach dem Include von plottyfile kann ein neues Objekt erzeugt und konfiguriert werden: <br  />
-</p><div class="fragment"><div class="line"> {C++}</div><div class="line">PlottyFile pf;  </div><div class="line">pf.setUnitX(&quot;V&quot;);  </div><div class="line">pf.setUnitY(&quot;V&quot;);  </div><div class="line">pf.setUnitPara(&quot;V&quot;);  </div><div class="line">pf.setDescX(&quot;U_{OUT}&quot;);  </div><div class="line">pf.setDescY(&quot;U_{IN}&quot;);  </div><div class="line">pf.setDescPara(&quot;&quot;);  </div><div class="line">pf.setRefX(5);  </div><div class="line">pf.setRefY(5);  </div><div class="line">pf.setParaFirstCurve(0);  </div><div class="line">pf.setParaStepWidth(0);</div></div><!-- fragment --><p> Messpunkte können anschließend hinzugefügt werden. <br  />
+</p><div class="fragment"><div class="line"> {C++}</div><div class="line">PlottyFile pf;  </div><div class="line">pf.setUnitX(&quot;V&quot;);  </div><div class="line">pf.setUnitY(&quot;V&quot;);  </div><div class="line">pf.setUnitPara(&quot;V&quot;);  </div><div class="line">pf.setDescX(&quot;U_{OUT}&quot;); // Markdown wird unterstuetzt  </div><div class="line">pf.setDescY(&quot;U_{IN}&quot;);  </div><div class="line">pf.setDescPara(&quot;&quot;);  </div><div class="line">pf.setRefX(5);  </div><div class="line">pf.setRefY(5);  </div><div class="line">pf.setParaFirstCurve(0);  </div><div class="line">pf.setParaStepWidth(0);</div></div><!-- fragment --><p> Messpunkte können anschließend hinzugefügt werden. <br  />
 Dabei gehören Punkte mit dem gleichen Index für <code>curve</code> (<em>uint8_t</em>) zur selben Kurve und erhalten durch Plotty automatisch die gleiche Farbe. <br  />
 </p><div class="fragment"><div class="line"> {C++}</div><div class="line">pf.addDot(Dot(x, y, curve));</div></div><!-- fragment --><p> <em>Wichtig</em>: Die Werte für <code>x</code> und <code>y</code> sind <em>uint16_t</em>, also keine Gleitkommazahlen. Stattdessen sind sie auf RefX und RefY bezogen. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 11 2019 14:56:58 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 11 2019 15:00:56 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

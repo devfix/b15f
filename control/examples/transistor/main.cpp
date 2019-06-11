@@ -4,6 +4,15 @@
 #include <b15f/b15f.h>
 #include <b15f/plottyfile.h>
 
+/*
+ * Erfasse die Kennlinien des ersten und zweiten Quadrants eines FETs.
+ * Anschlüsse: 
+ * ADC0: U_out (über 100Ohm an Drain)
+ * ADC1: U_drain (Drain)
+ * DAC0: U_out (über 100Ohm an Drain)
+ * DAC1: U_GS (über 1K an Gate)
+ */
+
 const char PLOT_FILE[] = "plot.bin";
 
 void printProgress(double p)
