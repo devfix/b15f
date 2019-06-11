@@ -66,20 +66,31 @@ $(function() {
 <div class="title"><a class="el" href="classB15F.html">B15F</a> Benutzerhandbuch </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><em>Hinweis</em>: Terminal-Befehle sind <b>fett</b> gedruckt</p>
+<div class="textblock"><p><em>Hinweise</em>: <br  />
+ - Terminal-Befehle sind <b>fett</b> gedruckt <br  />
+ - Als Student/Studentin können Sie davon ausgehen, dass die Steuersoftware auf Ihrem Arbeitsplatz bereits installiert ist <br  />
+ - D.h. Sie müssen zu Beginn jeder Übung nur die Firmware neu aufspielen (Installation Abschnitt 3) <br  />
+ </p>
 <h1><a class="anchor" id="autotoc_md1"></a>
+Einführung</h1>
+<p>Das gesamte Softwareprojekt besteht aus zwei Teilen: <br  />
+Die <em><b>Firmware</b></em> ist die Software auf dem Mikrocontroller (MCU) des Board 15. Der Mikrocontroller steuert die Peripherie (ADCs, DACs, ...) über einen SPI-BUS. <br  />
+ Der zweite Teil von <a class="el" href="classB15F.html">B15F</a> ist die <em><b>Steuersoftware</b></em>, die auf dem PC ausgeführt wird. Diese sendet über eine USART-Schnittstelle (RS-232) Befehle an den Mikrocontroller. <br  />
+Die Steuersoftware besitzt ein <em>CLI</em> (command line interface) mit einer Benutzerschnittstelle für die einfache Fernsteuerung des <a class="el" href="classB15F.html">B15F</a>. <br  />
+Außerdem wird eine Bibliothek (<em>b15fdrv</em>) installiert, die eine einfache Entwicklung kleiner Steuerprogramme erlaubt.</p>
+<h1><a class="anchor" id="autotoc_md2"></a>
 Installation</h1>
-<h2><a class="anchor" id="autotoc_md2"></a>
+<h2><a class="anchor" id="autotoc_md3"></a>
 1. Abhängigkeiten installieren</h2>
 <p>(a) <b>sudo apt-get update</b> <br  />
  (b) <b>sudo apt-get install git avr-libc avrdude libncurses5-dev g++</b> <br  />
  </p>
-<h2><a class="anchor" id="autotoc_md3"></a>
+<h2><a class="anchor" id="autotoc_md4"></a>
 2. Das Repository klonen</h2>
 <p>(a) <b>cd /home/famulus/</b> <br  />
  (b) <b>git clone "https://github.com/devfix/b15f.git"</b> <br  />
  </p>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 3. Die Firmware installieren</h2>
 <p>(a) <b>cd "/home/famulus/b15f/firmware"</b> <br  />
  (b) Passen Sie in der Datei <em>Makefile</em> die Option "MCU = ..." an die MCU des vorliegenden Boards an <br  />
@@ -90,14 +101,14 @@ Installation</h1>
  Sonst: <br  />
  (d II) <b>sudo make upload</b> <br  />
  </p>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 4. Die Steuersoftware (Bibliothek &amp; CLI) installieren</h2>
 <p>(a) <b>cd "/home/famulus/b15f/control/src"</b> <br  />
  (b) <b>make</b> <br  />
  (Die Warnungen durch doxygen können ignoriert werden.)</p>
 <p>(c) <b>sudo make install</b> <br  />
  </p>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Aktualisierung</h1>
 <p>(a) <b>cd /home/famulus/b15f/</b> <br  />
  (b) <b>git pull &ndash;prune</b> <br  />
@@ -106,25 +117,25 @@ Aktualisierung</h1>
  (e) <b>cd "/home/famulus/b15f/control/src"</b> <br  />
  (f) <b>make clean</b> <br  />
  (g) Installation ab Schritt 3 wiederholen</p>
-<h1><a class="anchor" id="autotoc_md7"></a>
-Das CommandLineInterface (CLI) benutzen</h1>
+<h1><a class="anchor" id="autotoc_md8"></a>
+Die CommandLineInterface (CLI) benutzen</h1>
 <p>(a) Öffnen Sie ein Terminal und maximieren Sie das Fenster <br  />
  (b) Start des CLI erfolgt durch <b>b15fcli</b> <br  />
  (c) Die Navigation erfolgt durch &lt;Tab&gt;, die Pfeiltasten und &lt;Enter&gt; oder die Maus <br  />
  (d) Mit &lt;Strg + c&gt; kann das Programm sofort verlassen werden</p>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md9"></a>
 Eigene Programme mit B15F schreiben</h1>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 Grundsätzliches</h2>
-<p>Die wichtigste Klasse für die Steuerung des Board 15 ist <a href="https://devfix.github.io/b15f/html/classB15F.html">B15F</a>. <br  />
+<p>Verwendet wird die Bibliothekt <em>b15fdrv</em>. Die wichtigste Klasse für die Steuerung des Board 15 ist <a href="https://devfix.github.io/b15f/html/classB15F.html">B15F</a>. <br  />
 Dort befindet sich auch eine Übersicht der verfügbaren Befehle. <br  />
  </p>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Beispiele</h2>
 <p>In dem Verzeichnis <a href="https://github.com/devfix/b15f/tree/master/control/examples">b15f/control/examples</a> sind einige Beispiele für die Verwendung einzelner <a class="el" href="classB15F.html">B15F</a> Funktionen. <br  />
-Zu jedem Beispiel gehört eine <em>main.cpp</em> mit dem Quellcode und eine <em>Makefile</em>-Datei. <br  />
-Das Beispiel kann mit <b>make</b> kompiliert und mit **./main.elf** gestartet werden.</p>
-<h2><a class="anchor" id="autotoc_md11"></a>
+Zu jedem Beispiel gehört eine <em>main.cpp</em> mit dem Quellcode und eine <em>Makefile</em>-Datei. Durch das Makefile wird beim Kompilieren und Linken die Bibliothek <em>b15fdrv</em> automatisch einbezogen. <br  />
+Das Beispiel muss durch Sie also nur mit <b>make</b> kompiliert und mit .**/main.elf** gestartet werden.</p>
+<h2><a class="anchor" id="autotoc_md12"></a>
 Den B15F Treiber verwenden</h2>
 <p>Benötigt wird der B15F-Header: <br  />
 <code>#include &lt;b15f/b15f.h&gt;</code> <br  />
@@ -135,18 +146,18 @@ und der Header für die plottyfile-Generierung, falls mit Kennlinien gearbeitet 
 Falls noch keine existiert, wird automatisch eine erzeugt und Verbindung zum Board hergestellt. <br  />
  Ab jetzt können auf dem Object <code>drv</code> verschiedene Methoden angewand werden, siehe <a href="https://devfix.github.io/b15f/html/classB15F.html">B15F</a>. <br  />
  </p>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="autotoc_md13"></a>
 Kennlinien mit plottyfile generieren</h2>
 <p>Die Beschreibung zu Plottyfile befindet sich <a href="https://devfix.github.io/b15f/html/classPlottyFile.html">hier</a>. <br  />
 Nach dem Include von plottyfile kann ein neues Objekt erzeugt und konfiguriert werden: <br  />
 </p><div class="fragment"><div class="line"> {C++}</div><div class="line">PlottyFile pf;  </div><div class="line">pf.setUnitX(&quot;V&quot;);  </div><div class="line">pf.setUnitY(&quot;V&quot;);  </div><div class="line">pf.setUnitPara(&quot;V&quot;);  </div><div class="line">pf.setDescX(&quot;U_{OUT}&quot;);  </div><div class="line">pf.setDescY(&quot;U_{IN}&quot;);  </div><div class="line">pf.setDescPara(&quot;&quot;);  </div><div class="line">pf.setRefX(5);  </div><div class="line">pf.setRefY(5);  </div><div class="line">pf.setParaFirstCurve(0);  </div><div class="line">pf.setParaStepWidth(0);</div></div><!-- fragment --><p> Messpunkte können anschließend hinzugefügt werden. <br  />
 Dabei gehören Punkte mit dem gleichen Index für <code>curve</code> (<em>uint8_t</em>) zur selben Kurve und erhalten durch Plotty automatisch die gleiche Farbe. <br  />
-</p><div class="fragment"><div class="line"> {C++}</div><div class="line">pf.addDot(Dot(x, y, curve));</div></div><!-- fragment --><p> <code>x</code> und <code>y</code> sind <em>uint16_t</em>, also keine Gleitkommazahlen. </p>
+</p><div class="fragment"><div class="line"> {C++}</div><div class="line">pf.addDot(Dot(x, y, curve));</div></div><!-- fragment --><p> <em>Wichtig</em>: Die Werte für <code>x</code> und <code>y</code> sind <em>uint16_t</em>, also keine Gleitkommazahlen. Stattdessen sind sie auf RefX und RefY bezogen. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 7 2019 11:03:15 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 11 2019 14:54:25 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
