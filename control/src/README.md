@@ -16,9 +16,9 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
 
 ### Installation mit Installationsscript (empfohlen)
 
- (a) Laden Sie das [Installationsscript](https://raw.githubusercontent.com/devfix/b15f/master/install) herunter
- (b) Setzen Sie die Ausführungsberechtigung
- (c) Starten Sie das Script
+ (a) Laden Sie das [Installationsscript](https://raw.githubusercontent.com/devfix/b15f/master/install) herunter  
+ (b) Setzen Sie die Ausführungsberechtigung  
+ (c) Starten Sie das Script  
 
 ### Installation von Hand (falls Installationsscript mit Fehler abbricht)
 
