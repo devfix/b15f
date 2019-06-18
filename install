@@ -1,0 +1,101 @@
+#!/bin/bash
+
+# Konstanten
+path="/home/core/b15f/"
+user="core"
+repo="https://github.com/devfix/b15f.git"
+log="/tmp/b15f-install.log"
+dependencies="git avr-libc avrdude libncurses5-dev g++ astyle"
+
+function hr1 
+{
+	printf '━%.0s' $(seq $(tput cols))
+	echo ""
+}
+
+function hr2
+{
+  printf '\e(0'; printf 'q%.0s' $(seq $(tput cols)); printf '\e(B\n';
+}
+
+function title
+{
+    echo ""
+    echo -e "*** $1 ***" >> "$log"
+    hr1
+    echo " $1"
+    hr1
+}
+
+function msg
+{
+    echo ""
+    echo -e "* $1 *" >> "$log"
+    hr2
+    echo " $1"
+    hr2
+}
+
+function out
+{
+    echo -e " $1" | tee -a "$log"
+}
+
+
+
+exec 2>&1 | tee -a "$log"
+
+if [ "$EUID" -ne 0 ]; then
+    out "Bitte als root oder mit sudo starten!"
+    exit 1
+fi
+
+title "Installation B15F"
+
+if [ -d "$path" ]; then
+    msg "Entferne alte Version"
+
+    cd "$path/control/src"
+    make clean
+    cd "/"
+    rm -rf "$path"
+fi
+
+# Abbruch bei Fehlern
+set -e
+
+msg "Installiere Abhängigkeiten"
+
+out "Aktualisiere apt..."
+apt-get update > /dev/null
+
+out "Installiere Packete (wenn nötig)..."
+apt-get install -y $dependencies > /dev/null
+
+msg "Lade Projekt-Daten"
+
+out "Klone Repository..."
+su $user -c "git clone -q \"$repo\" \"$path\""
+
+msg "Wichtiger Hinweis"
+out "Bitte stellen Sie jetzt sicher, dass in der Datei \"$path/firmware/Makefile\" die Option \"MCU = ...\" für den richtigen Mikrocontroller eingestellt ist."
+
+echo ""
+out "Drücken Sie [Enter] zum fortfahren."
+read
+
+msg "Kompiliere Firmware"
+
+cd "$path/firmware"
+su $user -c "make" | tee -a "$log"
+
+msg "Lade Firmware auf Mikrocontroller"
+#make upload | tee -a "$log"
+
+msg "Kompiliere Steuersoftware"
+
+cd "$path/control/src"
+su $user -c "make" | tee -a "$log"
+
+msg "Installiere Steuersoftware"
+make install

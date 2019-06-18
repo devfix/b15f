@@ -40,3 +40,5 @@ gnuplotscript.gp
 *.out
 *.app
 *.hex
+control/bin/b15fcli
+
