@@ -14,15 +14,23 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
 
 ## Installation
 
-### 1. Abhängigkeiten installieren
+### Installation mit Installationsscript (empfohlen)
+
+ (a) Laden Sie das [Installationsscript](https://raw.githubusercontent.com/devfix/b15f/master/install) herunter
+ (b) Setzen Sie die Ausführungsberechtigung
+ (c) Starten Sie das Script
+
+### Installation von Hand (falls Installationsscript mit Fehler abbricht)
+
+#### 1. Abhängigkeiten installieren
  (a) **sudo apt-get update**  
  (b) **sudo apt-get install git avr-libc avrdude libncurses5-dev g++ astyle**  
 
-### 2. Das Repository klonen
+#### 2. Das Repository klonen
  (a) **cd /home/famulus/**  
  (b) **git clone "https://github.com/devfix/b15f.git"**  
 
-### 3. Die Firmware installieren
+#### 3. Die Firmware installieren
  (a) **cd "/home/famulus/b15f/firmware"**  
 
  (b) Passen Sie in der Datei *Makefile* die Option "MCU = ..." an die MCU des vorliegenden Boards an  
@@ -35,7 +43,7 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
  Sonst:  
  (d II) **sudo make upload**  
 
-### 4. Die Steuersoftware (Bibliothek & CLI) installieren
+#### 4. Die Steuersoftware (Bibliothek & CLI) installieren
  (a) **cd "/home/famulus/b15f/control/src"**  
  (b) **make**  
  (Die Warnungen durch doxygen können ignoriert werden.)
@@ -43,13 +51,19 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
  (c) **sudo make install**  
 
 ## Aktualisierung
+
+### Aktualisierung mit Installationsscript (empfohlen)
+
+Wiederholen Sie den Schritt "Installation mit Installationsscript". Das Script erkennt die bereits installierte Version und aktualisiert diese.
+
+### Aktualisierung von Hand (falls Installationsscript mit Fehler abbricht)
  (a) **cd /home/famulus/b15f/**  
  (b) **git pull --prune**  
  (c) **cd "/home/famulus/b15f/firmware"**  
  (d) **make clean**  
  (e) **cd "/home/famulus/b15f/control/src"**  
  (f) **make clean**  
- (g) Installation ab Schritt 3 wiederholen
+ (g) "Installation von Hand" ab Schritt 3 durchführen
  
 ## Die CommandLineInterface (CLI) benutzen
  (a) Öffnen Sie ein Terminal und maximieren Sie das Fenster  
