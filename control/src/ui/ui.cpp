@@ -9,8 +9,8 @@ void show_main(int)
     ViewSelection* view = new ViewSelection();
     view->setTitle("B15F - Command Line Interface");
     view->addChoice("[ Monitor - Eingaben beobachten ]", &show_monitor);
-    view->addChoice("[ Digitale Ausgabe BE0 ]", &show_digital_output0);
-    view->addChoice("[ Digitale Ausgabe BE1 ]", &show_digital_output1);
+    view->addChoice("[ Digitale Ausgabe BA0 ]", &show_digital_output0);
+    view->addChoice("[ Digitale Ausgabe BA1 ]", &show_digital_output1);
     view->addChoice("[ Analoge  Ausgabe AA0 ]", &show_analog_output0);
     view->addChoice("[ Analoge  Ausgabe AA1 ]", &show_analog_output1);
     view->addChoice("[ Selbsttest des B15 ]", &show_selftest_info);
@@ -72,7 +72,7 @@ void show_info(int)
 {
     ViewInfo* view = new ViewInfo();
     view->setTitle("Info");
-    view->setText("Informationen zu Board 15 Famulus Edition\nEs war einmal...");
+    view->setText("Informationen zu Board 15 Famulus Edition\n\nProjektseite: https://github.com/devfix/b15f\nDokumentation: https://devfix.github.io/b15f/");
     view->setLabelClose("[ Zurueck ]");
     view->repaint();
 

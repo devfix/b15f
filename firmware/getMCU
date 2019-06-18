@@ -1,0 +1,1 @@
+avrdude -c "$1" -Pusb -p m16 2>&1 | grep 'Device signature =' | awk -F 'probably ' '{print $2}' | head -c-2
