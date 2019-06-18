@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Konstanten
-path="/home/core/b15f/"
-user="core"
 repo="https://github.com/devfix/b15f.git"
 log="/tmp/b15f-install.log"
 dependencies="git avr-libc avrdude libncurses5-dev g++ astyle"
+user="$1"
+path="/home/$user/b15f/"
 
 function hr1 
 {
@@ -42,12 +42,18 @@ function out
 }
 
 
-
+# aktiviere logging
 exec 2>&1 | tee -a "$log"
 
 if [ "$EUID" -ne 0 ]; then
-    out "Bitte als root oder mit sudo starten!"
-    exit 1
+	current_user="`whoami`"
+    out "B15F wrid installiert für: $current_user"
+    out "Für die Installation werden Superrechte benötigt, Anmeldung (für sudo) folgt..."
+    printf "   Nutzername: "
+    read user
+    printf " Melde $user an...\n   "
+    su "$user" -c "printf \" Fordere Superrechte an...\n   \" && sudo -S ./install \"$current_user\""
+    exit 0
 fi
 
 title "Installation B15F"
