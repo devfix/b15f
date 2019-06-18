@@ -17,8 +17,8 @@ OBJCOPY_PATH = avr-objcopy
 # Optionen
 PROGRAMMER = avrispmkII
 OUTPUT     = b15f.elf
-HEX	   = b15f.hex
-MCU        = m1284p
+HEX	   	   = b15f.hex
+MCU        = atmega1284
 CFLAGS     = -Wall -Wextra -std=c++14 -O3 -mmcu=$(MCU) -DF_CPU=$(F_CPU) $(DEBUG)
 LDFLAGS    = 
 OBJECTS    = main.o spi.o mcp23s17.o tlc5615.o adu.o selftest.o global_vars.o usart.o requests.o interrupts.o pwm.o
@@ -35,8 +35,6 @@ b15f: $(OBJECTS)
 	$(OBJCOPY_PATH) -O ihex -R .eeprom -R .fuse -R .lock -R .signature $(OUTPUT) $(HEX)
 
 help:
-	$(eval MCU = $(shell bash -c "avrdude -c $(PROGRAMMER) -Pusb -p m16 2>&1 | grep 'Device signature =' | awk -F 'probably ' '{print $2}' | head -c-2"))
-	@echo $(MCU)
 	@echo "This Makefile has the following rules:"
 	@echo "make b15f .... to compile (default)"
 	@echo "make clean ... to delete objects, elf and hex file"
