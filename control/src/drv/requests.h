@@ -17,8 +17,10 @@ constexpr static uint8_t RQ_ANALOG_READ     = 12;
 constexpr static uint8_t RQ_ADC_DAC_STROKE  = 13;
 constexpr static uint8_t RQ_PWM_SET_FREQ    = 14;
 constexpr static uint8_t RQ_PWM_SET_VALUE   = 15;
-constexpr static uint8_t RQ_SET_REGISTER    = 16;
-constexpr static uint8_t RQ_GET_REGISTER    = 17;
+constexpr static uint8_t RQ_SET_MEM_8       = 16;
+constexpr static uint8_t RQ_GET_MEM_8       = 17;
+constexpr static uint8_t RQ_SET_MEM_16      = 18;
+constexpr static uint8_t RQ_GET_MEM_16      = 19;
 
 uint8_t const rq_len[] = {
 	1 /* RQ_DISCARD */,
@@ -37,8 +39,10 @@ uint8_t const rq_len[] = {
 	1 /* RQ_ADC_DAC_STROKE */ + 1 /* channel a */ + 1 /* channel b */ + 1 /* start low */ + 1 /* start high */ + 1 /* delta low */ + 1 /* delta high */ + 1 /* count low */ + 1 /* count high */,
 	1 /* RQ_PWM_SET_FREQ */ + 1 /* freq low low */ + 1 /* freq low high */ + 1 /* freq high low */ + 1 /* freq high high */,
 	1 /* RQ_PWM_SET_VALUE */ + 1 /* pwm value */,
-	1 /* RQ_SET_REGISTER */ + 1 /* register address*/ + 1 /* register value */,
-	1 /* RQ_GET_REGISTER */ + 1 /* register address*/,
+	1 /* RQ_SET_MEM_8 */ + 1 /* memory address low */ + 1 /* memory address high */ + 1 /* memory value (8-bit) */,
+	1 /* RQ_GET_MEM_8 */ + 1 /* memory address low */ + 1 /* memory address high */,
+	1 /* RQ_SET_MEM_16 */ + 1 /* memory address low */ + 1 /* memory address high */ + 1 /* memory value low */ + 1 /* memory value high */,
+	1 /* RQ_GET_MEM_16 */ + 1 /* memory address low */ + 1 /* memory address high */,
 };
 
 #endif // REQUESTS_H

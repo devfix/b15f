@@ -423,14 +423,15 @@ bool B15F::pwmSetValue(uint8_t value)
     return aw == MSG_OK;
 }
 
-bool B15F::setRegister(volatile uint8_t* adr, uint8_t val)
+bool B15F::setMem8(volatile uint16_t* adr, uint8_t val)
 {
     usart.clearInputBuffer();
 
     uint8_t rq[] =
     {
-        RQ_SET_REGISTER,
-        static_cast<uint8_t>(reinterpret_cast<size_t>(adr)),
+        RQ_SET_MEM_8,
+        static_cast<uint8_t >(reinterpret_cast<size_t>(adr) & 0xFF),
+        static_cast<uint8_t >(reinterpret_cast<size_t>(adr) >> 8),
         val
     };
 
@@ -441,14 +442,15 @@ bool B15F::setRegister(volatile uint8_t* adr, uint8_t val)
     return aw == val;
 }
 
-uint8_t B15F::getRegister(volatile uint8_t* adr)
+uint8_t B15F::getMem8(volatile uint16_t* adr)
 {
     usart.clearInputBuffer();
 
     uint8_t rq[] =
     {
-        RQ_GET_REGISTER,
-        static_cast<uint8_t>(reinterpret_cast<size_t>(adr))
+        RQ_GET_MEM_8,
+        static_cast<uint8_t >(reinterpret_cast<size_t>(adr) & 0xFF),
+        static_cast<uint8_t >(reinterpret_cast<size_t>(adr) >> 8)
     };
 
     usart.transmit(&rq[0], 0, sizeof(rq));
@@ -456,6 +458,54 @@ uint8_t B15F::getRegister(volatile uint8_t* adr)
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
     return aw;
+}
+
+bool B15F::setMem16(volatile uint16_t* adr, uint16_t val)
+{
+    usart.clearInputBuffer();
+
+    uint8_t rq[] =
+    {
+        RQ_SET_MEM_16,
+        static_cast<uint8_t >(reinterpret_cast<size_t>(adr) & 0xFF),
+        static_cast<uint8_t >(reinterpret_cast<size_t>(adr) >> 8),
+        static_cast<uint8_t >(val & 0xFF),
+        static_cast<uint8_t >(val >> 8)
+    };
+
+    usart.transmit(&rq[0], 0, sizeof(rq));
+
+    uint16_t aw;
+    usart.receive(reinterpret_cast<uint8_t *>(&aw), 0, sizeof(aw));
+    return aw == val;
+}
+
+uint16_t B15F::getMem16(volatile uint16_t* adr)
+{
+    usart.clearInputBuffer();
+
+    uint8_t rq[] =
+    {
+        RQ_GET_MEM_16,
+        static_cast<uint8_t >(reinterpret_cast<size_t>(adr) & 0xFF),
+        static_cast<uint8_t >(reinterpret_cast<size_t>(adr) >> 8)
+    };
+
+    usart.transmit(&rq[0], 0, sizeof(rq));
+
+    uint16_t aw;
+    usart.receive(reinterpret_cast<uint8_t *>(&aw), 0, sizeof(aw));
+    return aw;
+}
+
+bool B15F::setRegister(volatile uint8_t* adr, uint8_t val)
+{
+    return setMem8(reinterpret_cast<volatile uint16_t*>(adr), val);
+}
+
+uint8_t B15F::getRegister(volatile uint8_t* adr)
+{
+    return getMem8(reinterpret_cast<volatile uint16_t*>(adr));
 }
 
 /*************************/

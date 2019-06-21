@@ -2,7 +2,7 @@
 #define REQUEST_HANDLERS_H
 
 #include <avr/wdt.h>
-#include "requests.h"
+#include "../control/src/drv/requests.h"
 #include "global_vars.h"
 #include "selftest.h"
 #include "boardinfo.h"
@@ -30,7 +30,7 @@ void rqAnalogRead(void);
 void rqAdcDacStroke(void);
 void rqPwmSetFreq(void);
 void rqPwmSetValue(void);
-void rqSetRegister(void);
-void rqGetRegister(void);
+void rqSetMem8(void);
+void rqGetMem8(void);
 
 #endif // REQUEST_HANDLERS_H

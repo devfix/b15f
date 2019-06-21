@@ -15,7 +15,7 @@
 #include <sys/ioctl.h>
 #include <termios.h>
 
-#include "../../../firmware/requests.h"
+#include "requests.h"
 #include "usart.h"
 #include "driverexception.h"
 #include "timeoutexception.h"
@@ -223,17 +223,61 @@ public:
     bool pwmSetValue(uint8_t value);
 
     /**
-     * Setzt direkt den Wert eines MCU Registers.
+     * Setzt direkt den Wert einer MCU Speicherzelle der Größe 8 Bit.
+     * Diese kann ein Register oder RAM-Daten sein.
      * *Wichtig:* bei einer falschen Adresse kann das Board 15 ernsthaften Schaden nehmen!
-     * \param adr Speicheradresse des Registers
+     * \param adr Speicheradresse
+     * \param val Neuer Wert für die Zelle
+     * \return true, falls Vorgang erfolgreich
+     * \throws DriverException
+     */
+    bool setMem8(volatile uint16_t* adr, uint8_t val);
+
+    /**
+     * Liefert den Wert einer MCU Speicherzelle der Größe 8 Bit.
+     * Diese kann ein Register oder RAM-Daten sein.
+     * \param adr Speicheradresse
+     * \return Wert der Speicherzelle
+     * \throws DriverException
+     */
+    uint8_t getMem8(volatile uint16_t* adr);
+
+    /**
+     * Setzt direkt den Wert einer MCU Speicherzelle der Größe 16 Bit.
+     * Diese kann ein Register oder RAM-Daten sein.
+     * *Wichtig:* bei einer falschen Adresse kann das Board 15 ernsthaften Schaden nehmen!
+     * \param adr Speicheradresse
+     * \param val Neuer Wert für die Zelle
+     * \return true, falls Vorgang erfolgreich
+     * \throws DriverException
+     */
+    bool setMem16(volatile uint16_t* adr, uint16_t val);
+
+    /**
+     * Liefert den Wert einer MCU Speicherzelle der Größe 16 Bit.
+     * Diese kann ein Register oder RAM-Daten sein.
+     * \param adr Speicheradresse
+     * \return Wert der Speicherzelle
+     * \throws DriverException
+     */
+    uint16_t getMem16(volatile uint16_t* adr);
+
+    /**
+     * Setzt direkt den Wert eines 8-Bit MCU Registers.
+     * Diese Funktion arbeitet analog zu setMem8(), jedoch mit einer 8-Bit Adresse.
+     * *Wichtig:* bei einer falschen Adresse kann das Board 15 ernsthaften Schaden nehmen!
+     * \param adr Speicheradresse
      * \param val Neuer Wert für das Register
+     * \return true, falls Vorgang erfolgreich
      * \throws DriverException
      */
     bool setRegister(volatile uint8_t* adr, uint8_t val);
 
     /**
-     * Liefert den Wert eines MCU Registers.
-     * \param adr Speicheradresse des Registers
+     * Liefert den Wert eines 8-Bit MCU Registers.
+     * Diese Funktion arbeitet analog zu getMem8(), jedoch mit einer 8-Bit Adresse.
+     * \param adr Speicheradresse
+     * \return Wert des Registers
      * \throws DriverException
      */
     uint8_t getRegister(volatile uint8_t* adr);

@@ -71,12 +71,12 @@ void handleRequest()
 			rqPwmSetValue();
 			break;
 			
-		case RQ_SET_REGISTER:
-			rqSetRegister();
+		case RQ_SET_MEM_8:
+			rqSetMem8();
 			break;
 			
-		case RQ_GET_REGISTER:
-			rqGetRegister();
+		case RQ_GET_MEM_8:
+			rqGetMem8();
 			break;
 
 		default:
@@ -253,23 +253,43 @@ void rqPwmSetValue()
 	usart.flush();
 }
 
-void rqSetRegister()
+void rqSetMem8()
 {
 	usart.initTX();
-	uint16_t reg = usart.readByte();
-	uint16_t val = usart.readByte();
+	uint16_t reg = usart.readInt();
+	uint8_t val = usart.readByte();
     
     (*(volatile uint8_t *) reg) = val;
 	usart.writeByte((*(volatile uint8_t *) reg));    
 	usart.flush();
 }
 
-void rqGetRegister()
+void rqGetMem8()
 {
 	usart.initTX();
-	uint16_t reg = usart.readByte();
+	uint16_t reg = usart.readInt();
     
 	usart.writeByte((*(volatile uint8_t *) reg));
+	usart.flush();
+}
+
+void rqSetMem16()
+{
+	usart.initTX();
+	uint16_t reg = usart.readInt();
+	uint16_t val = usart.readInt();
+    
+    (*(volatile uint16_t *) reg) = val;
+	usart.writeInt((*(volatile uint16_t *) reg));    
+	usart.flush();
+}
+
+void rqGetMem16()
+{
+	usart.initTX();
+	uint16_t reg = usart.readInt();
+    
+	usart.writeInt((*(volatile uint16_t *) reg));
 	usart.flush();
 }
 
