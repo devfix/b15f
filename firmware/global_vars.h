@@ -20,5 +20,6 @@ extern volatile ADU adu;
 extern volatile USART usart;
 extern volatile PWM pwm;
 extern volatile bool nextRequest;
+extern volatile uint16_t interruptCounters[];
 
 #endif // GLOBAL_VARS_H

@@ -4,7 +4,7 @@
 #include <avr/wdt.h>
 #include "global_vars.h"
 #include "selftest.h"
-#include "requests.h"
+#include "request_handlers.h"
 
 
 int main()

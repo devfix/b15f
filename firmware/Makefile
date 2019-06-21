@@ -21,7 +21,7 @@ HEX	   	   = b15f.hex
 MCU        = atmega1284
 CFLAGS     = -Wall -Wextra -std=c++14 -O3 -mmcu=$(MCU) -DF_CPU=$(F_CPU) $(DEBUG)
 LDFLAGS    = 
-OBJECTS    = main.o spi.o mcp23s17.o tlc5615.o adu.o selftest.o global_vars.o usart.o requests.o interrupts.o pwm.o
+OBJECTS    = main.o spi.o mcp23s17.o tlc5615.o adu.o selftest.o global_vars.o usart.o request_handlers.o interrupts.o pwm.o
 
  
 
