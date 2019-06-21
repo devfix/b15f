@@ -235,7 +235,7 @@ uint8_t B15F::digitalRead0()
     usart.clearInputBuffer();
     uint8_t rq[] =
     {
-        RQ_BE0
+        RQ_DIGITAL_READ_0
     };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -249,7 +249,7 @@ uint8_t B15F::digitalRead1()
     usart.clearInputBuffer();
     uint8_t rq[] =
     {
-        RQ_BE1
+        RQ_DIGITAL_READ_1
     };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -263,7 +263,7 @@ uint8_t B15F::readDipSwitch()
     usart.clearInputBuffer();
     uint8_t rq[] =
     {
-        RQ_DSW
+        RQ_READ_DIP_SWITCH
     };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -276,7 +276,7 @@ bool B15F::analogWrite0(uint16_t value)
 {
     uint8_t rq[] =
     {
-        RQ_AA0,
+        RQ_ANALOG_WRITE_0,
         static_cast<uint8_t >(value & 0xFF),
         static_cast<uint8_t >(value >> 8)
     };
@@ -291,7 +291,7 @@ bool B15F::analogWrite1(uint16_t value)
 {
     uint8_t rq[] =
     {
-        RQ_AA1,
+        RQ_ANALOG_WRITE_1,
         static_cast<uint8_t >(value & 0xFF),
         static_cast<uint8_t >(value >> 8)
     };
@@ -310,7 +310,7 @@ uint16_t B15F::analogRead(uint8_t channel)
 
     uint8_t rq[] =
     {
-        RQ_ADC,
+        RQ_ANALOG_READ,
         channel
     };
 
@@ -425,7 +425,7 @@ bool B15F::setRegister(volatile uint8_t* adr, uint8_t val)
 
     uint8_t rq[] =
     {
-        RQ_SET_REG,
+        RQ_SET_REGISTER,
         static_cast<uint8_t>(reinterpret_cast<size_t>(adr)),
         val
     };
@@ -443,7 +443,7 @@ uint8_t B15F::getRegister(volatile uint8_t* adr)
 
     uint8_t rq[] =
     {
-        RQ_GET_REG,
+        RQ_GET_REGISTER,
         static_cast<uint8_t>(reinterpret_cast<size_t>(adr))
     };
 

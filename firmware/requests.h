@@ -8,17 +8,17 @@ constexpr static uint8_t RQ_INT_TEST        = 3;
 constexpr static uint8_t RQ_SELF_TEST       = 4;
 constexpr static uint8_t RQ_DIGITAL_WRITE_0 = 5;
 constexpr static uint8_t RQ_DIGITAL_WRITE_1 = 6;
-constexpr static uint8_t RQ_BE0             = 7;
-constexpr static uint8_t RQ_BE1             = 8;
-constexpr static uint8_t RQ_DSW             = 9;
-constexpr static uint8_t RQ_AA0             = 10;
-constexpr static uint8_t RQ_AA1             = 11;
-constexpr static uint8_t RQ_ADC             = 12;
+constexpr static uint8_t RQ_DIGITAL_READ_0  = 7;
+constexpr static uint8_t RQ_DIGITAL_READ_1  = 8;
+constexpr static uint8_t RQ_READ_DIP_SWITCH = 9;
+constexpr static uint8_t RQ_ANALOG_WRITE_0  = 10;
+constexpr static uint8_t RQ_ANALOG_WRITE_1  = 11;
+constexpr static uint8_t RQ_ANALOG_READ     = 12;
 constexpr static uint8_t RQ_ADC_DAC_STROKE  = 13;
 constexpr static uint8_t RQ_PWM_SET_FREQ    = 14;
 constexpr static uint8_t RQ_PWM_SET_VALUE   = 15;
-constexpr static uint8_t RQ_SET_REG         = 16;
-constexpr static uint8_t RQ_GET_REG         = 17;
+constexpr static uint8_t RQ_SET_REGISTER    = 16;
+constexpr static uint8_t RQ_GET_REGISTER    = 17;
 
 uint8_t const rq_len[] = {
 	/* RQ_DISC */ 1,

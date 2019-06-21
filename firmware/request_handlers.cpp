@@ -27,35 +27,35 @@ void handleRequest()
 			rqSelfTest();
 			break;
 			
-		case RQ_BA0:
+		case RQ_DIGITAL_WRITE_0:
 			rqDigitalWrite0();
 			break;
 
-		case RQ_BA1:
+		case RQ_DIGITAL_WRITE_1:
 			rqDigitalWrite1();
 			break;
 
-		case RQ_BE0:
+		case RQ_DIGITAL_READ_0:
 			rqDigitalRead0();
 			break;
 
-		case RQ_BE1:
+		case RQ_DIGITAL_READ_1:
 			rqDigitalRead1();
 			break;
 			
-		case RQ_DSW:
+		case RQ_READ_DIP_SWITCH:
 			rqReadDipSwitch();
 			break;
 
-		case RQ_AA0:
+		case RQ_ANALOG_WRITE_0:
 			rqAnalogWrite0();
 			break;
 
-		case RQ_AA1:
+		case RQ_ANALOG_WRITE_1:
 			rqAnalogWrite1();
 			break;
 
-		case RQ_ADC:
+		case RQ_ANALOG_READ:
 			rqAnalogRead();
 			break;
 			
@@ -71,11 +71,11 @@ void handleRequest()
 			rqPwmSetValue();
 			break;
 			
-		case RQ_SET_REG:
+		case RQ_SET_REGISTER:
 			rqSetRegister();
 			break;
 			
-		case RQ_GET_REG:
+		case RQ_GET_REGISTER:
 			rqGetRegister();
 			break;
 
