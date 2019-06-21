@@ -24,7 +24,7 @@ uint8_t const rq_len[] = {
 	1 /* RQ_DISCARD */,
 	1 /* RQ_TEST */ + 1 /* test byte */,
 	1 /* RQ_INFO */,
-	1 /* RQ_INFO */ + 1 /* test int high low */ + 1 /* test int high high */,
+	1 /* RQ_INT_TEST */ + 1 /* test int high low */ + 1 /* test int high high */,
 	1 /* RQ_SELF_TEST */,
 	1 /* RQ_DIGITAL_WRITE_0 */ + 1 /* port value */,
 	1 /* RQ_DIGITAL_WRITE_1 */ + 1 /* port value */,

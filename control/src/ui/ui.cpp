@@ -272,7 +272,7 @@ void show_selftest_info(int)
 {
     ViewInfo* view = new ViewInfo();
     view->setTitle("Selbsttest");
-    view->setText("Bitte entfernen Sie jetzt alle Draehte von den Anschlussklemmen und bestaetigen\nmit Enter.");
+    view->setText("Bitte entfernen Sie jetzt alle Draehte von den Anschlussklemmen und\nbestätigen mit Enter.");
     view->setLabelClose("[ Weiter ]");
     view->setCall(&start_selftest);
     view->repaint();

@@ -19,6 +19,9 @@
 #include "ui/view_monitor.h"
 #include "ui/view_promt.h"
 
+constexpr uint8_t WIN_WIDTH = 80;
+constexpr uint8_t WIN_HEIGHT = 24;
+
 volatile int win_changed_cooldown = 0;
 volatile bool t_refresh_active = false;
 
@@ -97,7 +100,7 @@ void init()
     signal(SIGINT, signal_handler);
 
     // set view context
-    View::setWinContext(newwin(25, 85, 0, 0));
+    View::setWinContext(newwin(WIN_HEIGHT, WIN_WIDTH, 0, 0));
 }
 
 
