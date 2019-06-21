@@ -14,6 +14,8 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <termios.h>
+
+#include "../../../firmware/requests.h"
 #include "usart.h"
 #include "driverexception.h"
 #include "timeoutexception.h"
@@ -30,15 +32,18 @@ typedef std::function<void(std::exception&)> errorhandler_t;
 
 class B15F
 {
-private:
-    // privater Konstruktor
-    B15F(void);
 public:
 
     /*************************************
      * Grundfunktionen des B15F Treibers *
      *************************************/
 
+    /**
+     * Liefert eine Referenz zur aktuellen Treiber-Instanz, die Verbindung wird gegebenenfalls automatisch hergestellt.
+     * @throws DriverException
+     */
+    static B15F& getInstance(void);
+    
     /**
      * Versucht die Verbindung zum B15 wiederherzustellen
      * \throws DriverException
@@ -80,12 +85,6 @@ public:
      * \param us Verzögerung in Microsekunden
      */
     void delay_us(uint16_t us);
-
-    /**
-     * Liefert eine Referenz zur aktuellen Treiber-Instanz
-     * @throws DriverException
-     */
-    static B15F& getInstance(void);
 
     /**
      * Führt ein Befehl auf dieser Maschine aus und liefert stdout zurück
@@ -247,34 +246,25 @@ public:
 private:
 
     /**
+     * Privater Konstruktor
+     */
+    B15F(void);
+    
+    /**
      * Initialisiert und testet die Verbindung zum B15
      * \throws DriverException
      */
     void init(void);
+    
+    /**
+     * Invertiert das Bitmuster eines Bytes
+     * z.B.: 10100001 --> 10000101
+     */
+    void reverse(uint8_t& b);
 
     USART usart;
     static B15F* instance;
     static errorhandler_t errorhandler;
-
-    // REQUESTS
-    constexpr static uint8_t RQ_DISC = 0;
-    constexpr static uint8_t RQ_TEST = 1;
-    constexpr static uint8_t RQ_INFO = 2;
-    constexpr static uint8_t RQ_INT  = 3;
-    constexpr static uint8_t RQ_ST   = 4;
-    constexpr static uint8_t RQ_BA0  = 5;
-    constexpr static uint8_t RQ_BA1  = 6;
-    constexpr static uint8_t RQ_BE0  = 7;
-    constexpr static uint8_t RQ_BE1  = 8;
-    constexpr static uint8_t RQ_DSW  = 9;
-    constexpr static uint8_t RQ_AA0  = 10;
-    constexpr static uint8_t RQ_AA1  = 11;
-    constexpr static uint8_t RQ_ADC  = 12;
-    constexpr static uint8_t RQ_ADC_DAC_STROKE = 13;
-    constexpr static uint8_t RQ_PWM_SET_FREQ   = 14;
-    constexpr static uint8_t RQ_PWM_SET_VALUE  = 15;
-    constexpr static uint8_t RQ_SET_REG        = 16;
-    constexpr static uint8_t RQ_GET_REG        = 17;
 };
 
 #endif // B15F_H

@@ -8,7 +8,7 @@ void handleRequest()
 	
 	switch(req)
 	{
-		case RQ_DISC:
+		case RQ_DISCARD:
 			break;
 
 		case RQ_TEST:
@@ -19,11 +19,11 @@ void handleRequest()
 			rqBoardInfo();
 			break;
 		
-		case RQ_INT:
+		case RQ_INT_TEST:
 			rqTestIntConv();
 			break;
 
-		case RQ_ST:
+		case RQ_SELF_TEST:
 			rqSelfTest();
 			break;
 			

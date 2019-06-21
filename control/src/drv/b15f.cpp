@@ -3,55 +3,17 @@
 B15F *B15F::instance = nullptr;
 errorhandler_t B15F::errorhandler = nullptr;
 
-B15F::B15F()
+
+/*************************************
+ * Grundfunktionen des B15F Treibers *
+ *************************************/
+    
+B15F &B15F::getInstance(void)
 {
-    init();
-}
+    if (!instance)
+        instance = new B15F();
 
-void B15F::init()
-{
-
-    std::string device = exec("bash -c 'ls /dev/ttyUSB*'");
-    while (device.find(' ') != std::string::npos || device.find('\n') != std::string::npos ||
-            device.find('\t') != std::string::npos)
-        device.pop_back();
-
-    if (device.length() == 0)
-        abort("Adapter nicht gefunden");
-
-    std::cout << PRE << "Verwende Adapter: " << device << std::endl;
-
-
-    std::cout << PRE << "Stelle Verbindung mit Adapter her... " << std::flush;
-    usart.setBaudrate(BAUDRATE);
-    usart.openDevice(device);
-    std::cout << "OK" << std::endl;
-
-
-    std::cout << PRE << "Teste Verbindung... " << std::flush;
-    uint8_t tries = 3;
-    while (tries--)
-    {
-        // verwerfe Daten, die µC noch hat
-        //discard();
-
-        if (!testConnection())
-            continue;
-
-        if (!testIntConv())
-            continue;
-
-        break;
-    }
-    if (tries == 0)
-        abort("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
-    std::cout << "OK" << std::endl;
-
-
-    // Gib board info aus
-    std::vector<std::string> info = getBoardInfo();
-    std::cout << PRE << "AVR Firmware Version: " << info[0] << " um " << info[1] << " Uhr (" << info[2] << ")"
-              << std::endl;
+    return *instance;
 }
 
 void B15F::reconnect()
@@ -75,7 +37,7 @@ void B15F::discard(void)
     {
         uint8_t rq[] =
         {
-            RQ_DISC
+            RQ_DISCARD
         };
 
         usart.clearOutputBuffer();
@@ -118,7 +80,7 @@ bool B15F::testIntConv()
 
     uint8_t rq[] =
     {
-        RQ_INT,
+        RQ_INT_TEST,
         static_cast<uint8_t >(dummy & 0xFF),
         static_cast<uint8_t >(dummy >> 8)
     };
@@ -163,11 +125,69 @@ std::vector<std::string> B15F::getBoardInfo(void)
     return info;
 }
 
+void B15F::delay_ms(uint16_t ms)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
+
+void B15F::delay_us(uint16_t us)
+{
+    std::this_thread::sleep_for(std::chrono::microseconds(us));
+}
+
+// https://stackoverflow.com/a/478960
+std::string B15F::exec(std::string cmd)
+{
+    std::array<char, 128> buffer;
+    std::string result;
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd.c_str(), "r"), pclose);
+    if (!pipe)
+    {
+        throw std::runtime_error("popen() failed!");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
+    {
+        result += buffer.data();
+    }
+    return result;
+}
+
+void B15F::abort(std::string msg)
+{
+    DriverException ex(msg);
+    abort(ex);
+}
+
+void B15F::abort(std::exception &ex)
+{
+    if (errorhandler)
+        errorhandler(ex);
+    else
+    {
+        std::cerr << "NOTICE: B15F::errorhandler not set" << std::endl;
+        std::cout << ex.what() << std::endl;
+        throw DriverException(ex.what());
+    }
+}
+
+void B15F::setAbortHandler(errorhandler_t func)
+{
+    errorhandler = func;
+}
+
+/*************************************/
+
+
+
+/*************************
+ * Steuerbefehle für B15 *
+ *************************/
+
 bool B15F::activateSelfTestMode()
 {
     uint8_t rq[] =
     {
-        RQ_ST
+        RQ_SELF_TEST
     };
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -178,9 +198,12 @@ bool B15F::activateSelfTestMode()
 
 bool B15F::digitalWrite0(uint8_t port)
 {
+    
+    reverse(port);
+    
     uint8_t rq[] =
     {
-        RQ_BA0,
+        RQ_DIGITAL_WRITE_0,
         port
     };
     usart.transmit(&rq[0], 0, sizeof(rq));
@@ -192,9 +215,12 @@ bool B15F::digitalWrite0(uint8_t port)
 
 bool B15F::digitalWrite1(uint8_t port)
 {
+    
+    reverse(port);
+    
     uint8_t rq[] =
     {
-        RQ_BA1,
+        RQ_DIGITAL_WRITE_1,
         port
     };
     usart.transmit(&rq[0], 0, sizeof(rq));
@@ -428,61 +454,68 @@ uint8_t B15F::getRegister(volatile uint8_t* adr)
     return aw;
 }
 
+/*************************/
 
-void B15F::delay_ms(uint16_t ms)
+
+/**********************
+ * Private Funktionen * 
+ **********************/
+
+B15F::B15F()
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+    init();
 }
 
-void B15F::delay_us(uint16_t us)
-{
-    std::this_thread::sleep_for(std::chrono::microseconds(us));
-}
 
-B15F &B15F::getInstance(void)
+void B15F::init()
 {
-    if (!instance)
-        instance = new B15F();
 
-    return *instance;
-}
+    std::string device = exec("bash -c 'ls /dev/ttyUSB*'");
+    while (device.find(' ') != std::string::npos || device.find('\n') != std::string::npos ||
+            device.find('\t') != std::string::npos)
+        device.pop_back();
 
-// https://stackoverflow.com/a/478960
-std::string B15F::exec(std::string cmd)
-{
-    std::array<char, 128> buffer;
-    std::string result;
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd.c_str(), "r"), pclose);
-    if (!pipe)
+    if (device.length() == 0)
+        abort("Adapter nicht gefunden");
+
+    std::cout << PRE << "Verwende Adapter: " << device << std::endl;
+
+
+    std::cout << PRE << "Stelle Verbindung mit Adapter her... " << std::flush;
+    usart.setBaudrate(BAUDRATE);
+    usart.openDevice(device);
+    std::cout << "OK" << std::endl;
+
+
+    std::cout << PRE << "Teste Verbindung... " << std::flush;
+    uint8_t tries = 3;
+    while (tries--)
     {
-        throw std::runtime_error("popen() failed!");
+        // verwerfe Daten, die µC noch hat
+        //discard();
+
+        if (!testConnection())
+            continue;
+
+        if (!testIntConv())
+            continue;
+
+        break;
     }
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
-    {
-        result += buffer.data();
-    }
-    return result;
+    if (tries == 0)
+        abort("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
+    std::cout << "OK" << std::endl;
+
+
+    // Gib board info aus
+    std::vector<std::string> info = getBoardInfo();
+    std::cout << PRE << "AVR Firmware Version: " << info[0] << " um " << info[1] << " Uhr (" << info[2] << ")"
+              << std::endl;
 }
 
-void B15F::abort(std::string msg)
+void B15F::reverse(uint8_t& b)
 {
-    DriverException ex(msg);
-    abort(ex);
-}
-
-void B15F::abort(std::exception &ex)
-{
-    if (errorhandler)
-        errorhandler(ex);
-    else
-    {
-        std::cerr << "NOTICE: B15F::errorhandler not set" << std::endl;
-        std::cout << ex.what() << std::endl;
-        throw DriverException(ex.what());
-    }
-}
-
-void B15F::setAbortHandler(errorhandler_t func)
-{
-    errorhandler = func;
+    b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
+    b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
+    b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
 }
