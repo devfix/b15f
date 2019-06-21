@@ -135,6 +135,13 @@ void B15F::delay_us(uint16_t us)
     std::this_thread::sleep_for(std::chrono::microseconds(us));
 }
 
+void B15F::reverse(uint8_t& b)
+{
+    b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
+    b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
+    b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
+}
+
 // https://stackoverflow.com/a/478960
 std::string B15F::exec(std::string cmd)
 {
@@ -197,10 +204,7 @@ bool B15F::activateSelfTestMode()
 }
 
 bool B15F::digitalWrite0(uint8_t port)
-{
-    
-    reverse(port);
-    
+{    
     uint8_t rq[] =
     {
         RQ_DIGITAL_WRITE_0,
@@ -215,9 +219,6 @@ bool B15F::digitalWrite0(uint8_t port)
 
 bool B15F::digitalWrite1(uint8_t port)
 {
-    
-    reverse(port);
-    
     uint8_t rq[] =
     {
         RQ_DIGITAL_WRITE_1,
@@ -269,6 +270,9 @@ uint8_t B15F::readDipSwitch()
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
+    
+    reverse(aw); // DIP Schalter muss invertiert werden!
+    
     return aw;
 }
 
@@ -511,11 +515,4 @@ void B15F::init()
     std::vector<std::string> info = getBoardInfo();
     std::cout << PRE << "AVR Firmware Version: " << info[0] << " um " << info[1] << " Uhr (" << info[2] << ")"
               << std::endl;
-}
-
-void B15F::reverse(uint8_t& b)
-{
-    b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
-    b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
-    b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
 }

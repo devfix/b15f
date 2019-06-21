@@ -72,7 +72,7 @@ void show_info(int)
 {
     ViewInfo* view = new ViewInfo();
     view->setTitle("Info");
-    view->setText("Informationen zu Board 15 Famulus Edition\n\nProjektseite: https://github.com/devfix/b15f\nDokumentation: https://devfix.github.io/b15f/");
+    view->setText("Informationen zu Board 15 Famulus Edition\n \nProjektseite: https://github.com/devfix/b15f/\nDokumentation: https://devfix.github.io/b15f/\n \nB15F Software entwickelt von Tristan Krause für das Hardware-Labor.\nKontakt: tristan.krause@stud.htwk-leipzig.de");
     view->setLabelClose("[ Zurueck ]");
     view->repaint();
 

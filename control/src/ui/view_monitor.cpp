@@ -43,8 +43,11 @@ call_t ViewMonitor::keypress(int& key)
 
 std::string ViewMonitor::fancyDigitalString(uint8_t& b)
 {
+    std::string bitstring(std::bitset<8>(b).to_string());
+    std::reverse(bitstring.begin(), bitstring.end());
+    
     std::stringstream str;
-    str << std::bitset<8>(b).to_string();
+    str << bitstring;
     str << " ";
     str << "0x" << std::setfill ('0') << std::setw(2) << std::hex << (int) b << std::dec;
     return str.str();
@@ -131,7 +134,7 @@ void ViewMonitor::worker()
             }
             catch(...)
             {
-                B15F::abort("yoho meine dudes");
+                B15F::abort("Die Verbindung ist unterbrochen worden. Wurde ein Stecker gezogen? :D");
                 return;
             }
         }

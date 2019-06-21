@@ -85,6 +85,13 @@ public:
      * \param us Verzögerung in Microsekunden
      */
     void delay_us(uint16_t us);
+    
+    /**
+     * Invertiert das Bitmuster eines Bytes
+     * z.B.: 10100001 --> 10000101
+     * \param b Byte, das invertiert wird
+     */
+    void reverse(uint8_t& b);
 
     /**
      * Führt ein Befehl auf dieser Maschine aus und liefert stdout zurück
@@ -255,12 +262,6 @@ private:
      * \throws DriverException
      */
     void init(void);
-    
-    /**
-     * Invertiert das Bitmuster eines Bytes
-     * z.B.: 10100001 --> 10000101
-     */
-    void reverse(uint8_t& b);
 
     USART usart;
     static B15F* instance;
