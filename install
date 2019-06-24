@@ -6,6 +6,9 @@ log="/tmp/b15f-install.log"
 dependencies="git avr-libc avrdude libncurses5-dev g++ astyle"
 user="$1"
 path="/home/$user/b15f/"
+udev_rule="SUBSYSTEM!=\"usb_device\", ACTION!=\"add\", GOTO=\"avrisp_end\"\nATTR{idVendor}==\"03eb\", ATTR{idProduct}==\"2104\", MODE=\"660\", GROUP=\"dialout\"\nLABEL=\"avrisp_end\""
+udev_path="/etc/udev/rules.d/60-olimex.rules"
+
 
 function hr1 
 {
@@ -52,20 +55,11 @@ if [ "$EUID" -ne 0 ]; then
     printf "   Nutzername: "
     read user
     printf " Melde $user an...\n   "
-    su "$user" -c "printf \" Fordere Superrechte an...\n   \" && sudo -S ./install \"$current_user\""
+    su "$user" -c "printf \" Fordere Superrechte an...\n   \" && sudo -S bash \"$0\" \"$current_user\""
     exit 0
 fi
 
 title "Installation B15F"
-
-if [ -d "$path" ]; then
-    msg "Entferne alte Version"
-
-    cd "$path/control/src"
-    make clean
-    cd "/"
-    rm -rf "$path"
-fi
 
 # Abbruch bei Fehlern
 set -e
@@ -78,10 +72,31 @@ apt-get update > /dev/null
 out "Installiere Packete (wenn nötig)..."
 apt-get install -y $dependencies > /dev/null
 
+out "Konfiguriere udev rules..."
+echo -e "$udev_rule" > "$udev_path"
+
+out "Aktualisiere udev service..."
+udevadm control --reload-rules
+udevadm trigger
+
 msg "Lade Projekt-Daten"
 
-out "Klone Repository..."
-su $user -c "git clone -q \"$repo\" \"$path\""
+if [ -d "$path" ]; then
+    msg "Entferne alte Version"
+
+    cd "$path/control/src"
+    make clean
+    cd "$path/firmware"
+    make clean
+    
+    msg "Aktualisiere Repository..."
+    su $user -c "git checkout master"
+    su $user -c "git pull"
+    su $user -c "git pull --prune"
+else
+    out "Klone Repository..."
+    su $user -c "git clone -q \"$repo\" \"$path\""
+fi
 
 msg "Wichtiger Hinweis"
 out "Bitte stellen Sie jetzt sicher, dass in der Datei \"$path/firmware/Makefile\" die Option \"MCU = ...\" für den richtigen Mikrocontroller eingestellt ist."
@@ -96,7 +111,7 @@ cd "$path/firmware"
 su $user -c "make" | tee -a "$log"
 
 msg "Lade Firmware auf Mikrocontroller"
-#make upload | tee -a "$log"
+make upload | tee -a "$log"
 
 msg "Kompiliere Steuersoftware"
 
