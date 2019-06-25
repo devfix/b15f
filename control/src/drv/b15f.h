@@ -231,7 +231,7 @@ public:
      * \return true, falls Vorgang erfolgreich
      * \throws DriverException
      */
-    bool setMem8(volatile uint16_t* adr, uint8_t val);
+    bool setMem8(volatile uint8_t* adr, uint8_t val);
 
     /**
      * Liefert den Wert einer MCU Speicherzelle der Größe 8 Bit.
@@ -240,7 +240,7 @@ public:
      * \return Wert der Speicherzelle
      * \throws DriverException
      */
-    uint8_t getMem8(volatile uint16_t* adr);
+    uint8_t getMem8(volatile uint8_t* adr);
 
     /**
      * Setzt direkt den Wert einer MCU Speicherzelle der Größe 16 Bit.
@@ -263,8 +263,7 @@ public:
     uint16_t getMem16(volatile uint16_t* adr);
 
     /**
-     * Setzt direkt den Wert eines 8-Bit MCU Registers.
-     * Diese Funktion arbeitet analog zu setMem8(), jedoch mit einer 8-Bit Adresse.
+     * Diese Funktion ist ein Alias für setMem8().
      * *Wichtig:* bei einer falschen Adresse kann das Board 15 ernsthaften Schaden nehmen!
      * \param adr Speicheradresse
      * \param val Neuer Wert für das Register
@@ -274,8 +273,7 @@ public:
     bool setRegister(volatile uint8_t* adr, uint8_t val);
 
     /**
-     * Liefert den Wert eines 8-Bit MCU Registers.
-     * Diese Funktion arbeitet analog zu getMem8(), jedoch mit einer 8-Bit Adresse.
+     * Diese Funktion ist ein Alias für getMem8().
      * \param adr Speicheradresse
      * \return Wert des Registers
      * \throws DriverException

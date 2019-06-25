@@ -423,7 +423,7 @@ bool B15F::pwmSetValue(uint8_t value)
     return aw == MSG_OK;
 }
 
-bool B15F::setMem8(volatile uint16_t* adr, uint8_t val)
+bool B15F::setMem8(volatile uint8_t* adr, uint8_t val)
 {
     usart.clearInputBuffer();
 
@@ -442,7 +442,7 @@ bool B15F::setMem8(volatile uint16_t* adr, uint8_t val)
     return aw == val;
 }
 
-uint8_t B15F::getMem8(volatile uint16_t* adr)
+uint8_t B15F::getMem8(volatile uint8_t* adr)
 {
     usart.clearInputBuffer();
 
@@ -500,12 +500,12 @@ uint16_t B15F::getMem16(volatile uint16_t* adr)
 
 bool B15F::setRegister(volatile uint8_t* adr, uint8_t val)
 {
-    return setMem8(reinterpret_cast<volatile uint16_t*>(adr), val);
+    return setMem8(adr, val);
 }
 
 uint8_t B15F::getRegister(volatile uint8_t* adr)
 {
-    return getMem8(reinterpret_cast<volatile uint16_t*>(adr));
+    return getMem8(adr);
 }
 
 /*************************/
