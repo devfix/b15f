@@ -45,7 +45,7 @@ std::string ViewMonitor::fancyDigitalString(uint8_t& b)
 {
     std::string bitstring(std::bitset<8>(b).to_string());
     std::reverse(bitstring.begin(), bitstring.end());
-
+    
     std::stringstream str;
     str << bitstring;
     str << " ";

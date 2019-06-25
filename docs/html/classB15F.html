@@ -117,10 +117,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac6f6532bb9550a0632c28b98c157d0a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9aad3c0db5d5a8b37219d713e1977ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#af9aad3c0db5d5a8b37219d713e1977ee">pwmSetValue</a> (uint8_t value)</td></tr>
 <tr class="separator:af9aad3c0db5d5a8b37219d713e1977ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a965b879d92787203e0971db20e247dfe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#a965b879d92787203e0971db20e247dfe">setMem8</a> (volatile uint16_t *adr, uint8_t val)</td></tr>
-<tr class="separator:a965b879d92787203e0971db20e247dfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6314ec0a2701f6b2ea49b7623b9e1c4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#ad6314ec0a2701f6b2ea49b7623b9e1c4">getMem8</a> (volatile uint16_t *adr)</td></tr>
-<tr class="separator:ad6314ec0a2701f6b2ea49b7623b9e1c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04e52727c1ac7f5e600163c73deb29f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#a04e52727c1ac7f5e600163c73deb29f2">setMem8</a> (volatile uint8_t *adr, uint8_t val)</td></tr>
+<tr class="separator:a04e52727c1ac7f5e600163c73deb29f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a404bd21d5db7270744eea77edfd9578a"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#a404bd21d5db7270744eea77edfd9578a">getMem8</a> (volatile uint8_t *adr)</td></tr>
+<tr class="separator:a404bd21d5db7270744eea77edfd9578a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2dc09141f3300c751b57adacf2bed71"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#ae2dc09141f3300c751b57adacf2bed71">setMem16</a> (volatile uint16_t *adr, uint16_t val)</td></tr>
 <tr class="separator:ae2dc09141f3300c751b57adacf2bed71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f84a830f054fbede9444d3b9bb566c4"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#a5f84a830f054fbede9444d3b9bb566c4">getMem16</a> (volatile uint16_t *adr)</td></tr>
@@ -129,6 +129,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab446ecffab28d4515dfade79a8efc93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bd47da39928af6f51075bdc3fe73ddc"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#a9bd47da39928af6f51075bdc3fe73ddc">getRegister</a> (volatile uint8_t *adr)</td></tr>
 <tr class="separator:a9bd47da39928af6f51075bdc3fe73ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a055e5b62432aa08c711f430fc0181d86"><td class="memItemLeft" align="right" valign="top">uint16_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classB15F.html#a055e5b62432aa08c711f430fc0181d86">getInterruptCounterOffset</a> (void)</td></tr>
+<tr class="separator:a055e5b62432aa08c711f430fc0181d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -754,6 +756,27 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
 
 </div>
 </div>
+<a id="a055e5b62432aa08c711f430fc0181d86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a055e5b62432aa08c711f430fc0181d86">&#9670;&nbsp;</a></span>getInterruptCounterOffset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t * B15F::getInterruptCounterOffset </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Liefert die Adresse des ersten Interrupt Counters (BASISR). </p><dl class="section return"><dt>Returns</dt><dd>Adresse (in der MCU) </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00509">509</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a5f84a830f054fbede9444d3b9bb566c4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5f84a830f054fbede9444d3b9bb566c4">&#9670;&nbsp;</a></span>getMem16()</h2>
 
@@ -776,19 +799,13 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Wert der Speicherzelle </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 
 <p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00481">481</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
-<a id="ad6314ec0a2701f6b2ea49b7623b9e1c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6314ec0a2701f6b2ea49b7623b9e1c4">&#9670;&nbsp;</a></span>getMem8()</h2>
+<a id="a404bd21d5db7270744eea77edfd9578a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a404bd21d5db7270744eea77edfd9578a">&#9670;&nbsp;</a></span>getMem8()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -796,7 +813,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
         <tr>
           <td class="memname">uint8_t B15F::getMem8 </td>
           <td>(</td>
-          <td class="paramtype">volatile uint16_t *&#160;</td>
+          <td class="paramtype">volatile uint8_t *&#160;</td>
           <td class="paramname"><em>adr</em></td><td>)</td>
           <td></td>
         </tr>
@@ -809,12 +826,6 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Wert der Speicherzelle </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 
 <p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00443">443</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
@@ -835,19 +846,13 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Liefert den Wert eines 8-Bit MCU Registers. Diese Funktion arbeitet analog zu <a class="el" href="classB15F.html#ad6314ec0a2701f6b2ea49b7623b9e1c4">getMem8()</a>, jedoch mit einer 8-Bit Adresse. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Diese Funktion ist ein Alias für <a class="el" href="classB15F.html#a404bd21d5db7270744eea77edfd9578a">getMem8()</a>. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">adr</td><td>Speicheradresse </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Wert des Registers </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 
 <p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00504">504</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
@@ -1064,19 +1069,13 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true, falls Vorgang erfolgreich </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 
 <p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00461">461</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a965b879d92787203e0971db20e247dfe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a965b879d92787203e0971db20e247dfe">&#9670;&nbsp;</a></span>setMem8()</h2>
+<a id="a04e52727c1ac7f5e600163c73deb29f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04e52727c1ac7f5e600163c73deb29f2">&#9670;&nbsp;</a></span>setMem8()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1084,7 +1083,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
         <tr>
           <td class="memname">bool B15F::setMem8 </td>
           <td>(</td>
-          <td class="paramtype">volatile uint16_t *&#160;</td>
+          <td class="paramtype">volatile uint8_t *&#160;</td>
           <td class="paramname"><em>adr</em>, </td>
         </tr>
         <tr>
@@ -1108,12 +1107,6 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true, falls Vorgang erfolgreich </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 
 <p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00424">424</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
@@ -1144,7 +1137,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Setzt direkt den Wert eines 8-Bit MCU Registers. Diese Funktion arbeitet analog zu <a class="el" href="classB15F.html#a965b879d92787203e0971db20e247dfe">setMem8()</a>, jedoch mit einer 8-Bit Adresse. <em>Wichtig:</em> bei einer falschen Adresse kann das Board 15 ernsthaften Schaden nehmen! </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Diese Funktion ist ein Alias für <a class="el" href="classB15F.html#a04e52727c1ac7f5e600163c73deb29f2">setMem8()</a>. <em>Wichtig:</em> bei einer falschen Adresse kann das Board 15 ernsthaften Schaden nehmen! </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">adr</td><td>Speicheradresse </td></tr>
     <tr><td class="paramname">val</td><td>Neuer Wert für das Register </td></tr>
@@ -1152,12 +1145,6 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true, falls Vorgang erfolgreich </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classDriverException.html">DriverException</a></td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 
 <p class="definition">Definition at line <a class="el" href="b15f_8cpp_source.html#l00499">499</a> of file <a class="el" href="b15f_8cpp_source.html">b15f.cpp</a>.</p>
 
@@ -1222,7 +1209,7 @@ constexpr static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a 
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 21 2019 16:32:16 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 25 2019 11:06:59 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

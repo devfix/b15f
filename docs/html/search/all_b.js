@@ -7,7 +7,7 @@ var searchData=
   ['setdescy',['setDescY',['../classPlottyFile.html#a38a3a4dfc76bc70523727584bf01d590',1,'PlottyFile']]],
   ['setfunctiontype',['setFunctionType',['../classPlottyFile.html#a4e5ab1ebb012a5cc1a3d6458a4cd512f',1,'PlottyFile']]],
   ['setmem16',['setMem16',['../classB15F.html#ae2dc09141f3300c751b57adacf2bed71',1,'B15F']]],
-  ['setmem8',['setMem8',['../classB15F.html#a965b879d92787203e0971db20e247dfe',1,'B15F']]],
+  ['setmem8',['setMem8',['../classB15F.html#a04e52727c1ac7f5e600163c73deb29f2',1,'B15F']]],
   ['setparafirstcurve',['setParaFirstCurve',['../classPlottyFile.html#aa676414793becb975506f48d6e949dd0',1,'PlottyFile']]],
   ['setparastepwidth',['setParaStepWidth',['../classPlottyFile.html#a6caebd31e04e2e7081cc007047350355',1,'PlottyFile']]],
   ['setquadrant',['setQuadrant',['../classPlottyFile.html#a1953ee0d9a87b7353c16139584e9c2ae',1,'PlottyFile']]],

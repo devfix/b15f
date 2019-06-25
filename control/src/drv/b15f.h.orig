@@ -43,7 +43,7 @@ public:
      * @throws DriverException
      */
     static B15F& getInstance(void);
-
+    
     /**
      * Versucht die Verbindung zum B15 wiederherzustellen
      * \throws DriverException
@@ -85,7 +85,7 @@ public:
      * \param us Verzögerung in Microsekunden
      */
     void delay_us(uint16_t us);
-
+    
     /**
      * Invertiert das Bitmuster eines Bytes
      * z.B.: 10100001 --> 10000101
@@ -273,7 +273,7 @@ public:
      * \return Wert des Registers
      */
     uint8_t getRegister(volatile uint8_t* adr);
-
+    
     /**
      * Liefert die Adresse des ersten Interrupt Counters (BASISR).
      * \return Adresse (in der MCU)
@@ -298,7 +298,7 @@ private:
      * Privater Konstruktor
      */
     B15F(void);
-
+    
     /**
      * Initialisiert und testet die Verbindung zum B15
      * \throws DriverException

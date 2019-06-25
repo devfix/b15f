@@ -7,7 +7,7 @@ errorhandler_t B15F::errorhandler = nullptr;
 /*************************************
  * Grundfunktionen des B15F Treibers *
  *************************************/
-
+    
 B15F &B15F::getInstance(void)
 {
     if (!instance)
@@ -204,7 +204,7 @@ bool B15F::activateSelfTestMode()
 }
 
 bool B15F::digitalWrite0(uint8_t port)
-{
+{    
     uint8_t rq[] =
     {
         RQ_DIGITAL_WRITE_0,
@@ -270,9 +270,9 @@ uint8_t B15F::readDipSwitch()
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
-
+    
     reverse(aw); // DIP Schalter muss invertiert werden!
-
+    
     return aw;
 }
 
@@ -528,7 +528,7 @@ uint16_t* B15F::getInterruptCounterOffset()
 
 
 /**********************
- * Private Funktionen *
+ * Private Funktionen * 
  **********************/
 
 B15F::B15F()
