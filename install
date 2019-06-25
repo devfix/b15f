@@ -8,7 +8,9 @@ user="$1"
 path="/home/$user/b15f/"
 udev_rule="SUBSYSTEM!=\"usb_device\", ACTION!=\"add\", GOTO=\"avrisp_end\"\nATTR{idVendor}==\"03eb\", ATTR{idProduct}==\"2104\", MODE=\"660\", GROUP=\"dialout\"\nLABEL=\"avrisp_end\""
 udev_path="/etc/udev/rules.d/60-olimex.rules"
-
+mcu_cfg="/etc/b15f.mcu"
+declare -a known_mcus=("atmega1284" "atmega1284p")
+declare -a known_users=("famulus")
 
 function hr1 
 {
@@ -50,6 +52,14 @@ exec 2>&1 | tee -a "$log"
 
 if [ "$EUID" -ne 0 ]; then
 	current_user="`whoami`"
+	
+	# Prüfe, ob user ungültig
+    if [[ ! " ${known_users[@]} " =~ " ${current_user} " ]]; then
+        users="${known_users[@]}"
+        title "Fehler: Dieses Script muss als einer der folgenden Nutzer gestartet werden: ${users}."
+        exit 1
+    fi
+	
     out "B15F wrid installiert für: $current_user"
     out "Für die Installation werden Superrechte benötigt, Anmeldung (für sudo) folgt..."
     printf "   Nutzername: "
@@ -63,47 +73,56 @@ title "Installation B15F"
 
 # Abbruch bei Fehlern
 set -e
+set -o pipefail
 
 msg "Installiere Abhängigkeiten"
 
 out "Aktualisiere apt..."
-apt-get update > /dev/null
+apt-get update > /dev/null | tee -a "$log"
 
 out "Installiere Packete (wenn nötig)..."
-apt-get install -y $dependencies > /dev/null
+apt-get install -y $dependencies > /dev/null | tee -a "$log"
 
 out "Konfiguriere udev rules..."
 echo -e "$udev_rule" > "$udev_path"
 
 out "Aktualisiere udev service..."
-udevadm control --reload-rules
-udevadm trigger
+udevadm control --reload-rules| tee -a "$log"
+udevadm trigger| tee -a "$log"
 
 msg "Lade Projekt-Daten"
 
 if [ -d "$path" ]; then
-    msg "Entferne alte Version"
+    out "Entferne alte Version"
 
     cd "$path/control/src"
-    make clean
+    make clean | tee -a "$log"
     cd "$path/firmware"
-    make clean
+    make clean | tee -a "$log"
     
-    msg "Aktualisiere Repository..."
+    out "Aktualisiere Repository..."
     su $user -c "git checkout master"
     su $user -c "git pull"
     su $user -c "git pull --prune"
 else
     out "Klone Repository..."
-    su $user -c "git clone -q \"$repo\" \"$path\""
+    su $user -c "git clone -q \"$repo\" \"$path\"" | tee -a "$log"
 fi
 
-msg "Wichtiger Hinweis"
-out "Bitte stellen Sie jetzt sicher, dass in der Datei \"$path/firmware/Makefile\" die Option \"MCU = ...\" für den richtigen Mikrocontroller eingestellt ist."
+if [ ! -f "$mcu_cfg" ]; then
+    msg "Wichtiger Hinweis"
+    out "Bitte geben Sie die MCU für diesen Arbeitsplatz an:"
+    read -e -p " MCU = " -i "atmega1284p" mcu
+    echo "$mcu" > "$mcu_cfg"
+fi
 
-echo ""
-out "Drücken Sie [Enter] zum fortfahren."
-read
+mcu=`cat "$mcu_cfg"`
+# Prüfe, ob MCU unbekannt
+if [[ ! " ${known_mcus[@]} " =~ " ${mcu} " ]]; then
+    mcus="${known_mcus[@]}"
+    title "Fehler: $mcu_cfg enhält keine der folgenden MCUs: ${mcus}. Bitte korrigieren und Installation neu starten."
+    exit 1
+fi
 
 msg "Kompiliere Firmware"
 
@@ -111,7 +130,10 @@ cd "$path/firmware"
 su $user -c "make" | tee -a "$log"
 
 msg "Lade Firmware auf Mikrocontroller"
-make upload | tee -a "$log"
+make upload | tee -a "$log" || {
+    title "Fehler: Upload fehlgeschlagen. Hat B15 Strom?"
+    exit 1
+}
 
 msg "Kompiliere Steuersoftware"
 
@@ -119,6 +141,6 @@ cd "$path/control/src"
 su $user -c "make" | tee -a "$log"
 
 msg "Installiere Steuersoftware"
-make install
+make install | tee -a "$log"
 
 title "Installation erfolgreich abgeschlossen"

@@ -17,7 +17,7 @@ OBJCOPY_PATH = avr-objcopy
 # Optionen
 PROGRAMMER = avrispmkII
 OUTPUT     = b15f.elf
-HEX	   	   = b15f.hex
+HEX        = b15f.hex
 MCU        = atmega1284p
 CFLAGS     = -Wall -Wextra -std=c++14 -O3 -mmcu=$(MCU) -DF_CPU=$(F_CPU) $(DEBUG)
 LDFLAGS    = 
