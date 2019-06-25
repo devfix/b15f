@@ -49,7 +49,7 @@ checkfuses:
 
 upload: b15f checkfuses
 	@echo "Uploading hex file..."
-	avrdude -Pusb -p $(MCU) -c $(PROGRAMMER) -U flash:w:$(HEX)
+	avrdude -v -Pusb -p $(MCU) -c $(PROGRAMMER) -U flash:w:$(HEX)
 
 .cpp.o:
 	$(COMPILE) -c $< -o $@
