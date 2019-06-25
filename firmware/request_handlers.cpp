@@ -78,6 +78,19 @@ void handleRequest()
 		case RQ_GET_MEM_8:
 			rqGetMem8();
 			break;
+			break;
+			
+		case RQ_SET_MEM_16:
+			rqSetMem16();
+			break;
+			
+		case RQ_GET_MEM_16:
+			rqGetMem16();
+			break;
+            
+        case RQ_COUNTER_OFFSET:
+            rqGetInterruptCounterOffset();
+            break;
 
 		default:
 			break;
@@ -293,3 +306,9 @@ void rqGetMem16()
 	usart.flush();
 }
 
+void rqGetInterruptCounterOffset()
+{
+	usart.initTX();    
+	usart.writeInt((volatile uint16_t) &interruptCounters[0]);
+	usart.flush();
+}

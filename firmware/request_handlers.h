@@ -32,5 +32,8 @@ void rqPwmSetFreq(void);
 void rqPwmSetValue(void);
 void rqSetMem8(void);
 void rqGetMem8(void);
+void rqSetMem16(void);
+void rqGetMem16(void);
+void rqGetInterruptCounterOffset(void);
 
 #endif // REQUEST_HANDLERS_H
