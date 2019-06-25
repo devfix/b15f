@@ -5,7 +5,7 @@ repo="https://github.com/devfix/b15f.git"
 log="/tmp/b15f-install.log"
 dependencies="git avr-libc avrdude libncurses5-dev g++ astyle"
 user="$1"
-path="/home/$user/b15f/"
+path="/home/$user/Dokumente/b15f/"
 udev_rule="SUBSYSTEM!=\"usb_device\", ACTION!=\"add\", GOTO=\"avrisp_end\"\nATTR{idVendor}==\"03eb\", ATTR{idProduct}==\"2104\", MODE=\"660\", GROUP=\"dialout\"\nLABEL=\"avrisp_end\""
 udev_path="/etc/udev/rules.d/60-olimex.rules"
 mcu_cfg="/etc/b15f.mcu"
@@ -93,20 +93,15 @@ udevadm trigger| tee -a "$log"
 msg "Lade Projekt-Daten"
 
 if [ -d "$path" ]; then
-    out "Entferne alte Version"
-
-    cd "$path/control/src"
-    make clean | tee -a "$log"
-    cd "$path/firmware"
-    make clean | tee -a "$log"
-    
     out "Aktualisiere Repository..."
+    cd "$path"
     su $user -c "git checkout master"
     su $user -c "git pull"
     su $user -c "git pull --prune"
 else
     out "Klone Repository..."
     su $user -c "git clone -q \"$repo\" \"$path\"" | tee -a "$log"
+    cd "$path"
 fi
 
 if [ ! -f "$mcu_cfg" ]; then
@@ -116,6 +111,7 @@ if [ ! -f "$mcu_cfg" ]; then
     echo "$mcu" > "$mcu_cfg"
 fi
 
+out "Prüfe $mcu_cfg"
 mcu=`cat "$mcu_cfg"`
 # Prüfe, ob MCU unbekannt
 if [[ ! " ${known_mcus[@]} " =~ " ${mcu} " ]]; then
@@ -124,9 +120,12 @@ if [[ ! " ${known_mcus[@]} " =~ " ${mcu} " ]]; then
     exit 1
 fi
 
+sed -i "s@\\s*MCU\\s*=\\s*atmega1284.*@MCU        = ${mcu} # set by ${mcu_cfg}@g" "$path/firmware/"?akefile
+
 msg "Kompiliere Firmware"
 
 cd "$path/firmware"
+su $user -c "make clean" | tee -a "$log"
 su $user -c "make" | tee -a "$log"
 
 msg "Lade Firmware auf Mikrocontroller"
@@ -138,6 +137,7 @@ make upload | tee -a "$log" || {
 msg "Kompiliere Steuersoftware"
 
 cd "$path/control/src"
+su $user -c "make clean" | tee -a "$log"
 su $user -c "make" | tee -a "$log"
 
 msg "Installiere Steuersoftware"
