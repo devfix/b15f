@@ -229,7 +229,6 @@ public:
      * \param adr Speicheradresse
      * \param val Neuer Wert für die Zelle
      * \return true, falls Vorgang erfolgreich
-     * \throws DriverException
      */
     bool setMem8(volatile uint8_t* adr, uint8_t val);
 
@@ -238,7 +237,6 @@ public:
      * Diese kann ein Register oder RAM-Daten sein.
      * \param adr Speicheradresse
      * \return Wert der Speicherzelle
-     * \throws DriverException
      */
     uint8_t getMem8(volatile uint8_t* adr);
 
@@ -249,7 +247,6 @@ public:
      * \param adr Speicheradresse
      * \param val Neuer Wert für die Zelle
      * \return true, falls Vorgang erfolgreich
-     * \throws DriverException
      */
     bool setMem16(volatile uint16_t* adr, uint16_t val);
 
@@ -258,7 +255,6 @@ public:
      * Diese kann ein Register oder RAM-Daten sein.
      * \param adr Speicheradresse
      * \return Wert der Speicherzelle
-     * \throws DriverException
      */
     uint16_t getMem16(volatile uint16_t* adr);
 
@@ -268,7 +264,6 @@ public:
      * \param adr Speicheradresse
      * \param val Neuer Wert für das Register
      * \return true, falls Vorgang erfolgreich
-     * \throws DriverException
      */
     bool setRegister(volatile uint8_t* adr, uint8_t val);
 
@@ -276,9 +271,14 @@ public:
      * Diese Funktion ist ein Alias für getMem8().
      * \param adr Speicheradresse
      * \return Wert des Registers
-     * \throws DriverException
      */
     uint8_t getRegister(volatile uint8_t* adr);
+    
+    /**
+     * Liefert die Adresse des ersten Interrupt Counters (BASISR).
+     * \return Adresse (in der MCU)
+     */
+    uint16_t* getInterruptCounterOffset(void);
 
     /*************************/
 

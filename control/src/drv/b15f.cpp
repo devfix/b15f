@@ -508,6 +508,22 @@ uint8_t B15F::getRegister(volatile uint8_t* adr)
     return getMem8(adr);
 }
 
+uint16_t* B15F::getInterruptCounterOffset()
+{
+    usart.clearInputBuffer();
+
+    uint8_t rq[] =
+    {
+        RQ_COUNTER_OFFSET
+    };
+
+    usart.transmit(&rq[0], 0, sizeof(rq));
+
+    uint16_t aw;
+    usart.receive(reinterpret_cast<uint8_t *>(&aw), 0, sizeof(aw));
+    return reinterpret_cast<uint16_t*>(aw);
+}
+
 /*************************/
 
 

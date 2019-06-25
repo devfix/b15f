@@ -21,6 +21,7 @@ constexpr static uint8_t RQ_SET_MEM_8       = 16;
 constexpr static uint8_t RQ_GET_MEM_8       = 17;
 constexpr static uint8_t RQ_SET_MEM_16      = 18;
 constexpr static uint8_t RQ_GET_MEM_16      = 19;
+constexpr static uint8_t RQ_COUNTER_OFFSET  = 20;
 
 uint8_t const rq_len[] = {
 	1 /* RQ_DISCARD */,
@@ -43,6 +44,7 @@ uint8_t const rq_len[] = {
 	1 /* RQ_GET_MEM_8 */ + 1 /* memory address low */ + 1 /* memory address high */,
 	1 /* RQ_SET_MEM_16 */ + 1 /* memory address low */ + 1 /* memory address high */ + 1 /* memory value low */ + 1 /* memory value high */,
 	1 /* RQ_GET_MEM_16 */ + 1 /* memory address low */ + 1 /* memory address high */,
+	1 /* RQ_COUNTER_OFFSET */,
 };
 
 #endif // REQUESTS_H
