@@ -24,8 +24,15 @@ void B15F::reconnect()
         delay_ms(RECONNECT_TIMEOUT);
         discard();
 
-        if (testConnection())
-            return;
+        try
+        {
+            testConnection();
+            return; // no exceptionm means success
+        }
+        catch(DriverException& eDE)
+        {
+            // discard exception
+        }
     }
 
     abort("Verbindung kann nicht repariert werden");
@@ -54,7 +61,7 @@ void B15F::discard(void)
     }
 }
 
-bool B15F::testConnection()
+void B15F::testConnection()
 {
     // erzeuge zufälliges Byte
     srand(time(NULL));
@@ -70,10 +77,11 @@ bool B15F::testConnection()
     uint8_t aw[2];
     usart.receive(&aw[0], 0, sizeof(aw));
 
-    return aw[0] == MSG_OK && aw[1] == dummy;
+    assertCode(aw[0], MSG_OK);
+    assertCode(aw[1], dummy);
 }
 
-bool B15F::testIntConv()
+void B15F::testIntConv()
 {
     srand(time(NULL));
     uint16_t dummy = rand() % (0xFFFF / 3);
@@ -89,7 +97,7 @@ bool B15F::testIntConv()
     uint16_t aw;
     usart.receive(reinterpret_cast<uint8_t *>(&aw), 0, sizeof(aw));
 
-    return aw == dummy * 3;
+    assertCode(aw, dummy * 3);
 }
 
 
@@ -643,22 +651,34 @@ void B15F::init()
 
 
     std::cout << PRE << "Teste Verbindung... " << std::flush;
-    uint8_t tries = 3;
-    while (tries--)
+    int tries = 4;
+    while (--tries)
     {
-        // verwerfe Daten, die µC noch hat
-        //discard();
+        discard();
 
-        if (!testConnection())
+        try
+        {
+            testConnection();
+        }
+        catch(DriverException& eDE)
+        {
             continue;
+        }
 
-        if (!testIntConv())
+        try
+        {
+            testIntConv();
+        }
+        catch(DriverException& eDE)
+        {
             continue;
+        }
 
         break;
     }
-    if (tries == 0)
+    if (!tries)
         abort("Verbindungstest fehlgeschlagen. Neueste Version im Einsatz?");
+
     std::cout << "OK" << std::endl;
 
 

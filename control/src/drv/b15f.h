@@ -27,6 +27,10 @@
 
 typedef std::function<void(std::exception&)> errorhandler_t;
 
+// Wrapper für Codeposition-Ersetzung
+#define assertCode(code, expectation) assertCodeFunc(code, expectation, &__FUNCTION__[0], &__FILE__[0], __LINE__)
+#define assertRequestLength(rq, rq_num) assertRequestLengthFunc(rq, rq_num,& __FUNCTION__[0], &__FILE__[0], __LINE__)
+
 
 /*! main driver class */
 
@@ -60,13 +64,13 @@ public:
      * Testet die USART Verbindung auf Funktion
      * \throws DriverException
      */
-    bool testConnection(void);
+    void testConnection(void);
 
     /**
      * Testet die Integer Konvertierung der USART Verbindung
      * \throws DriverException
      */
-    bool testIntConv(void);
+    void testIntConv(void);
 
     /**
      * Liefert Informationen zur aktuellen Firmware des B15
@@ -330,10 +334,10 @@ private:
      * \throws DriverException
      */
     template<typename CodeType, typename ExpectationType>
-    void assertCode(CodeType& code, ExpectationType expectation) const
+    void assertCodeFunc(CodeType& code, ExpectationType expectation, const char* func, const char* file, int line) const
     {
         if(code != static_cast<CodeType>(expectation))
-            throw DriverException("Ungültige Antwort erhalten: " + std::to_string((int) code) + " (erwartet: " + std::to_string((int) expectation) + ")");
+            throw DriverException("Ungültige Antwort erhalten: " + std::to_string((int) code) + " (erwartet: " + std::to_string((int) expectation) + ") in " + std::string(func) + ": " + std::string(file) + "#" + std::to_string(line));
     }
 
     /**
@@ -341,10 +345,10 @@ private:
      * \throws DriverException
      */
     template<size_t RequestLength>
-    void assertRequestLength(uint8_t (&)[RequestLength], uint8_t rq_num)
+    void assertRequestLengthFunc(uint8_t (&)[RequestLength], uint8_t rq_num, const char* func, const char* file, int line)
     {
         if(RequestLength != rq_len[rq_num])
-            throw DriverException("Ungültige Request Länge: " + std::to_string(RequestLength) + " (erwartet: " + std::to_string(rq_len[rq_num]) + ")");
+            throw DriverException("Ungültige Request Länge: " + std::to_string(RequestLength) + " (erwartet: " + std::to_string(rq_len[rq_num]) + ") in " + std::string(func) + ": " + std::string(file) + "#" + std::to_string(line));
     }
 
     USART usart; //!< USART Instanz für serielle Verbindung
