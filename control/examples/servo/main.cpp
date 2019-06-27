@@ -11,11 +11,13 @@ int main()
     // aktiviere Servo Signal
     drv.setServoEnabled();
     
+    drv.delay_ms(3000);
+    
     // drehe Servo
     drv.setServoPosition(1000);
     
-    drv.delay_ms(2000);
+    drv.delay_ms(3000);
     
-    // drehe Servo
-    drv.setServoPosition(19000);
+    // deaktiviere Servo Signal
+    drv.setServoDisabled();
 }
