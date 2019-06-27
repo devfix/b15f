@@ -22,6 +22,9 @@ constexpr static uint8_t RQ_GET_MEM_8       = 17;
 constexpr static uint8_t RQ_SET_MEM_16      = 18;
 constexpr static uint8_t RQ_GET_MEM_16      = 19;
 constexpr static uint8_t RQ_COUNTER_OFFSET  = 20;
+constexpr static uint8_t RQ_SERVO_ENABLE    = 21;
+constexpr static uint8_t RQ_SERVO_DISABLE   = 22;
+constexpr static uint8_t RQ_SERVO_SET_POS   = 23;
 
 uint8_t const rq_len[] =
 {
@@ -46,6 +49,9 @@ uint8_t const rq_len[] =
     1 /* RQ_SET_MEM_16 */ + 1 /* memory address low */ + 1 /* memory address high */ + 1 /* memory value low */ + 1 /* memory value high */,
     1 /* RQ_GET_MEM_16 */ + 1 /* memory address low */ + 1 /* memory address high */,
     1 /* RQ_COUNTER_OFFSET */,
+    1 /* RQ_SERVO_ENABLE */,
+    1 /* RQ_SERVO_DISABLE */,
+    1 /* RQ_SERVO_SET_POS */ + 1 /* pulse length low */ + 1 /* pulse length high */, 
 };
 
 #endif // REQUESTS_H

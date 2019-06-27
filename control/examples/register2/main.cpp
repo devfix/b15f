@@ -1,5 +1,4 @@
 #include <b15f/b15f.h>
-#include <b15f/plottyfile.h>
 
 /*
  * Dieses Beispiel liest ein par Interrupt Counter aus.

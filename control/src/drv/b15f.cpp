@@ -524,6 +524,59 @@ uint16_t* B15F::getInterruptCounterOffset()
     return reinterpret_cast<uint16_t*>(aw);
 }
 
+void B15F::setServoEnabled(void)
+{
+    usart.clearInputBuffer();
+
+    uint8_t rq[] =
+    {
+        RQ_SERVO_ENABLE
+    };
+
+    usart.transmit(&rq[0], 0, sizeof(rq));
+
+    uint8_t aw;
+    usart.receive(&aw, 0, sizeof(aw));
+    assertCode(aw, MSG_OK);
+}
+
+void B15F::setServoDisabled(void)
+{
+    usart.clearInputBuffer();
+
+    uint8_t rq[] =
+    {
+        RQ_SERVO_DISABLE
+    };
+
+    usart.transmit(&rq[0], 0, sizeof(rq));
+
+    uint8_t aw;
+    usart.receive(&aw, 0, sizeof(aw));
+    assertCode(aw, MSG_OK);
+}
+
+void B15F::setServoPosition(uint16_t pos)
+{
+    if(pos > 19000)
+        throw DriverException("Impulslänge ist zu lang: " + std::to_string(pos));
+    
+    usart.clearInputBuffer();
+
+    uint8_t rq[] =
+    {
+        RQ_SERVO_SET_POS,
+        static_cast<uint8_t >(pos & 0xFF),
+        static_cast<uint8_t >(pos >> 8)
+    };
+
+    usart.transmit(&rq[0], 0, sizeof(rq));
+
+    uint8_t aw;
+    usart.receive(&aw, 0, sizeof(aw));
+    assertCode(aw, MSG_OK);
+}
+
 /*************************/
 
 
@@ -581,4 +634,10 @@ void B15F::init()
     std::vector<std::string> info = getBoardInfo();
     std::cout << PRE << "AVR Firmware Version: " << info[0] << " um " << info[1] << " Uhr (" << info[2] << ")"
               << std::endl;
+}
+
+void B15F::assertCode(uint8_t& code, uint8_t expectation) const
+{
+    if(code != expectation)
+        throw DriverException("Ungültige Antwort erhalten: " + std::to_string((int) code) + " (erwartet: " + std::to_string((int) expectation) + ")");
 }

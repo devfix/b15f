@@ -49,6 +49,7 @@ ISR(WDT_vect)
 ISR(TIMER2_COMPA_vect)
 {
     interruptCounters[9]++;
+    servo.handleTimer2();
 }
 
 ISR(TIMER2_COMPB_vect)
@@ -69,6 +70,7 @@ ISR(TIMER1_CAPT_vect)
 ISR(TIMER1_COMPA_vect)
 {
     interruptCounters[13]++;
+    servo.handleTimer1();
 }
 
 ISR(TIMER1_COMPB_vect)

@@ -1,5 +1,4 @@
 #include <b15f/b15f.h>
-#include <b15f/plottyfile.h>
 
 /*
  * Dieses Beispiel erzeugt einen 300ms langen Impuls an PB0.

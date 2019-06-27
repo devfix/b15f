@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 #include <b15f/b15f.h>
-#include <b15f/plottyfile.h>
 
 /*
  * Erzeugt ein PWM Signal an PB4 mit 100KHz.

@@ -91,6 +91,18 @@ void handleRequest()
         case RQ_COUNTER_OFFSET:
             rqGetInterruptCounterOffset();
             break;
+            
+        case RQ_SERVO_ENABLE:
+            rqServoEnable();
+            break;
+            
+        case RQ_SERVO_DISABLE:
+            rqServoDisable();
+            break;
+            
+        case RQ_SERVO_SET_POS:
+            rqServoSetPosition();
+            break;
 
 		default:
 			break;
@@ -310,5 +322,33 @@ void rqGetInterruptCounterOffset()
 {
 	usart.initTX();    
 	usart.writeInt((volatile uint16_t) &interruptCounters[0]);
+	usart.flush();
+}
+
+void rqServoEnable()
+{
+	usart.initTX();
+    servo.enable();
+
+	usart.writeByte(USART::MSG_OK);
+	usart.flush();
+}
+
+void rqServoDisable()
+{
+	usart.initTX();
+    servo.disable();
+
+	usart.writeByte(USART::MSG_OK);
+	usart.flush();
+}
+
+void rqServoSetPosition()
+{
+	usart.initTX();
+	uint16_t pos = usart.readInt();
+    servo.setPosition(pos);
+
+	usart.writeByte(USART::MSG_OK);
 	usart.flush();
 }

@@ -11,3 +11,4 @@ volatile USART usart;
 volatile PWM pwm;
 volatile bool nextRequest = false;
 volatile uint16_t interruptCounters[35] = { 0 }; // alle Einträge mit 0 initialisieren
+volatile Servo servo;

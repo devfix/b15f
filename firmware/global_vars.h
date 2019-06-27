@@ -6,6 +6,7 @@
 #include "adu.h"
 #include "usart.h"
 #include "pwm.h"
+#include "servo.h"
 
 
 #define WDT_TIMEOUT WDTO_15MS
@@ -21,5 +22,6 @@ extern volatile USART usart;
 extern volatile PWM pwm;
 extern volatile bool nextRequest;
 extern volatile uint16_t interruptCounters[];
+extern volatile Servo servo;
 
 #endif // GLOBAL_VARS_H

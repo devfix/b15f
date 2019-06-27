@@ -35,5 +35,8 @@ void rqGetMem8(void);
 void rqSetMem16(void);
 void rqGetMem16(void);
 void rqGetInterruptCounterOffset(void);
+void rqServoEnable(void);
+void rqServoDisable(void);
+void rqServoSetPosition(void);
 
 #endif // REQUEST_HANDLERS_H

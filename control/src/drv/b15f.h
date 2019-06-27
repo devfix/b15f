@@ -206,18 +206,19 @@ public:
     void analogSequence(uint8_t channel_a, uint16_t* buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t* buffer_b, uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count);
 
     /**
+     * Frequenz von PWM an PB4.
      * Setzt die Register so, dass näherungsweise die gewünschte Frequenz erzeugt wird.
      * Ist freq == 0 wird PWM deaktiviert.
      * Standardfrequenz: 31300 (empfohlen, da dann TOP == 255)
      * \param freq PWM Frequenz
-     * \return Top Wert des PWM Value für die gesetzte Frequenz
+     * \return TOP Wert des PWM Value für die gesetzte Frequenz
      * \throws DriverException
      */
     uint8_t pwmSetFrequency(uint32_t freq);
 
     /**
-     * Setzt den PWM Wert.
-     * \param value PWM Wert [0..0xFF]
+     * Setzt den PWM Wert an PB4.
+     * \param value PWM Wert [0..TOP]
      * \throws DriverException
      */
     bool pwmSetValue(uint8_t value);
@@ -279,6 +280,22 @@ public:
      * \return Adresse (in der MCU)
      */
     uint16_t* getInterruptCounterOffset(void);
+    
+    /**
+     * Aktiviert das Servo Signal an PB2 und Initialisiert es mit 1,5ms Pulselänge.
+     */
+    void setServoEnabled(void);
+    
+    /**
+     * Deaktiviert das Servo Signal an PB2.
+     */
+    void setServoDisabled(void);
+    
+    /**
+     * Setzt die Pulselänge des Servo Signals und damit die Position.
+     * \param pos Pulselänge des Signals in Mikrosekunden
+     */
+    void setServoPosition(uint16_t pos);
 
     /*************************/
 
@@ -304,10 +321,16 @@ private:
      * \throws DriverException
      */
     void init(void);
+    
+    /**
+     * Wirft eine Exception, falls der Code ungleich dem erwarteten Wert ist.
+     * \throws DriverException
+     */
+    void assertCode(uint8_t& code, uint8_t expectation) const;
 
-    USART usart;
-    static B15F* instance;
-    static errorhandler_t errorhandler;
+    USART usart; //!< USART Instanz für serielle Verbindung
+    static B15F* instance; //!< private Instanz für Singleton
+    static errorhandler_t errorhandler; //!< Error Handler für Exceptions und Fehler
 };
 
 #endif // B15F_H
