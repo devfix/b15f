@@ -17,5 +17,6 @@ Die Projekt-Dokumentation befindet sich unter [github pages](https://devfix.gith
 - [x] Servo ansteuert
 - [x] Interrupt Counter
 - [x] mem16 testen
-- [ ] autocheck request size
+- [x] autocheck request size
+- [ ] Raspberry Pi test
 

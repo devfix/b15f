@@ -1,7 +1,7 @@
 #include <b15f/b15f.h>
 
 /*
- * Dieses Beispiel steuert einen Servo an PB3 an.
+ * Dieses Beispiel steuert einen Servo an PB2 an.
  * 
  */
 int main()

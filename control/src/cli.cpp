@@ -84,7 +84,6 @@ void init()
     std::cout << std::endl << "Starte in 3s ..." << std::endl;
     sleep(3);
 #endif
-    B15F::setAbortHandler(&abort_handler);
 
     // init all ncurses stuff
     initscr();
@@ -101,6 +100,9 @@ void init()
 
     // set view context
     View::setWinContext(newwin(WIN_HEIGHT, WIN_WIDTH, 0, 0));
+    
+    // set graphical error handler
+    B15F::setAbortHandler(&abort_handler);
 }
 
 
