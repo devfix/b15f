@@ -560,7 +560,7 @@ void B15F::setServoPosition(uint16_t pos)
 {
     if(pos > 19000)
         throw DriverException("Impulslänge ist zu lang: " + std::to_string(pos));
-
+    
     usart.clearInputBuffer();
 
     uint8_t rq[] =

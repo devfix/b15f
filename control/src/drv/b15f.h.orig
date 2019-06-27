@@ -280,17 +280,17 @@ public:
      * \return Adresse (in der MCU)
      */
     uint16_t* getInterruptCounterOffset(void);
-
+    
     /**
      * Aktiviert das Servo Signal an PB2 und Initialisiert es mit 1,5ms Pulselänge.
      */
     void setServoEnabled(void);
-
+    
     /**
      * Deaktiviert das Servo Signal an PB2.
      */
     void setServoDisabled(void);
-
+    
     /**
      * Setzt die Pulselänge des Servo Signals und damit die Position.
      * \param pos Pulselänge des Signals in Mikrosekunden
@@ -321,7 +321,7 @@ private:
      * \throws DriverException
      */
     void init(void);
-
+    
     /**
      * Wirft eine Exception, falls der Code ungleich dem erwarteten Wert ist.
      * \throws DriverException

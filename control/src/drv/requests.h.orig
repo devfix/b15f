@@ -51,7 +51,7 @@ uint8_t const rq_len[] =
     1 /* RQ_COUNTER_OFFSET */,
     1 /* RQ_SERVO_ENABLE */,
     1 /* RQ_SERVO_DISABLE */,
-    1 /* RQ_SERVO_SET_POS */ + 1 /* pulse length low */ + 1 /* pulse length high */,
+    1 /* RQ_SERVO_SET_POS */ + 1 /* pulse length low */ + 1 /* pulse length high */, 
 };
 
 #endif // REQUESTS_H
