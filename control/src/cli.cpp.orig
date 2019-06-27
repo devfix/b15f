@@ -100,7 +100,7 @@ void init()
 
     // set view context
     View::setWinContext(newwin(WIN_HEIGHT, WIN_WIDTH, 0, 0));
-
+    
     // set graphical error handler
     B15F::setAbortHandler(&abort_handler);
 }

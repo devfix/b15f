@@ -195,7 +195,7 @@ void B15F::activateSelfTestMode()
     {
         RQ_SELF_TEST
     };
-    
+
     assertRequestLength(rq, RQ_SELF_TEST);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -211,7 +211,7 @@ void B15F::digitalWrite0(uint8_t port)
         RQ_DIGITAL_WRITE_0,
         port
     };
-    
+
     assertRequestLength(rq, RQ_DIGITAL_WRITE_0);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -227,7 +227,7 @@ void B15F::digitalWrite1(uint8_t port)
         RQ_DIGITAL_WRITE_1,
         port
     };
-    
+
     assertRequestLength(rq, RQ_DIGITAL_WRITE_1);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -243,7 +243,7 @@ uint8_t B15F::digitalRead0()
     {
         RQ_DIGITAL_READ_0
     };
-    
+
     assertRequestLength(rq, RQ_DIGITAL_READ_0);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -259,7 +259,7 @@ uint8_t B15F::digitalRead1()
     {
         RQ_DIGITAL_READ_1
     };
-    
+
     assertRequestLength(rq, RQ_DIGITAL_READ_1);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -275,7 +275,7 @@ uint8_t B15F::readDipSwitch()
     {
         RQ_READ_DIP_SWITCH
     };
-    
+
     assertRequestLength(rq, RQ_READ_DIP_SWITCH);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -295,7 +295,7 @@ void B15F::analogWrite0(uint16_t value)
         static_cast<uint8_t >(value & 0xFF),
         static_cast<uint8_t >(value >> 8)
     };
-    
+
     assertRequestLength(rq, RQ_ANALOG_WRITE_0);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -312,7 +312,7 @@ void B15F::analogWrite1(uint16_t value)
         static_cast<uint8_t >(value & 0xFF),
         static_cast<uint8_t >(value >> 8)
     };
-    
+
     assertRequestLength(rq, RQ_ANALOG_WRITE_1);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -345,7 +345,7 @@ uint16_t B15F::analogRead(uint8_t channel)
 }
 
 void B15F::analogSequence(uint8_t channel_a, uint16_t *buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t *buffer_b,
-                     uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
+                          uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
     // prepare pointers
     buffer_a += offset_a;
@@ -593,7 +593,7 @@ void B15F::setServoPosition(uint16_t pos)
         static_cast<uint8_t >(pos & 0xFF),
         static_cast<uint8_t >(pos >> 8)
     };
-    
+
     assertRequestLength(rq, RQ_SERVO_SET_POS);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
@@ -625,7 +625,7 @@ void B15F::init()
     // normal PC serial interface
     std::string device = exec("bash -c 'ls /dev/ttyUSB* 2> /dev/null'");
 #endif
-    
+
     while (device.find(' ') != std::string::npos || device.find('\n') != std::string::npos ||
             device.find('\t') != std::string::npos)
         device.pop_back();

@@ -171,7 +171,6 @@ void B15F::abort(std::exception &ex)
         errorhandler(ex);
     else
     {
-        std::cerr << "NOTICE: B15F::errorhandler not set" << std::endl;
         std::cout << ex.what() << std::endl;
         throw DriverException(ex.what());
     }
@@ -190,45 +189,51 @@ void B15F::setAbortHandler(errorhandler_t func)
  * Steuerbefehle für B15 *
  *************************/
 
-bool B15F::activateSelfTestMode()
+void B15F::activateSelfTestMode()
 {
     uint8_t rq[] =
     {
         RQ_SELF_TEST
     };
+    
+    assertRequestLength(rq, RQ_SELF_TEST);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
-    return aw == MSG_OK;
+    assertCode(aw, MSG_OK);
 }
 
-bool B15F::digitalWrite0(uint8_t port)
+void B15F::digitalWrite0(uint8_t port)
 {
     uint8_t rq[] =
     {
         RQ_DIGITAL_WRITE_0,
         port
     };
+    
+    assertRequestLength(rq, RQ_DIGITAL_WRITE_0);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
-    return aw == MSG_OK;
+    assertCode(aw, MSG_OK);
 }
 
-bool B15F::digitalWrite1(uint8_t port)
+void B15F::digitalWrite1(uint8_t port)
 {
     uint8_t rq[] =
     {
         RQ_DIGITAL_WRITE_1,
         port
     };
+    
+    assertRequestLength(rq, RQ_DIGITAL_WRITE_1);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
-    return aw == MSG_OK;
+    assertCode(aw, MSG_OK);
 }
 
 uint8_t B15F::digitalRead0()
@@ -238,6 +243,8 @@ uint8_t B15F::digitalRead0()
     {
         RQ_DIGITAL_READ_0
     };
+    
+    assertRequestLength(rq, RQ_DIGITAL_READ_0);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -252,6 +259,8 @@ uint8_t B15F::digitalRead1()
     {
         RQ_DIGITAL_READ_1
     };
+    
+    assertRequestLength(rq, RQ_DIGITAL_READ_1);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -266,6 +275,8 @@ uint8_t B15F::readDipSwitch()
     {
         RQ_READ_DIP_SWITCH
     };
+    
+    assertRequestLength(rq, RQ_READ_DIP_SWITCH);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -276,7 +287,7 @@ uint8_t B15F::readDipSwitch()
     return aw;
 }
 
-bool B15F::analogWrite0(uint16_t value)
+void B15F::analogWrite0(uint16_t value)
 {
     uint8_t rq[] =
     {
@@ -284,14 +295,16 @@ bool B15F::analogWrite0(uint16_t value)
         static_cast<uint8_t >(value & 0xFF),
         static_cast<uint8_t >(value >> 8)
     };
+    
+    assertRequestLength(rq, RQ_ANALOG_WRITE_0);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
-    return aw == MSG_OK;
+    assertCode(aw, MSG_OK);
 }
 
-bool B15F::analogWrite1(uint16_t value)
+void B15F::analogWrite1(uint16_t value)
 {
     uint8_t rq[] =
     {
@@ -299,11 +312,13 @@ bool B15F::analogWrite1(uint16_t value)
         static_cast<uint8_t >(value & 0xFF),
         static_cast<uint8_t >(value >> 8)
     };
+    
+    assertRequestLength(rq, RQ_ANALOG_WRITE_1);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
-    return aw == MSG_OK;
+    assertCode(aw, MSG_OK);
 }
 
 uint16_t B15F::analogRead(uint8_t channel)
@@ -318,6 +333,7 @@ uint16_t B15F::analogRead(uint8_t channel)
         channel
     };
 
+    assertRequestLength(rq, RQ_ANALOG_READ);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint16_t aw;
@@ -328,8 +344,7 @@ uint16_t B15F::analogRead(uint8_t channel)
     return aw;
 }
 
-void
-B15F::analogSequence(uint8_t channel_a, uint16_t *buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t *buffer_b,
+void B15F::analogSequence(uint8_t channel_a, uint16_t *buffer_a, uint32_t offset_a, uint8_t channel_b, uint16_t *buffer_b,
                      uint32_t offset_b, uint16_t start, int16_t delta, uint16_t count)
 {
     // prepare pointers
@@ -351,6 +366,7 @@ B15F::analogSequence(uint8_t channel_a, uint16_t *buffer_a, uint32_t offset_a, u
         static_cast<uint8_t >(count >> 8)
     };
 
+    assertRequestLength(rq, RQ_ADC_DAC_STROKE);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     for (uint16_t i = 0; i < count; i++)
@@ -382,8 +398,7 @@ B15F::analogSequence(uint8_t channel_a, uint16_t *buffer_a, uint32_t offset_a, u
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
-    if(aw != MSG_OK)
-        abort("Sequenz unterbrochen");
+    assertCode(aw, MSG_OK);
 }
 
 uint8_t B15F::pwmSetFrequency(uint32_t freq)
@@ -399,6 +414,7 @@ uint8_t B15F::pwmSetFrequency(uint32_t freq)
         static_cast<uint8_t>((freq >> 24) & 0xFF)
     };
 
+    assertRequestLength(rq, RQ_PWM_SET_FREQ);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -406,7 +422,7 @@ uint8_t B15F::pwmSetFrequency(uint32_t freq)
     return aw;
 }
 
-bool B15F::pwmSetValue(uint8_t value)
+void B15F::pwmSetValue(uint8_t value)
 {
     usart.clearInputBuffer();
 
@@ -416,14 +432,15 @@ bool B15F::pwmSetValue(uint8_t value)
         value
     };
 
+    assertRequestLength(rq, RQ_PWM_SET_VALUE);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
-    return aw == MSG_OK;
+    assertCode(aw, MSG_OK);
 }
 
-bool B15F::setMem8(volatile uint8_t* adr, uint8_t val)
+void B15F::setMem8(volatile uint8_t* adr, uint8_t val)
 {
     usart.clearInputBuffer();
 
@@ -435,11 +452,12 @@ bool B15F::setMem8(volatile uint8_t* adr, uint8_t val)
         val
     };
 
+    assertRequestLength(rq, RQ_SET_MEM_8);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
-    return aw == val;
+    assertCode(aw, MSG_OK);
 }
 
 uint8_t B15F::getMem8(volatile uint8_t* adr)
@@ -453,6 +471,7 @@ uint8_t B15F::getMem8(volatile uint8_t* adr)
         static_cast<uint8_t >(reinterpret_cast<size_t>(adr) >> 8)
     };
 
+    assertRequestLength(rq, RQ_GET_MEM_8);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -460,7 +479,7 @@ uint8_t B15F::getMem8(volatile uint8_t* adr)
     return aw;
 }
 
-bool B15F::setMem16(volatile uint16_t* adr, uint16_t val)
+void B15F::setMem16(volatile uint16_t* adr, uint16_t val)
 {
     usart.clearInputBuffer();
 
@@ -473,11 +492,12 @@ bool B15F::setMem16(volatile uint16_t* adr, uint16_t val)
         static_cast<uint8_t >(val >> 8)
     };
 
+    assertRequestLength(rq, RQ_SET_MEM_16);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint16_t aw;
     usart.receive(reinterpret_cast<uint8_t *>(&aw), 0, sizeof(aw));
-    return aw == val;
+    assertCode(aw, MSG_OK);
 }
 
 uint16_t B15F::getMem16(volatile uint16_t* adr)
@@ -491,6 +511,7 @@ uint16_t B15F::getMem16(volatile uint16_t* adr)
         static_cast<uint8_t >(reinterpret_cast<size_t>(adr) >> 8)
     };
 
+    assertRequestLength(rq, RQ_GET_MEM_16);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint16_t aw;
@@ -498,9 +519,9 @@ uint16_t B15F::getMem16(volatile uint16_t* adr)
     return aw;
 }
 
-bool B15F::setRegister(volatile uint8_t* adr, uint8_t val)
+void B15F::setRegister(volatile uint8_t* adr, uint8_t val)
 {
-    return setMem8(adr, val);
+    setMem8(adr, val);
 }
 
 uint8_t B15F::getRegister(volatile uint8_t* adr)
@@ -517,6 +538,7 @@ uint16_t* B15F::getInterruptCounterOffset()
         RQ_COUNTER_OFFSET
     };
 
+    assertRequestLength(rq, RQ_COUNTER_OFFSET);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint16_t aw;
@@ -533,6 +555,7 @@ void B15F::setServoEnabled(void)
         RQ_SERVO_ENABLE
     };
 
+    assertRequestLength(rq, RQ_SERVO_ENABLE);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -549,6 +572,7 @@ void B15F::setServoDisabled(void)
         RQ_SERVO_DISABLE
     };
 
+    assertRequestLength(rq, RQ_SERVO_DISABLE);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -560,7 +584,7 @@ void B15F::setServoPosition(uint16_t pos)
 {
     if(pos > 19000)
         throw DriverException("Impulslänge ist zu lang: " + std::to_string(pos));
-    
+
     usart.clearInputBuffer();
 
     uint8_t rq[] =
@@ -569,7 +593,8 @@ void B15F::setServoPosition(uint16_t pos)
         static_cast<uint8_t >(pos & 0xFF),
         static_cast<uint8_t >(pos >> 8)
     };
-
+    
+    assertRequestLength(rq, RQ_SERVO_SET_POS);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw;
@@ -593,7 +618,14 @@ B15F::B15F()
 void B15F::init()
 {
 
-    std::string device = exec("bash -c 'ls /dev/ttyUSB*'");
+#ifdef __arm__
+    // Raspberry Pi serial interface
+    std::string device = exec("bash -c 'ls /dev/ttyAMA* 2> /dev/null'");
+#else
+    // normal PC serial interface
+    std::string device = exec("bash -c 'ls /dev/ttyUSB* 2> /dev/null'");
+#endif
+    
     while (device.find(' ') != std::string::npos || device.find('\n') != std::string::npos ||
             device.find('\t') != std::string::npos)
         device.pop_back();
@@ -634,10 +666,4 @@ void B15F::init()
     std::vector<std::string> info = getBoardInfo();
     std::cout << PRE << "AVR Firmware Version: " << info[0] << " um " << info[1] << " Uhr (" << info[2] << ")"
               << std::endl;
-}
-
-void B15F::assertCode(uint8_t& code, uint8_t expectation) const
-{
-    if(code != expectation)
-        throw DriverException("Ungültige Antwort erhalten: " + std::to_string((int) code) + " (erwartet: " + std::to_string((int) expectation) + ")");
 }

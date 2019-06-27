@@ -335,7 +335,7 @@ private:
         if(code != static_cast<CodeType>(expectation))
             throw DriverException("Ungültige Antwort erhalten: " + std::to_string((int) code) + " (erwartet: " + std::to_string((int) expectation) + ")");
     }
-    
+
     /**
      * Wirft eine Exception, falls die Request die falsche Länge hat.
      * \throws DriverException

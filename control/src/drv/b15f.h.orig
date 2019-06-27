@@ -130,21 +130,21 @@ public:
      * WICHTIG: Es darf dabei nichts an den Klemmen angeschlossen sein!
      * \throws DriverException
      */
-    bool activateSelfTestMode(void);
+    void activateSelfTestMode(void);
 
     /**
      * Setzt den Wert des digitalen Ausgabeports 0
      * \param port Wert für gesamten Port
      * \throws DriverException
      */
-    bool digitalWrite0(uint8_t);
+    void digitalWrite0(uint8_t);
 
     /**
      * Setzt den Wert des digitalen Ausgabeports 1
      * \param port Wert für gesamten Port
      * \throws DriverException
      */
-    bool digitalWrite1(uint8_t);
+    void digitalWrite1(uint8_t);
 
     /**
      * Liest den Wert des digitalen Eingabeports 0
@@ -172,14 +172,14 @@ public:
      * \param port 10-Bit Wert
      * \throws DriverException
      */
-    bool analogWrite0(uint16_t port);
+    void analogWrite0(uint16_t port);
 
     /**
      * Setzt den Wert des Digital-Analog-Converters (DAC / DAU) 1
      * \param port 10-Bit Wert
      * \throws DriverException
      */
-    bool analogWrite1(uint16_t port);
+    void analogWrite1(uint16_t port);
 
     /**
      * Liest den Wert des Analog-Digital-Converters (ADC / ADU)
@@ -221,7 +221,7 @@ public:
      * \param value PWM Wert [0..TOP]
      * \throws DriverException
      */
-    bool pwmSetValue(uint8_t value);
+    void pwmSetValue(uint8_t value);
 
     /**
      * Setzt direkt den Wert einer MCU Speicherzelle der Größe 8 Bit.
@@ -231,7 +231,7 @@ public:
      * \param val Neuer Wert für die Zelle
      * \return true, falls Vorgang erfolgreich
      */
-    bool setMem8(volatile uint8_t* adr, uint8_t val);
+    void setMem8(volatile uint8_t* adr, uint8_t val);
 
     /**
      * Liefert den Wert einer MCU Speicherzelle der Größe 8 Bit.
@@ -247,9 +247,9 @@ public:
      * *Wichtig:* bei einer falschen Adresse kann das Board 15 ernsthaften Schaden nehmen!
      * \param adr Speicheradresse
      * \param val Neuer Wert für die Zelle
-     * \return true, falls Vorgang erfolgreich
+     * \throws DriverException
      */
-    bool setMem16(volatile uint16_t* adr, uint16_t val);
+    void setMem16(volatile uint16_t* adr, uint16_t val);
 
     /**
      * Liefert den Wert einer MCU Speicherzelle der Größe 16 Bit.
@@ -264,9 +264,9 @@ public:
      * *Wichtig:* bei einer falschen Adresse kann das Board 15 ernsthaften Schaden nehmen!
      * \param adr Speicheradresse
      * \param val Neuer Wert für das Register
-     * \return true, falls Vorgang erfolgreich
+     * \throws DriverException
      */
-    bool setRegister(volatile uint8_t* adr, uint8_t val);
+    void setRegister(volatile uint8_t* adr, uint8_t val);
 
     /**
      * Diese Funktion ist ein Alias für getMem8().
@@ -280,20 +280,23 @@ public:
      * \return Adresse (in der MCU)
      */
     uint16_t* getInterruptCounterOffset(void);
-    
+
     /**
      * Aktiviert das Servo Signal an PB2 und Initialisiert es mit 1,5ms Pulselänge.
+     * \throws DriverException
      */
     void setServoEnabled(void);
-    
+
     /**
      * Deaktiviert das Servo Signal an PB2.
+     * \throws DriverException
      */
     void setServoDisabled(void);
-    
+
     /**
      * Setzt die Pulselänge des Servo Signals und damit die Position.
      * \param pos Pulselänge des Signals in Mikrosekunden
+     * \throws DriverException
      */
     void setServoPosition(uint16_t pos);
 
@@ -321,12 +324,28 @@ private:
      * \throws DriverException
      */
     void init(void);
-    
+
     /**
      * Wirft eine Exception, falls der Code ungleich dem erwarteten Wert ist.
      * \throws DriverException
      */
-    void assertCode(uint8_t& code, uint8_t expectation) const;
+    template<typename CodeType, typename ExpectationType>
+    void assertCode(CodeType& code, ExpectationType expectation) const
+    {
+        if(code != static_cast<CodeType>(expectation))
+            throw DriverException("Ungültige Antwort erhalten: " + std::to_string((int) code) + " (erwartet: " + std::to_string((int) expectation) + ")");
+    }
+    
+    /**
+     * Wirft eine Exception, falls die Request die falsche Länge hat.
+     * \throws DriverException
+     */
+    template<size_t RequestLength>
+    void assertRequestLength(uint8_t (&)[RequestLength], uint8_t rq_num)
+    {
+        if(RequestLength != rq_len[rq_num])
+            throw DriverException("Ungültige Request Länge: " + std::to_string(RequestLength) + " (erwartet: " + std::to_string(rq_len[rq_num]) + ")");
+    }
 
     USART usart; //!< USART Instanz für serielle Verbindung
     static B15F* instance; //!< private Instanz für Singleton
