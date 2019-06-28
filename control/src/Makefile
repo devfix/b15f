@@ -26,7 +26,7 @@ OUT_PLOTTY     = $(PATH_BIN)/plotty
 OUT_DOC        = ../../docs/html
 
 # compiling & linking parameters
-CFLAGS   = -std=c++17 -O3 -Wall -Wextra -fPIC
+CFLAGS   = -std=c++14 -O3 -Wall -Wextra -fPIC
 LDFLAGS_DRV  = -lcurses -lpthread
 LDFLAGS_CLI  = $(LDFLAGS_DRV) -lb15fdrv
 

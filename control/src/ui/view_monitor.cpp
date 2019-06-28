@@ -78,7 +78,14 @@ void ViewMonitor::worker()
     {
         try
         {
+            
+#ifdef __arm__
+            // Raspberry Pi is much slower
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+#else
+            // normal PC is faster
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
+#endif
 
             uint8_t be0 = drv.digitalRead0();
             uint8_t be1 = drv.digitalRead1();
