@@ -6,7 +6,7 @@ log="/tmp/b15f-install.log"
 dependencies="git avr-libc avrdude libncurses5-dev g++ astyle"
 user="$1"
 path="/home/$user/b15f/"
-udev_rule="SUBSYSTEM!=\"usb_device\", ACTION!=\"add\", GOTO=\"avrisp_end\"\n\nATTR{idVendor}==\"03eb\", ATTR{idProduct}==\"2104\", MODE=\"660\", GROUP=\"dialout\"\n\nLABEL=\"avrisp_end\"\n"
+udev_rule="# SUBSYSTEM!=\"usb_device\", ACTION!=\"add\", GOTO=\"avrisp_end\"\n\nATTR{idVendor}==\"03eb\", ATTR{idProduct}==\"2104\", MODE=\"660\", GROUP=\"dialout\"\n\n# LABEL=\"avrisp_end\"\n"
 udev_path="/etc/udev/rules.d/60-olimex.rules"
 mcu_cfg="/etc/b15f.mcu"
 declare -a known_mcus=("atmega1284" "atmega1284p")
