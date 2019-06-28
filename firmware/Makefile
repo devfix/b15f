@@ -28,7 +28,9 @@ OBJECTS    = main.o spi.o mcp23s17.o tlc5615.o adu.o selftest.o global_vars.o us
 COMPILE = $(COMPILER_PATH) $(CFLAGS)
 FUSES = (E:$(EFUSE), H:$(HFUSE), L:$(LFUSE))
 
-b15f: $(OBJECTS)
+.PHONY: commit_hash
+
+b15f: commit_hash $(OBJECTS)
 	@echo "Linking binary..."
 	$(COMPILE) $(OBJECTS) -o $(OUTPUT) $(LDFLAGS)
 
@@ -50,6 +52,10 @@ checkfuses:
 upload: b15f checkfuses
 	@echo "Uploading hex file..."
 	avrdude -v -Pusb -p $(MCU) -c $(PROGRAMMER) -U flash:w:$(HEX)
+
+commit_hash:
+	@echo "Updating commit hash..."
+	@echo -e "#ifndef COMMIT_HASH_H\n#define COMMIT_HASH_H\nconstexpr char* COMMIT_HASH = \"`git log --pretty=format:'%H' -n 1`\";\n#endif // COMMIT_HASH_H" > commit_hash.h
 
 .cpp.o:
 	$(COMPILE) -c $< -o $@
