@@ -119,8 +119,8 @@ std::vector<std::string> B15F::getBoardInfo(void)
         usart.receive(&len, 0, sizeof(len));
 
         char str[len + 1];
-        str[len] = '\0';
         usart.receive(reinterpret_cast<uint8_t *>(&str[0]), 0, len);
+        str[len] = '\0';
 
         info.push_back(std::string(str));
     }
@@ -686,4 +686,14 @@ void B15F::init()
     std::vector<std::string> info = getBoardInfo();
     std::cout << PRE << "AVR Firmware Version: " << info[0] << " um " << info[1] << " Uhr (" << info[2] << ")"
               << std::endl;
+              
+    // Überprüfe Version
+    std::string& avr_commit_hash = info[3];
+    if(avr_commit_hash.compare(COMMIT_HASH))
+    {
+        std::cout << PRE << "Unterschiedliche commit hashes: " <<  std::endl;
+        std::cout << std::string(PRE.length(), ' ') << "AVR:     " << avr_commit_hash << std::endl;
+        std::cout << std::string(PRE.length(), ' ') << "Control: " << COMMIT_HASH << std::endl << std::endl;
+        abort("Versionen inkompatibel. Bitte Software aktualisieren!");
+    }
 }

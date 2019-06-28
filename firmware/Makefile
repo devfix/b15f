@@ -55,7 +55,7 @@ upload: b15f checkfuses
 
 commit_hash:
 	@echo "Updating commit hash..."
-	@echo -e "#ifndef COMMIT_HASH_H\n#define COMMIT_HASH_H\nconstexpr char* COMMIT_HASH = \"`git log --pretty=format:'%H' -n 1`\";\n#endif // COMMIT_HASH_H" > commit_hash.h
+	@bash -c 'echo -e "#ifndef COMMIT_HASH_H\n#define COMMIT_HASH_H\nconst char COMMIT_HASH[] = \"`git log --pretty=format:'%H' -n 1`\";\n#endif // COMMIT_HASH_H" > commit_hash.h'
 
 .cpp.o:
 	$(COMPILE) -c $< -o $@

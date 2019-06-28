@@ -42,7 +42,7 @@ OBJECTS_CLI   = cli.o ui/view.o ui/view_selection.o ui/view_promt.o ui/view_info
 
 all: drv cli
 
-drv: $(OBJECTS_DRV) $(OUT_TMP_DRV)
+drv: commit_hash $(OBJECTS_DRV) $(OUT_TMP_DRV)
 	
 
 cli: drv $(OBJECTS_CLI)
@@ -55,6 +55,11 @@ doc: style
 	@echo "Creating documentation with doxygen..."
 	$(PATH_DOXYGEN) doxygen-cfg
 	@echo problems found: `($(PATH_DOXYGEN) doxygen-cfg 3>&2 2>&1 1>&3) 2>/dev/null | wc -l`
+
+$(OUT_TMP_DRV):
+	@echo "Linking driver library..."
+	@mkdir -p ../lib
+	$(PATH_COMPILER) $(CFLAGS) $(OBJECTS_DRV) -shared -o $(OUT_TMP_DRV) $(LDFLAGS_CLI_DRV)
 	
 style:
 	@echo "Formatting source code with astyle..."
@@ -87,10 +92,9 @@ clean:
 	-rm -rf $(OUT_DOC)
 	-find . -type f -name '*.orig' -delete
 
+commit_hash:
+	@echo "Updating commit hash..."
+	@bash -c 'echo -e "#ifndef COMMIT_HASH_H\n#define COMMIT_HASH_H\nconst char COMMIT_HASH[] = \"`git log --pretty=format:'%H' -n 1`\";\n#endif // COMMIT_HASH_H" > commit_hash.h'
+	
 .cpp.o:
 	$(PATH_COMPILER) $(CFLAGS) -c $< -o $@
-
-$(OUT_TMP_DRV):
-	@echo "Linking driver library..."
-	@mkdir -p ../lib
-	$(PATH_COMPILER) $(CFLAGS) $(OBJECTS_DRV) -shared -o $(OUT_TMP_DRV) $(LDFLAGS_CLI_DRV)

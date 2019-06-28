@@ -125,10 +125,11 @@ void rqTestConnection()
 void rqBoardInfo()
 {
 	usart.initTX();
-	usart.writeByte(3); // Anzahl an Strings
+	usart.writeByte(4); // Anzahl an Strings
 	usart.writeStr(DATE, sizeof(DATE));
 	usart.writeStr(TIME, sizeof(TIME));
 	usart.writeStr(FSRC, sizeof(FSRC));
+	usart.writeStr(COMMIT_HASH, sizeof(COMMIT_HASH));
 	usart.writeByte(USART::MSG_OK);
 	usart.flush();
 }
