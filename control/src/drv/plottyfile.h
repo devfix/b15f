@@ -194,16 +194,16 @@ private:
     uint16_t ref_y = 1023;
     uint16_t para_first = 1;
     uint16_t para_stepwidth = 1;
-    std::string unit_x;
-    std::string desc_x;
-    std::string unit_y;
-    std::string desc_y;
-    std::string unit_para;
-    std::string desc_para;
+    std::string unit_x; //!< unit name for x-axis
+    std::string desc_x; //!< description for x-axis
+    std::string unit_y; //!< unit name for y-axis
+    std::string desc_y; //!< description for y-axis
+    std::string unit_para; //!< unit name for parameter
+    std::string desc_para; //!< description for parameter
     const uint8_t eof = 0xD;
 
-    constexpr static uint8_t STR_LEN_SHORT = 10;
-    constexpr static uint8_t STR_LEN_LARGE = 20;
+    constexpr static uint8_t STR_LEN_SHORT = 10; //!< string length for short string in header
+    constexpr static uint8_t STR_LEN_LARGE = 20; //!< string length for large string in header
 };
 
 #endif // PLOTTYFILE_H

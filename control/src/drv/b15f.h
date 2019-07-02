@@ -332,6 +332,7 @@ private:
 
     /**
      * Wirft eine Exception, falls der Code ungleich dem erwarteten Wert ist.
+     * Wird durch den Wrapper assertCode(code, expectation) aufgerufen.
      * \throws DriverException
      */
     template<typename CodeType, typename ExpectationType>
@@ -343,6 +344,7 @@ private:
 
     /**
      * Wirft eine Exception, falls die Request die falsche Länge hat.
+     * Wird durch den Wrapper assertRequestLength(rq, rq_num) aufgerufen.
      * \throws DriverException
      */
     template<size_t RequestLength>

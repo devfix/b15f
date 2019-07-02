@@ -18,23 +18,23 @@ public:
     Dot(uint16_t x, uint16_t y, uint8_t curve);
 
     /**
-     * Returns the x coordinate.
+     * \return the x coordinate
      */
     uint16_t getX(void) const;
 
     /**
-     * Returns the y coordinate.
+     * \return the y coordinate
      */
     uint16_t getY(void) const;
 
     /**
-     * Returns the curve index.
+     * \return the curve index
      */
     uint8_t getCurve(void) const;
 
 private:
-    uint16_t x, y;
-    uint8_t curve;
+    const uint16_t x, y; //!< coordinates of this dot
+    const uint8_t curve; //!< curve index of this dot
 };
 
 
