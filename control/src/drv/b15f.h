@@ -15,7 +15,7 @@
 #include <sys/ioctl.h>
 #include <termios.h>
 
-#include "../commit_hash.h"
+#include "commit_hash.h"
 #include "requests.h"
 #include "usart.h"
 #include "driverexception.h"
