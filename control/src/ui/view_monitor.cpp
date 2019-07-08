@@ -78,7 +78,7 @@ void ViewMonitor::worker()
     {
         try
         {
-            
+
 #ifdef __arm__
             // Raspberry Pi is much slower
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));

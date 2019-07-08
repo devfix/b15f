@@ -1,2 +1,0 @@
-make
-su krause -c "sudo -S make install"

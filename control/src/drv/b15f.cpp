@@ -72,6 +72,8 @@ void B15F::testConnection()
         RQ_TEST,
         dummy
     };
+
+    assertRequestLength(rq, RQ_TEST);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t aw[2];
@@ -92,6 +94,8 @@ void B15F::testIntConv()
         static_cast<uint8_t >(dummy & 0xFF),
         static_cast<uint8_t >(dummy >> 8)
     };
+
+    assertRequestLength(rq, RQ_INT_TEST);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint16_t aw;
@@ -109,6 +113,8 @@ std::vector<std::string> B15F::getBoardInfo(void)
     {
         RQ_INFO
     };
+
+    assertRequestLength(rq, RQ_INFO);
     usart.transmit(&rq[0], 0, sizeof(rq));
 
     uint8_t n;
@@ -686,7 +692,7 @@ void B15F::init()
     std::vector<std::string> info = getBoardInfo();
     std::cout << PRE << "AVR Firmware Version: " << info[0] << " um " << info[1] << " Uhr (" << info[2] << ")"
               << std::endl;
-              
+
     // Überprüfe Version
     std::string& avr_commit_hash = info[3];
     if(avr_commit_hash.compare(COMMIT_HASH))
