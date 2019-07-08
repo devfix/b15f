@@ -105,7 +105,7 @@ Installation von Hand (falls Installationsscript mit Fehler abbricht)</h2>
  (b) Passen Sie in der Datei <em>Makefile</em> (im aktuellen Verzeichnis) die Option "MCU = ..." an die MCU des vorliegenden Boards an. <br  />
  <b>Achtung</b>: <em>atmega1284</em> und <em>atmega1284p</em> sind nicht identisch! <br  />
  (c) Fügen Sie den Nutzer <em>famulus</em> zu Gruppe <em>dialout</em> hinzu: <b>sudo adduser famulus dialout</b> <br  />
- (d) Schreiben Sie (mit root-Rechten) Folgendes in die Datei "*/etc/udev/rules.d/60-olimex.rules*": <br  />
+ (d) Schreiben Sie (mit root-Rechten) Folgendes in die Datei */etc/udev/rules.d/60-olimex.rules*: <br  />
 </p><div class="fragment"><div class="line">ATTR{idVendor}==&quot;03eb&quot;, ATTR{idProduct}==&quot;2104&quot;, MODE=&quot;660&quot;, GROUP=&quot;dialout&quot;</div></div><!-- fragment --><p> Damit wird per udev-rule der Zugriff auf das ISP-Programmiergerät ohne root-Rechte erlaubt. <br  />
  (e) Laden Sie die udev-Regeln neu ein: <b>sudo udevadm control &ndash;reload-rules</b> <br  />
  (f) Stoße Verarbeitung der udev-Regeln an: <b>sudo udevadm trigger</b> <br  />
@@ -174,7 +174,7 @@ Dabei gehören Punkte mit dem gleichen Index für <code>curve</code> (<em>uint8_
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 8 2019 21:05:13 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 8 2019 21:09:34 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

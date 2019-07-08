@@ -36,7 +36,7 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
  (b) Passen Sie in der Datei *Makefile* (im aktuellen Verzeichnis) die Option "MCU = ..." an die MCU des vorliegenden Boards an.  
       **Achtung**: *atmega1284* und *atmega1284p* sind nicht identisch!  
  (c) Fügen Sie den Nutzer *famulus* zu Gruppe *dialout* hinzu: **sudo adduser famulus dialout**  
- (d) Schreiben Sie (mit root-Rechten) Folgendes in die Datei "*/etc/udev/rules.d/60-olimex.rules*":  
+ (d) Schreiben Sie (mit root-Rechten) Folgendes in die Datei */etc/udev/rules.d/60-olimex.rules*:  
 ```
 ATTR{idVendor}=="03eb", ATTR{idProduct}=="2104", MODE="660", GROUP="dialout"
 ```
