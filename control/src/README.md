@@ -35,14 +35,17 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
  (a) Installations-Verzeichnis betreten: **cd "/home/famulus/b15f/firmware"**  
  (b) Passen Sie in der Datei *Makefile* (im aktuellen Verzeichnis) die Option "MCU = ..." an die MCU des vorliegenden Boards an.  
       **Achtung**: *atmega1284* und *atmega1284p* sind nicht identisch!  
- (c) Schreiben Sie (mit root-Rechten) Folgendes in die Datei "*/etc/udev/rules.d/60-olimex.rules*":  
- `ATTR{idVendor}=="03eb", ATTR{idProduct}=="2104", MODE="660", GROUP="dialout"`  
+ (c) Fügen Sie den Nutzer *famulus* zu Gruppe *dialout* hinzu: **sudo adduser famulus dialout**  
+ (d) Schreiben Sie (mit root-Rechten) Folgendes in die Datei "*/etc/udev/rules.d/60-olimex.rules*":  
+```
+ATTR{idVendor}=="03eb", ATTR{idProduct}=="2104", MODE="660", GROUP="dialout"
+```
  Damit wird per udev-rule der Zugriff auf das ISP-Programmiergerät ohne root-Rechte erlaubt.  
- (d) Laden Sie die udev-Regeln neu ein: **sudo udevadm control --reload-rules**  
- (e) Stoße Verarbeitung der udev-Regeln an: **sudo udevadm trigger**  
- (f) Programmiergerät rausziehen, drei Sekunden warten, wieder hineinstecken  
- (g) Kompiliere Firmware: **make**  
- (h) Lade Firmware auf das B15: **make upload**  
+ (e) Laden Sie die udev-Regeln neu ein: **sudo udevadm control --reload-rules**  
+ (f) Stoße Verarbeitung der udev-Regeln an: **sudo udevadm trigger**  
+ (g) Programmiergerät rausziehen, drei Sekunden warten, wieder hineinstecken  
+ (h) Kompiliere Firmware: **make**  
+ (i) Lade Firmware auf das B15: **make upload**  
 
 #### 4. Die Steuersoftware (Bibliothek & CLI) installieren
  (a) Installations-Verzeichnis betreten: **cd "/home/famulus/b15f/control/src"**  
@@ -61,7 +64,7 @@ Wiederholen Sie den Schritt "Installation mit Installationsscript". Das Script e
  (d) Lösche altes Kompilat der Firmware: **make clean**  
  (e) Betrete Steuersoftware-Verzeichnis: **cd "/home/famulus/b15f/control/src"**  
  (f) Lösche altes Kompilat der Steuersoftware: **make clean**  
- (g) "Installation von Hand" ab Schritt 3 (g) durchführen
+ (g) "Installation von Hand" ab Schritt 3 (h) durchführen
  
 ## Die CommandLineInterface (CLI) benutzen
  (a) Öffnen Sie ein Terminal und maximieren Sie das Fenster  

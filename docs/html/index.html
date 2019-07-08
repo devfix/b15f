@@ -84,37 +84,40 @@ Installation</h1>
 Installation mit Installationsscript (empfohlen)</h2>
 <p>(a) Laden Sie das <a href="https://raw.githubusercontent.com/devfix/b15f/master/install">Installationsscript</a> herunter <br  />
  (b) Setzen Sie die Ausführungsberechtigung <br  />
- (c) Starten Sie das Script <br  />
+ (c) Schalten Sie die Stromversorgung von B15 an und schließen Sie den ISP Programmer an <br  />
+ (d) Starten Sie das Installationsscript <br  />
  </p>
 <h2><a class="anchor" id="autotoc_md4"></a>
 Installation von Hand (falls Installationsscript mit Fehler abbricht)</h2>
 <h3><a class="anchor" id="autotoc_md5"></a>
 1. Abhängigkeiten installieren</h3>
-<p>(a) <b>sudo apt-get update</b> <br  />
- (b) <b>sudo apt-get install git avr-libc avrdude libncurses5-dev g++ astyle</b> <br  />
+<p>(a) APT-Pakete aktualisieren: <b>sudo apt-get update</b> <br  />
+ (b) Notwendige Pakete installieren bzw. aktualisieren: <b>sudo apt-get install git avr-libc avrdude libncurses5-dev g++ astyle</b> <br  />
  </p>
 <h3><a class="anchor" id="autotoc_md6"></a>
 2. Das Repository klonen</h3>
-<p>(a) <b>cd /home/famulus/</b> <br  />
- (b) <b>git clone "https://github.com/devfix/b15f.git"</b> <br  />
+<p>(a) Home-Verzeichnis betreten: <b>cd /home/famulus/</b> <br  />
+ (b) B15F-Repository klonen (herunterladen): <b>git clone "https://github.com/devfix/b15f.git"</b> <br  />
  </p>
 <h3><a class="anchor" id="autotoc_md7"></a>
 3. Die Firmware installieren</h3>
-<p>(a) <b>cd "/home/famulus/b15f/firmware"</b> <br  />
- (b) Passen Sie in der Datei <em>Makefile</em> die Option "MCU = ..." an die MCU des vorliegenden Boards an <br  />
- (<em>atmega1284</em> und <em>atmega1284p</em> sind nicht identisch!) <br  />
- (c) <b>make</b> <br  />
- Wenn udev richtig konfiguriert wurde: <br  />
- (d I) <b>make upload</b> <br  />
- Sonst: <br  />
- (d II) <b>sudo make upload</b> <br  />
+<p>(a) Installations-Verzeichnis betreten: <b>cd "/home/famulus/b15f/firmware"</b> <br  />
+ (b) Passen Sie in der Datei <em>Makefile</em> (im aktuellen Verzeichnis) die Option "MCU = ..." an die MCU des vorliegenden Boards an. <br  />
+ <b>Achtung</b>: <em>atmega1284</em> und <em>atmega1284p</em> sind nicht identisch! <br  />
+ (c) Fügen Sie den Nutzer <em>famulus</em> zu Gruppe <em>dialout</em> hinzu: <b>sudo adduser famulus dialout</b> <br  />
+ (d) Schreiben Sie (mit root-Rechten) Folgendes in die Datei "*/etc/udev/rules.d/60-olimex.rules*": <br  />
+</p><div class="fragment"><div class="line">ATTR{idVendor}==&quot;03eb&quot;, ATTR{idProduct}==&quot;2104&quot;, MODE=&quot;660&quot;, GROUP=&quot;dialout&quot;</div></div><!-- fragment --><p> Damit wird per udev-rule der Zugriff auf das ISP-Programmiergerät ohne root-Rechte erlaubt. <br  />
+ (e) Laden Sie die udev-Regeln neu ein: <b>sudo udevadm control &ndash;reload-rules</b> <br  />
+ (f) Stoße Verarbeitung der udev-Regeln an: <b>sudo udevadm trigger</b> <br  />
+ (g) Programmiergerät rausziehen, drei Sekunden warten, wieder hineinstecken <br  />
+ (h) Kompiliere Firmware: <b>make</b> <br  />
+ (i) Lade Firmware auf das B15: <b>make upload</b> <br  />
  </p>
 <h3><a class="anchor" id="autotoc_md8"></a>
 4. Die Steuersoftware (Bibliothek &amp; CLI) installieren</h3>
-<p>(a) <b>cd "/home/famulus/b15f/control/src"</b> <br  />
- (b) <b>make</b> <br  />
- (Die Warnungen durch doxygen können ignoriert werden.)</p>
-<p>(c) <b>sudo make install</b> <br  />
+<p>(a) Installations-Verzeichnis betreten: <b>cd "/home/famulus/b15f/control/src"</b> <br  />
+ (b) Kompiliere Steuersoftware: <b>make</b> <br  />
+ (c) Installiere die Bibliothek und CLI (global): <b>sudo make install</b> <br  />
  </p>
 <h1><a class="anchor" id="autotoc_md9"></a>
 Aktualisierung</h1>
@@ -123,29 +126,30 @@ Aktualisierung mit Installationsscript (empfohlen)</h2>
 <p>Wiederholen Sie den Schritt "Installation mit Installationsscript". Das Script erkennt die bereits installierte Version und aktualisiert diese.</p>
 <h2><a class="anchor" id="autotoc_md11"></a>
 Aktualisierung von Hand (falls Installationsscript mit Fehler abbricht)</h2>
-<p>(a) <b>cd /home/famulus/b15f/</b> <br  />
- (b) <b>git pull &ndash;prune</b> <br  />
- (c) <b>cd "/home/famulus/b15f/firmware"</b> <br  />
- (d) <b>make clean</b> <br  />
- (e) <b>cd "/home/famulus/b15f/control/src"</b> <br  />
- (f) <b>make clean</b> <br  />
- (g) "Installation von Hand" ab Schritt 3 durchführen</p>
+<p>(a) Installations-Verzeichnis betreten: <b>cd /home/famulus/b15f/</b> <br  />
+ (b) Neuste Software-Version vom GitHub-Server ziehen: <b>git pull &amp;&amp; git pull &ndash;prune</b> <br  />
+ (c) Betrete Firmware-Verzeichnis: <b>cd "/home/famulus/b15f/firmware"</b> <br  />
+ (d) Lösche altes Kompilat der Firmware: <b>make clean</b> <br  />
+ (e) Betrete Steuersoftware-Verzeichnis: <b>cd "/home/famulus/b15f/control/src"</b> <br  />
+ (f) Lösche altes Kompilat der Steuersoftware: <b>make clean</b> <br  />
+ (g) "Installation von Hand" ab Schritt 3 (h) durchführen</p>
 <h1><a class="anchor" id="autotoc_md12"></a>
 Die CommandLineInterface (CLI) benutzen</h1>
 <p>(a) Öffnen Sie ein Terminal und maximieren Sie das Fenster <br  />
- (b) Start des CLI erfolgt durch <b>b15fcli</b> <br  />
+ (b) Start des CLI erfolgt durch den Befehl <b>b15fcli</b> <br  />
  (c) Die Navigation erfolgt durch &lt;Tab&gt;, die Pfeiltasten und &lt;Enter&gt; oder die Maus <br  />
  (d) Mit &lt;Strg + c&gt; kann das Programm sofort verlassen werden</p>
 <h1><a class="anchor" id="autotoc_md13"></a>
-Eigene Programme mit B15F schreiben</h1>
+Eigene Programme mit der B15F-Bibliothek schreiben</h1>
 <h2><a class="anchor" id="autotoc_md14"></a>
 Grundsätzliches</h2>
 <p>Verwendet wird die Bibliothekt <em>b15fdrv</em>. Die wichtigste Klasse für die Steuerung des Board 15 ist <a href="https://devfix.github.io/b15f/html/classB15F.html">B15F</a>. <br  />
 Dort befindet sich auch eine Übersicht der verfügbaren Befehle. <br  />
- </p>
+ Hinweise zur Struktur (sind für die Verwendung nicht weiter wichtig): <br  />
+Die Header-Dateien sind global unter */usr/include/b15f/* installiert. Die <em>b15fdrv</em>-Bibliothekt befindet sich in dem Verzeichnis */usr/lib/* und die ausführbaren Programme (plotty, b15fcli) */usr/bin/*.</p>
 <h2><a class="anchor" id="autotoc_md15"></a>
 Beispiele</h2>
-<p>In dem Verzeichnis <a href="https://github.com/devfix/b15f/tree/master/control/examples">b15f/control/examples</a> sind einige Beispiele für die Verwendung einzelner <a class="el" href="classB15F.html">B15F</a> Funktionen. <br  />
+<p>In dem Verzeichnis <a href="https://github.com/devfix/b15f/tree/master/control/examples">b15f/control/examples</a> (des Repositories) sind einige Beispiele für die Verwendung einzelner <a class="el" href="classB15F.html">B15F</a> Funktionen. <br  />
 Zu jedem Beispiel gehört eine <em>main.cpp</em> mit dem Quellcode und eine <em>Makefile</em>-Datei. Durch das Makefile wird beim Kompilieren und Linken die Bibliothek <em>b15fdrv</em> automatisch einbezogen. <br  />
 Das Beispiel muss durch Sie also nur mit <b>make</b> kompiliert und mit .**/main.elf** gestartet werden.</p>
 <h2><a class="anchor" id="autotoc_md16"></a>
@@ -154,7 +158,7 @@ Den B15F Treiber verwenden</h2>
 <code>#include &lt;b15f/b15f.h&gt;</code> <br  />
 und der Header für die plottyfile-Generierung, falls mit Kennlinien gearbeitet werden soll: <br  />
 <code>#include &lt;b15f/plottyfile.h&gt;</code></p>
-<p>Für die Interaktion wird eine Referenz auf die aktuelle Treiberinstanz gespeichert: <br  />
+<p>Für die Interaktion wird eine Referenz auf die aktuelle Treiberinstanz benötigt: <br  />
 <code><a class="el" href="classB15F.html">B15F</a>&amp; drv = <a class="el" href="classB15F.html#a8b4533d232c55ef2aa967e39e2d23380">B15F::getInstance()</a>;</code> <br  />
 Falls noch keine existiert, wird automatisch eine erzeugt und Verbindung zum Board hergestellt. <br  />
  Ab jetzt können auf dem Object <code>drv</code> verschiedene Methoden angewand werden, siehe <a href="https://devfix.github.io/b15f/html/classB15F.html">B15F</a>. <br  />
@@ -170,7 +174,7 @@ Dabei gehören Punkte mit dem gleichen Index für <code>curve</code> (<em>uint8_
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 8 2019 14:00:00 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 8 2019 21:05:13 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

@@ -84,6 +84,7 @@ out "Installiere Packete (wenn nötig)..."
 apt-get install -y $dependencies > /dev/null | tee -a "$log"
 
 out "Konfiguriere udev rules..."
+adduser famulus dialout
 echo -e "$udev_rule" > "$udev_path"
 
 out "Aktualisiere udev service..."
