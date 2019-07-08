@@ -36,7 +36,7 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
  (b) Passen Sie in der Datei *Makefile* (im aktuellen Verzeichnis) die Option "MCU = ..." an die MCU des vorliegenden Boards an.  
       **Achtung**: *atmega1284* und *atmega1284p* sind nicht identisch!  
  (c) Fügen Sie den Nutzer *famulus* zu Gruppe *dialout* hinzu: **sudo adduser famulus dialout**  
- (d) Schreiben Sie (mit root-Rechten) Folgendes in die Datei */etc/udev/rules.d/60-olimex.rules*:  
+ (d) Schreiben Sie (mit root-Rechten) Folgendes in die Datei "/etc/udev/rules.d/60-olimex.rules":  
 ```
 ATTR{idVendor}=="03eb", ATTR{idProduct}=="2104", MODE="660", GROUP="dialout"
 ```
@@ -80,7 +80,7 @@ Die wichtigste Klasse für die Steuerung des Board 15 ist [B15F](https://devfix.
 Dort befindet sich auch eine Übersicht der verfügbaren Befehle.  
 
 Hinweise zur Struktur (sind für die Verwendung nicht weiter wichtig):  
-Die Header-Dateien sind global unter */usr/include/b15f/* installiert. Die *b15fdrv*-Bibliothekt befindet sich in dem Verzeichnis */usr/lib/* und die ausführbaren Programme (plotty, b15fcli) */usr/bin/*.
+Die Header-Dateien sind global unter "/usr/include/b15f/" installiert. Die *b15fdrv*-Bibliothekt befindet sich in dem Verzeichnis "/usr/lib/" und die ausführbaren Programme (plotty, b15fcli) "/usr/bin/".
 
 ### Beispiele
 In dem Verzeichnis [b15f/control/examples](https://github.com/devfix/b15f/tree/master/control/examples) (des Repositories) sind einige Beispiele für die Verwendung einzelner B15F Funktionen.  
