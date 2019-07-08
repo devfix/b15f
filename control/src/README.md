@@ -18,7 +18,8 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
 
  (a) Laden Sie das [Installationsscript](https://raw.githubusercontent.com/devfix/b15f/master/install) herunter  
  (b) Setzen Sie die Ausführungsberechtigung  
- (c) Starten Sie das Script  
+ (c) Schalten Sie die Stromversorgung von B15 an und schließen Sie den ISP Programmer an  
+ (d) Starten Sie das Installationsscript  
 
 ### Installation von Hand (falls Installationsscript mit Fehler abbricht)
 
@@ -35,13 +36,14 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
 
  (b) Passen Sie in der Datei *Makefile* die Option "MCU = ..." an die MCU des vorliegenden Boards an  
  (*atmega1284* und *atmega1284p* sind nicht identisch!)  
-
- (c) **make**  
-
- Wenn udev richtig konfiguriert wurde:  
- (d I) **make upload**  
- Sonst:  
- (d II) **sudo make upload**  
+ (c) Schreiben Sie Folgendes in die Datei (mit root-Rechten) `/etc/udev/rules.d/60-olimex.rules`:  
+ `ATTR{idVendor}=="03eb", ATTR{idProduct}=="2104", MODE="660", GROUP="dialout"`  
+ 
+ (d) **sudo udevadm control --reload-rules**  
+ (e) **sudo udevadm trigger**  
+ (f) Programmiergerät rausziehen, drei Sekunden warten, wieder hineinstecken  
+ (g) **make**  
+ (h) **make upload**  
 
 #### 4. Die Steuersoftware (Bibliothek & CLI) installieren
  (a) **cd "/home/famulus/b15f/control/src"**  

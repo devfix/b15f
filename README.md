@@ -18,5 +18,5 @@ Die Projekt-Dokumentation befindet sich unter [github pages](https://devfix.gith
 - [x] Interrupt Counter
 - [x] mem16 testen
 - [x] autocheck request size
-- [ ] Raspberry Pi test
+- [x] Raspberry Pi test
 
