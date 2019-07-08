@@ -24,64 +24,63 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
 ### Installation von Hand (falls Installationsscript mit Fehler abbricht)
 
 #### 1. Abhängigkeiten installieren
- (a) **sudo apt-get update**  
- (b) **sudo apt-get install git avr-libc avrdude libncurses5-dev g++ astyle**  
+ (a) APT-Pakete aktualisieren: **sudo apt-get update**  
+ (b) Notwendige Pakete installieren bzw. aktualisieren: **sudo apt-get install git avr-libc avrdude libncurses5-dev g++ astyle**  
 
 #### 2. Das Repository klonen
- (a) **cd /home/famulus/**  
- (b) **git clone "https://github.com/devfix/b15f.git"**  
+ (a) Home-Verzeichnis betreten: **cd /home/famulus/**  
+ (b) B15F-Repository klonen (herunterladen): **git clone "https://github.com/devfix/b15f.git"**  
 
 #### 3. Die Firmware installieren
- (a) **cd "/home/famulus/b15f/firmware"**  
-
- (b) Passen Sie in der Datei *Makefile* die Option "MCU = ..." an die MCU des vorliegenden Boards an  
- (*atmega1284* und *atmega1284p* sind nicht identisch!)  
- (c) Schreiben Sie Folgendes in die Datei (mit root-Rechten) `/etc/udev/rules.d/60-olimex.rules`:  
+ (a) Installations-Verzeichnis betreten: **cd "/home/famulus/b15f/firmware"**  
+ (b) Passen Sie in der Datei *Makefile* (im aktuellen Verzeichnis) die Option "MCU = ..." an die MCU des vorliegenden Boards an.  
+      **Achtung**: *atmega1284* und *atmega1284p* sind nicht identisch!  
+ (c) Schreiben Sie (mit root-Rechten) Folgendes in die Datei "*/etc/udev/rules.d/60-olimex.rules*":  
  `ATTR{idVendor}=="03eb", ATTR{idProduct}=="2104", MODE="660", GROUP="dialout"`  
- 
- (d) **sudo udevadm control --reload-rules**  
- (e) **sudo udevadm trigger**  
+ Damit wird per udev-rule der Zugriff auf das ISP-Programmiergerät ohne root-Rechte erlaubt.  
+ (d) Laden Sie die udev-Regeln neu ein: **sudo udevadm control --reload-rules**  
+ (e) Stoße Verarbeitung der udev-Regeln an: **sudo udevadm trigger**  
  (f) Programmiergerät rausziehen, drei Sekunden warten, wieder hineinstecken  
- (g) **make**  
- (h) **make upload**  
+ (g) Kompiliere Firmware: **make**  
+ (h) Lade Firmware auf das B15: **make upload**  
 
 #### 4. Die Steuersoftware (Bibliothek & CLI) installieren
- (a) **cd "/home/famulus/b15f/control/src"**  
- (b) **make**  
- (Die Warnungen durch doxygen können ignoriert werden.)
-
- (c) **sudo make install**  
+ (a) Installations-Verzeichnis betreten: **cd "/home/famulus/b15f/control/src"**  
+ (b) Kompiliere Steuersoftware: **make**  
+ (c) Installiere die Bibliothek und CLI (global): **sudo make install**  
 
 ## Aktualisierung
 
 ### Aktualisierung mit Installationsscript (empfohlen)
-
 Wiederholen Sie den Schritt "Installation mit Installationsscript". Das Script erkennt die bereits installierte Version und aktualisiert diese.
 
 ### Aktualisierung von Hand (falls Installationsscript mit Fehler abbricht)
- (a) **cd /home/famulus/b15f/**  
- (b) **git pull --prune**  
- (c) **cd "/home/famulus/b15f/firmware"**  
- (d) **make clean**  
- (e) **cd "/home/famulus/b15f/control/src"**  
- (f) **make clean**  
- (g) "Installation von Hand" ab Schritt 3 durchführen
+ (a) Installations-Verzeichnis betreten: **cd /home/famulus/b15f/**  
+ (b) Neuste Software-Version vom GitHub-Server ziehen: **git pull && git pull --prune**  
+ (c) Betrete Firmware-Verzeichnis: **cd "/home/famulus/b15f/firmware"**  
+ (d) Lösche altes Kompilat der Firmware: **make clean**  
+ (e) Betrete Steuersoftware-Verzeichnis: **cd "/home/famulus/b15f/control/src"**  
+ (f) Lösche altes Kompilat der Steuersoftware: **make clean**  
+ (g) "Installation von Hand" ab Schritt 3 (g) durchführen
  
 ## Die CommandLineInterface (CLI) benutzen
  (a) Öffnen Sie ein Terminal und maximieren Sie das Fenster  
- (b) Start des CLI erfolgt durch **b15fcli**  
+ (b) Start des CLI erfolgt durch den Befehl **b15fcli**  
  (c) Die Navigation erfolgt durch &lt;Tab&gt;, die Pfeiltasten und &lt;Enter&gt; oder die Maus  
  (d) Mit &lt;Strg + c&gt; kann das Programm sofort verlassen werden
 
-## Eigene Programme mit B15F schreiben
+## Eigene Programme mit der B15F-Bibliothek schreiben
 
 ### Grundsätzliches
 Verwendet wird die Bibliothekt *b15fdrv*.
 Die wichtigste Klasse für die Steuerung des Board 15 ist [B15F](https://devfix.github.io/b15f/html/classB15F.html).  
 Dort befindet sich auch eine Übersicht der verfügbaren Befehle.  
 
+Hinweise zur Struktur (sind für die Verwendung nicht weiter wichtig):  
+Die Header-Dateien sind global unter */usr/include/b15f/* installiert. Die *b15fdrv*-Bibliothekt befindet sich in dem Verzeichnis */usr/lib/* und die ausführbaren Programme (plotty, b15fcli) */usr/bin/*.
+
 ### Beispiele
-In dem Verzeichnis [b15f/control/examples](https://github.com/devfix/b15f/tree/master/control/examples) sind einige Beispiele für die Verwendung einzelner B15F Funktionen.  
+In dem Verzeichnis [b15f/control/examples](https://github.com/devfix/b15f/tree/master/control/examples) (des Repositories) sind einige Beispiele für die Verwendung einzelner B15F Funktionen.  
 Zu jedem Beispiel gehört eine *main.cpp* mit dem Quellcode und eine *Makefile*-Datei. Durch das Makefile wird beim Kompilieren und Linken die Bibliothek *b15fdrv* automatisch einbezogen.  
 Das Beispiel muss durch Sie also nur mit **make** kompiliert und mit .**/main.elf** gestartet werden.
 
@@ -91,7 +90,7 @@ Benötigt wird der B15F-Header:
 und der Header für die plottyfile-Generierung, falls mit Kennlinien gearbeitet werden soll:  
 `#include <b15f/plottyfile.h>` 
 
-Für die Interaktion wird eine Referenz auf die aktuelle Treiberinstanz gespeichert:  
+Für die Interaktion wird eine Referenz auf die aktuelle Treiberinstanz benötigt:  
 `B15F& drv = B15F::getInstance();`  
 Falls noch keine existiert, wird automatisch eine erzeugt und Verbindung zum Board hergestellt.  
 
