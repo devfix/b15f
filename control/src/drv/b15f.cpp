@@ -471,7 +471,7 @@ void B15F::setMem8(volatile uint8_t* adr, uint8_t val)
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
-    assertCode(aw, MSG_OK);
+    assertCode(aw, val);
 }
 
 uint8_t B15F::getMem8(volatile uint8_t* adr)
@@ -511,7 +511,7 @@ void B15F::setMem16(volatile uint16_t* adr, uint16_t val)
 
     uint16_t aw;
     usart.receive(reinterpret_cast<uint8_t *>(&aw), 0, sizeof(aw));
-    assertCode(aw, MSG_OK);
+    assertCode(aw, val);
 }
 
 uint16_t B15F::getMem16(volatile uint16_t* adr)

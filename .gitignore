@@ -1,4 +1,5 @@
-# IDE stuff
+## IDE stuff
+*.swp
 control/src/.idea
 control/src/cmake-build-debug
 control/.Makefile.swp
