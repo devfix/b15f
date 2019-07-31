@@ -1,0 +1,171 @@
+#!/bin/bash
+
+# Konstanten
+repo="https://github.com/devfix/b15f.git"
+log="/tmp/b15f-install.log"
+dependencies="git avr-libc avrdude libncurses5-dev g++ astyle"
+user="$1"
+path="/home/$user/b15f/"
+udev_rule="# SUBSYSTEM!=\"usb_device\", ACTION!=\"add\", GOTO=\"avrisp_end\"\n\nATTR{idVendor}==\"03eb\", ATTR{idProduct}==\"2104\", MODE=\"660\", GROUP=\"dialout\"\n\n# LABEL=\"avrisp_end\"\n"
+udev_path="/etc/udev/rules.d/60-olimex.rules"
+mcu_cfg="/etc/b15f.mcu"
+declare -a known_mcus=("atmega1284" "atmega1284p")
+declare -a known_users=("famulus" "pi")
+
+function hr1 
+{
+	printf '━%.0s' $(seq $(tput cols))
+	echo ""
+}
+
+function hr2
+{
+  printf '\e(0'; printf 'q%.0s' $(seq $(tput cols)); printf '\e(B\n';
+}
+
+function title
+{
+    echo ""
+    echo -e "\n*** $1 ***" >> "$log"
+    hr1
+    echo " $1"
+    hr1
+}
+
+function msg
+{
+    echo ""
+    echo -e "\n* $1 *" >> "$log"
+    hr2
+    echo " $1"
+    hr2
+}
+
+function out
+{
+    echo -e " $1" | tee -a "$log"
+}
+
+
+###########################
+# Beginn der Installation #
+###########################
+
+# Überprüfe, ob ausführender Nutzer root ist.
+# Wenn ja überspringe diesen IF-Block.
+# Sonst: fordere Anmeldung eines Nutzers mit Sudorechten an und
+# rufe dieses Script automatisch nocheinmal mit den richtigen Parametern auf.
+if [ "$EUID" -ne 0 ]; then
+	current_user="`whoami`"
+	
+	# Prüfe, ob user ungültig
+    if [[ ! " ${known_users[@]} " =~ " ${current_user} " ]]; then
+        users="${known_users[@]}"
+        title "Fehler: Dieses Script muss als einer der folgenden Nutzer gestartet werden: ${users}."
+        exit 1
+    fi
+	
+    out "B15F wrid installiert für: $current_user"
+    out "Für die Installation werden Superrechte benötigt, Anmeldung (für sudo) folgt..."
+    printf "   Nutzername: "
+    read user
+    printf " Melde $user an...\n   "
+    su "$user" -c "printf \" Fordere Superrechte an...\n   \" && sudo -S bash \"$0\" \"$current_user\""
+    exit 0
+fi
+
+title "Installation B15F"
+
+
+# Abbruch dieses Scripts, wenn ein Befehl fehlschlägt
+set -e
+# Abbruch dieses Scripts, wenn ein Befehl in einer Pipe fehlschlägt
+set -o pipefail
+
+
+msg "Installiere Abhängigkeiten"
+
+out "Aktualisiere apt..."
+apt-get update > /dev/null | tee -a "$log"
+
+out "Installiere Packete (wenn nötig)..."
+apt-get install -y $dependencies > /dev/null | tee -a "$log"
+
+out "Konfiguriere udev rules..."
+adduser famulus dialout
+echo -e "$udev_rule" > "$udev_path"
+
+out "Aktualisiere udev service..."
+udevadm control --reload-rules| tee -a "$log"
+udevadm trigger| tee -a "$log"
+
+msg "Lade Projekt-Daten"
+
+# Überprüfe, ob repo bereits existiert.
+# Wenn Ja -> Aktualisierung mittels pull
+if [ -d "$path" ]; then
+    out "Aktualisiere Repository..."
+    cd "$path"
+    su $user -c "git reset --hard"
+    su $user -c "git checkout --force master"
+    su $user -c "git pull"
+    su $user -c "git pull --prune"
+    
+# Wenn Nein -> Runterladen mittels clone
+else
+    out "Klone Repository..."
+    su $user -c "git clone -q \"$repo\" \"$path\"" | tee -a "$log"
+    cd "$path"
+fi
+
+
+# Entferne Installationsscript im b15f Verzeichnis, damit Nutzer
+# getwungen ist immer das neueste per Hand herunterzuladen
+rm "$path/install"
+
+
+# Wenn die Datei $mcu_cfg nicht exístiert, frage Nutzer nach MCU von diesem
+# Arbeitsplatz und erzeuge sie neu.
+if [ ! -f "$mcu_cfg" ]; then
+    msg "Wichtiger Hinweis: atmega1284p ist nicht gleich atmega1284"
+    out "Bitte geben Sie die MCU für diesen Arbeitsplatz an:"
+    read -e -p " MCU = " -i "atmega1284p" mcu
+    echo "$mcu" > "$mcu_cfg"
+fi
+
+# Lies die MCU aus der Datei $mcu_cfg aus
+out "Prüfe $mcu_cfg"
+mcu=`cat "$mcu_cfg"`
+
+# Prüfe, ob MCU unbekannt (falsch Eingabe)
+if [[ ! " ${known_mcus[@]} " =~ " ${mcu} " ]]; then
+    mcus="${known_mcus[@]}"
+    title "Fehler: $mcu_cfg enhält keine der folgenden MCUs: ${mcus}. Bitte per Hand korrigieren und Installation neu starten."
+    exit 1
+fi
+
+# Eersetze die MCU im makefile durch konfigurierte MCU
+sed -i "s@\\s*MCU\\s*=\\s*atmega1284.*@MCU        = ${mcu} # set by ${mcu_cfg}@g" "$path/firmware/"?akefile
+
+msg "Kompiliere Firmware"
+
+cd "$path/firmware"
+su $user -c "make clean" | tee -a "$log"
+su $user -c "make" | tee -a "$log"
+
+msg "Lade Firmware auf Mikrocontroller"
+make upload | tee -a "$log" || {
+    title "Fehler: Upload fehlgeschlagen. Hat B15 Strom?"
+    exit 1
+}
+
+msg "Kompiliere Steuersoftware"
+
+cd "$path/control/src"
+su $user -c "make clean" | tee -a "$log"
+su $user -c "make" | tee -a "$log"
+
+msg "Installiere Steuersoftware"
+make install | tee -a "$log"
+
+title "Installation erfolgreich abgeschlossen"
