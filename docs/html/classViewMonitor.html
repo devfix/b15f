@@ -88,6 +88,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a080526967fac26eeaa5b73468fdac26d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classViewMonitor.html#a080526967fac26eeaa5b73468fdac26d">ViewMonitor</a> (void)</td></tr>
+<tr class="separator:a080526967fac26eeaa5b73468fdac26d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2224002fe45655df87130fe07a161693"><td class="memItemLeft" align="right" valign="top">virtual call_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classViewMonitor.html#a2224002fe45655df87130fe07a161693">keypress</a> (int &amp;key) override</td></tr>
 <tr class="separator:a2224002fe45655df87130fe07a161693"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classViewInfo"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classViewInfo')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classViewInfo.html">ViewInfo</a></td></tr>
@@ -114,16 +116,19 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a245a1dc3cc43a84f63e1175a195581a2"><td class="memItemLeft" align="right" valign="top"><a id="a245a1dc3cc43a84f63e1175a195581a2"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>worker</b> (void)</td></tr>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classViewMonitor.html#a245a1dc3cc43a84f63e1175a195581a2">worker</a> (void)</td></tr>
+<tr class="memdesc:a245a1dc3cc43a84f63e1175a195581a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Funktion, die vom Worker-Thread ausgeführt, um die Anzeige zu aktualisieren. <br /></td></tr>
 <tr class="separator:a245a1dc3cc43a84f63e1175a195581a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a79a68894c0a05422b5707202d28a6db0"><td class="memItemLeft" align="right" valign="top"><a id="a79a68894c0a05422b5707202d28a6db0"></a>
-volatile bool&#160;</td><td class="memItemRight" valign="bottom"><b>run_worker</b> = true</td></tr>
+volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classViewMonitor.html#a79a68894c0a05422b5707202d28a6db0">run_worker</a> = true</td></tr>
+<tr class="memdesc:a79a68894c0a05422b5707202d28a6db0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legt fest, ob die Schleife im <a class="el" href="classViewMonitor.html#a245a1dc3cc43a84f63e1175a195581a2" title="Funktion, die vom Worker-Thread ausgeführt, um die Anzeige zu aktualisieren.">worker()</a> weiterhin fortgeführt werden soll. Bei false bricht die Schleife ab. <br /></td></tr>
 <tr class="separator:a79a68894c0a05422b5707202d28a6db0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a377eb8deab3061aa4e084be9b791c056"><td class="memItemLeft" align="right" valign="top"><a id="a377eb8deab3061aa4e084be9b791c056"></a>
-std::thread&#160;</td><td class="memItemRight" valign="bottom"><b>t_worker</b></td></tr>
+std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classViewMonitor.html#a377eb8deab3061aa4e084be9b791c056">t_worker</a></td></tr>
+<tr class="memdesc:a377eb8deab3061aa4e084be9b791c056"><td class="mdescLeft">&#160;</td><td class="mdescRight">Worker-Thread. <br /></td></tr>
 <tr class="separator:a377eb8deab3061aa4e084be9b791c056"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classViewInfo"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classViewInfo')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classViewInfo.html">ViewInfo</a></td></tr>
 <tr class="memitem:ac392a569ef16af3dc11ee659f3fa1eb4 inherit pro_attribs_classViewInfo"><td class="memItemLeft" align="right" valign="top"><a id="ac392a569ef16af3dc11ee659f3fa1eb4"></a>
@@ -197,10 +202,32 @@ constexpr static int&#160;</td><td class="memItemRight" valign="bottom"><a class
 <tr class="separator:a3554cf8689cad24c643665aa3d182134 inherit pro_static_attribs_classView"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classView.html">View</a> to display all B15 inputs. </p>
+<div class="textblock"><p>Klasse für die Anzeige aller analogen &amp; digitalen Eingänge des B15. </p>
 
-<p class="definition">Definition at line <a class="el" href="view__monitor_8h_source.html#l00013">13</a> of file <a class="el" href="view__monitor_8h_source.html">view_monitor.h</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="view__monitor_8h_source.html#l00015">15</a> of file <a class="el" href="view__monitor_8h_source.html">view_monitor.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a080526967fac26eeaa5b73468fdac26d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a080526967fac26eeaa5b73468fdac26d">&#9670;&nbsp;</a></span>ViewMonitor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ViewMonitor::ViewMonitor </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Standard-Konstruktor ohne Argumente </p>
+
+<p class="definition">Definition at line <a class="el" href="view__monitor_8cpp_source.html#l00003">3</a> of file <a class="el" href="view__monitor_8cpp_source.html">view_monitor.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a2224002fe45655df87130fe07a161693"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2224002fe45655df87130fe07a161693">&#9670;&nbsp;</a></span>keypress()</h2>
 
@@ -245,7 +272,7 @@ constexpr static int&#160;</td><td class="memItemRight" valign="bottom"><a class
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 31 2019 15:40:05 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 31 2019 16:08:02 for B15F by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
