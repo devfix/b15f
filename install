@@ -26,7 +26,7 @@ function hr2
 function title
 {
     echo ""
-    echo -e "*** $1 ***" >> "$log"
+    echo -e "\n*** $1 ***" >> "$log"
     hr1
     echo " $1"
     hr1
@@ -35,7 +35,7 @@ function title
 function msg
 {
     echo ""
-    echo -e "* $1 *" >> "$log"
+    echo -e "\n* $1 *" >> "$log"
     hr2
     echo " $1"
     hr2
@@ -47,9 +47,14 @@ function out
 }
 
 
-# aktiviere logging
-exec 2>&1 | tee -a "$log"
+###########################
+# Beginn der Installation #
+###########################
 
+# Überprüfe, ob ausführender Nutzer root ist.
+# Wenn ja überspringe diesen IF-Block.
+# Sonst: fordere Anmeldung eines Nutzers mit Sudorechten an und
+# rufe dieses Script automatisch nocheinmal mit den richtigen Parametern auf.
 if [ "$EUID" -ne 0 ]; then
 	current_user="`whoami`"
 	
@@ -71,9 +76,12 @@ fi
 
 title "Installation B15F"
 
-# Abbruch bei Fehlern
+
+# Abbruch dieses Scripts, wenn ein Befehl fehlschlägt
 set -e
+# Abbruch dieses Scripts, wenn ein Befehl in einer Pipe fehlschlägt
 set -o pipefail
+
 
 msg "Installiere Abhängigkeiten"
 
@@ -93,34 +101,50 @@ udevadm trigger| tee -a "$log"
 
 msg "Lade Projekt-Daten"
 
+# Überprüfe, ob repo bereits existiert.
+# Wenn Ja -> Aktualisierung mittels pull
 if [ -d "$path" ]; then
     out "Aktualisiere Repository..."
     cd "$path"
-    su $user -c "git checkout master"
+    su $user -c "git reset --hard"
+    su $user -c "git checkout --force master"
     su $user -c "git pull"
     su $user -c "git pull --prune"
+    
+# Wenn Nein -> Runterladen mittels clone
 else
     out "Klone Repository..."
     su $user -c "git clone -q \"$repo\" \"$path\"" | tee -a "$log"
     cd "$path"
 fi
 
+
+# Entferne Installationsscript im b15f Verzeichnis, damit Nutzer
+# getwungen ist immer das neueste per Hand herunterzuladen
+rm "$path/install"
+
+
+# Wenn die Datei $mcu_cfg nicht exístiert, frage Nutzer nach MCU von diesem
+# Arbeitsplatz und erzeuge sie neu.
 if [ ! -f "$mcu_cfg" ]; then
-    msg "Wichtiger Hinweis"
+    msg "Wichtiger Hinweis: atmega1284p ist nicht gleich atmega1284"
     out "Bitte geben Sie die MCU für diesen Arbeitsplatz an:"
     read -e -p " MCU = " -i "atmega1284p" mcu
     echo "$mcu" > "$mcu_cfg"
 fi
 
+# Lies die MCU aus der Datei $mcu_cfg aus
 out "Prüfe $mcu_cfg"
 mcu=`cat "$mcu_cfg"`
-# Prüfe, ob MCU unbekannt
+
+# Prüfe, ob MCU unbekannt (falsch Eingabe)
 if [[ ! " ${known_mcus[@]} " =~ " ${mcu} " ]]; then
     mcus="${known_mcus[@]}"
-    title "Fehler: $mcu_cfg enhält keine der folgenden MCUs: ${mcus}. Bitte korrigieren und Installation neu starten."
+    title "Fehler: $mcu_cfg enhält keine der folgenden MCUs: ${mcus}. Bitte per Hand korrigieren und Installation neu starten."
     exit 1
 fi
 
+# Eersetze die MCU im makefile durch konfigurierte MCU
 sed -i "s@\\s*MCU\\s*=\\s*atmega1284.*@MCU        = ${mcu} # set by ${mcu_cfg}@g" "$path/firmware/"?akefile
 
 msg "Kompiliere Firmware"
