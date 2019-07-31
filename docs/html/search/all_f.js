@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['wdt_5ftimeout',['WDT_TIMEOUT',['../classB15F.html#a158d13bc84aed6430cdede1396384e06',1,'B15F']]],
-  ['what',['what',['../classTimeoutException.html#a97eaf01fc39ddb94b060020b42fefd6e',1,'TimeoutException::what()'],['../classUSARTException.html#a2af5e3c00cd0585c7427c2e0420a8f15',1,'USARTException::what()']]],
-  ['writetofile',['writeToFile',['../classPlottyFile.html#a82c348e7fade2edcbc907e7c2bc2e305',1,'PlottyFile']]]
+  ['usart',['USART',['../classUSART.html',1,'USART'],['../classUSART.html#a5daed20dc595c43d87c4c28bb08a7449',1,'USART::USART()']]],
+  ['usartexception',['USARTException',['../classUSARTException.html',1,'USARTException'],['../classUSARTException.html#a3c359db129825703b91392d5128cf93d',1,'USARTException::USARTException(const char *message)'],['../classUSARTException.html#a643c0a8b7f0d81e2f1693a75b378e6c2',1,'USARTException::USARTException(const std::string &amp;message)']]]
 ];

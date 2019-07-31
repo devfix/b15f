@@ -13,7 +13,7 @@ public:
      * Constructor
      * @param message as c-string
      */
-    explicit TimeoutException(const char* message) : msg(message)
+    explicit TimeoutException(const char* message) : msg_(message)
     {
     }
 
@@ -21,7 +21,7 @@ public:
      * Constructor
      * @param message as c++-string
      */
-    explicit TimeoutException(const std::string& message) : msg(message)
+    explicit TimeoutException(const std::string& message) : msg_(message)
     {
     }
 
@@ -36,11 +36,11 @@ public:
      */
     virtual const char* what() const throw ()
     {
-        return msg.c_str();
+        return msg_.c_str();
     }
 
 protected:
-    std::string msg; //!< failure description
+    std::string msg_; //!< failure description
 };
 
 #endif // TIMEOUTEXCEPTION_H

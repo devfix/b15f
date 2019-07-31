@@ -65,42 +65,43 @@ public:
 
     /**
      * Sets the stepwith the parameter got increased with each curve.
-     * \param para_first parameter stepwith
+     * \param para_stepwidth parameter stepwith
      */
     void setParaStepWidth(uint16_t para_stepwidth);
 
     /**
      * Sets the unit of the x axis.
-     * \param para_first unit
+     * \param unit_x unit identifier
      */
     void setUnitX(std::string unit_x);
 
     /**
      * Sets the description of the x axis.
-     * \param para_first description
+     * \param desc_x description
      */
     void setDescX(std::string desc_x);
 
     /**
      * Sets the unit of the y axis.
-     * \param para_first unit
+     * \param unit_y unit identifier
      */
     void setUnitY(std::string unit_y);
 
     /**
      * Sets the description of the y axis.
-     * \param para_first description
+     * \param desc_y description
      */
     void setDescY(std::string desc_y);
 
     /**
      * Sets the unit of the parameter.
-     * \param para_first unit
+     * \param unit_para unit identifier
      */
     void setUnitPara(std::string unit_para);
+
     /**
      * Sets the description of the parameter.
-     * \param para_first description
+     * \param desc_para description
      */
     void setDescPara(std::string desc_para);
 
@@ -112,7 +113,7 @@ public:
     FunctionType getFunctionType(void) const;
 
     /**
-     * \return the quadrant
+     * \return the quadrant number
      */
     uint8_t getQuadrant(void) const;
 
@@ -183,7 +184,7 @@ private:
 
     std::vector<Dot> dots;
 
-    int8_t command = 0x1D;
+    int8_t command = 0x1D; //!< command for file header
     const std::string head = "HTWK-HWLab";
     const std::string filetype = "MD";
     int16_t version = 1;
@@ -200,7 +201,7 @@ private:
     std::string desc_y; //!< description for y-axis
     std::string unit_para; //!< unit name for parameter
     std::string desc_para; //!< description for parameter
-    const uint8_t eof = 0xD;
+    const uint8_t eof = 0xD; //!< end of file, but only marks end of header
 
     constexpr static uint8_t STR_LEN_SHORT = 10; //!< string length for short string in header
     constexpr static uint8_t STR_LEN_LARGE = 20; //!< string length for large string in header

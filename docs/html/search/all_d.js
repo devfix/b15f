@@ -1,5 +1,30 @@
 var searchData=
 [
-  ['usart',['USART',['../classUSART.html',1,'USART'],['../classUSART.html#a5daed20dc595c43d87c4c28bb08a7449',1,'USART::USART()']]],
-  ['usartexception',['USARTException',['../classUSARTException.html',1,'USARTException'],['../classUSARTException.html#a3c359db129825703b91392d5128cf93d',1,'USARTException::USARTException(const char *message)'],['../classUSARTException.html#a643c0a8b7f0d81e2f1693a75b378e6c2',1,'USARTException::USARTException(const std::string &amp;message)']]]
+  ['setaborthandler',['setAbortHandler',['../classB15F.html#a55b0cd1ea582bda53d6979442640f8e9',1,'B15F']]],
+  ['setbaudrate',['setBaudrate',['../classUSART.html#aac63918a8b97ae63ee607cfa39e6d88d',1,'USART']]],
+  ['setdescpara',['setDescPara',['../classPlottyFile.html#a431904143c3c1164a2e8b8cfec3c77ab',1,'PlottyFile']]],
+  ['setdescx',['setDescX',['../classPlottyFile.html#aa0449c290265d55d6223b19cf0a88b0a',1,'PlottyFile']]],
+  ['setdescy',['setDescY',['../classPlottyFile.html#a38a3a4dfc76bc70523727584bf01d590',1,'PlottyFile']]],
+  ['setfunctiontype',['setFunctionType',['../classPlottyFile.html#a4e5ab1ebb012a5cc1a3d6458a4cd512f',1,'PlottyFile']]],
+  ['setmem16',['setMem16',['../classB15F.html#a62ef2ee9bd945d30979939fcffa6759a',1,'B15F']]],
+  ['setmem8',['setMem8',['../classB15F.html#a65c0eee6b40b6d3ec58b0335fd668503',1,'B15F']]],
+  ['setparafirstcurve',['setParaFirstCurve',['../classPlottyFile.html#aa676414793becb975506f48d6e949dd0',1,'PlottyFile']]],
+  ['setparastepwidth',['setParaStepWidth',['../classPlottyFile.html#a6caebd31e04e2e7081cc007047350355',1,'PlottyFile']]],
+  ['setquadrant',['setQuadrant',['../classPlottyFile.html#a1953ee0d9a87b7353c16139584e9c2ae',1,'PlottyFile']]],
+  ['setrefx',['setRefX',['../classPlottyFile.html#a80c2c2e97a454566f9c1f2c51e1d7f3e',1,'PlottyFile']]],
+  ['setrefy',['setRefY',['../classPlottyFile.html#a3a371228ddcc007e97eebe7cc04dffc2',1,'PlottyFile']]],
+  ['setregister',['setRegister',['../classB15F.html#a47d7b797129d1ee7ebee4d8ae4f0ff93',1,'B15F']]],
+  ['setservodisabled',['setServoDisabled',['../classB15F.html#aad1b3206761c06c7183ae1b8b95b350b',1,'B15F']]],
+  ['setservoenabled',['setServoEnabled',['../classB15F.html#ab23d8c5a0b520b9d12d94a04f90fcfa0',1,'B15F']]],
+  ['setservoposition',['setServoPosition',['../classB15F.html#aa76f289274e5d0be41c5d4a58b52a416',1,'B15F']]],
+  ['settimeout',['setTimeout',['../classUSART.html#ad7fe866cebe920784d2b17602824c7ff',1,'USART']]],
+  ['settitle',['setTitle',['../classView.html#a6c725e4d83fd7474635a7e64200c7a08',1,'View']]],
+  ['setunitpara',['setUnitPara',['../classPlottyFile.html#abbac84109a1e0958a4ca5c270fac0986',1,'PlottyFile']]],
+  ['setunitx',['setUnitX',['../classPlottyFile.html#ab8d35a841ca9c325fca671cf34e03527',1,'PlottyFile']]],
+  ['setunity',['setUnitY',['../classPlottyFile.html#abb18c814f435926f741f7ceb310f3059',1,'PlottyFile']]],
+  ['setwincontext',['setWinContext',['../classView.html#a990aa2223befde031dfcce54a740c558',1,'View']]],
+  ['start_5fx',['start_x',['../classView.html#a9fc9f3b0c876d063e6f57dee320a43fe',1,'View']]],
+  ['start_5fy',['start_y',['../classView.html#ac424db4c13776c3ce9d33f9074dfcfaa',1,'View']]],
+  ['startplotty',['startPlotty',['../classPlottyFile.html#a08a115ef10458cadfe76077d623313df',1,'PlottyFile']]],
+  ['str_5fsplit',['str_split',['../classView.html#a52c2e2a7bc56388e7d9bfa398ad52668',1,'View']]]
 ];

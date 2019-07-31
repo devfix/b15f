@@ -21,6 +21,7 @@ var searchData=
   ['getunitpara',['getUnitPara',['../classPlottyFile.html#abcda4139adf8c5ab8a93b13b84ac097c',1,'PlottyFile']]],
   ['getunitx',['getUnitX',['../classPlottyFile.html#af952ac5e2c40896acaf6a86063874fe3',1,'PlottyFile']]],
   ['getunity',['getUnitY',['../classPlottyFile.html#a746b96036872dbece204e9739f3413b6',1,'PlottyFile']]],
+  ['getwincontext',['getWinContext',['../classView.html#a0710c6ba06e3795e7ddf369361308b79',1,'View']]],
   ['getx',['getX',['../classDot.html#a029f0cc99c474122b77a708a317e7f77',1,'Dot']]],
   ['gety',['getY',['../classDot.html#a8fcb987e6308d8184d1a2c8692227e58',1,'Dot']]]
 ];
