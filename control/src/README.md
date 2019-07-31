@@ -16,10 +16,11 @@ Außerdem wird eine Bibliothek (*b15fdrv*) installiert, die eine einfache Entwic
 
 ### Installation mit Installationsscript (empfohlen)
 
- (a) Laden Sie das [Installationsscript](https://raw.githubusercontent.com/devfix/b15f/master/install) herunter  
+ (a) Laden Sie das [Installationsscript](https://raw.githubusercontent.com/devfix/b15f/master/install) herunter, am besten nach **/tmp/**  
  (b) Setzen Sie die Ausführungsberechtigung  
  (c) Schalten Sie die Stromversorgung von B15 an und schließen Sie den ISP Programmer an  
  (d) Starten Sie das Installationsscript  
+ (e) Treten Probleme auf? Das B15F Verzeichnis löschen und das Script nocheinmal starten  
 
 ### Installation von Hand (falls Installationsscript mit Fehler abbricht)
 
