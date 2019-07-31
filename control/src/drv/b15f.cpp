@@ -220,6 +220,8 @@ void B15F::activateSelfTestMode()
 
 void B15F::digitalWrite0(uint8_t port)
 {
+    reverse(port); // port ist invertiert
+
     uint8_t rq[] =
     {
         RQ_DIGITAL_WRITE_0,
@@ -236,6 +238,8 @@ void B15F::digitalWrite0(uint8_t port)
 
 void B15F::digitalWrite1(uint8_t port)
 {
+    reverse(port); // port ist invertiert
+
     uint8_t rq[] =
     {
         RQ_DIGITAL_WRITE_1,
@@ -263,6 +267,9 @@ uint8_t B15F::digitalRead0()
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
+
+    reverse(aw); // port ist invertiert
+
     return aw;
 }
 
@@ -279,6 +286,9 @@ uint8_t B15F::digitalRead1()
 
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
+
+    reverse(aw); // port ist invertiert
+
     return aw;
 }
 
@@ -296,7 +306,7 @@ uint8_t B15F::readDipSwitch()
     uint8_t aw;
     usart.receive(&aw, 0, sizeof(aw));
 
-    reverse(aw); // DIP Schalter muss invertiert werden!
+    reverse(aw); // DIP Schalter ist invertiert
 
     return aw;
 }

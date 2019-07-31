@@ -44,7 +44,7 @@ call_t ViewMonitor::keypress(int& key)
 std::string ViewMonitor::fancyDigitalString(uint8_t& b)
 {
     std::string bitstring(std::bitset<8>(b).to_string());
-    std::reverse(bitstring.begin(), bitstring.end());
+    // std::reverse(bitstring.begin(), bitstring.end()); nicht mehr notwendig, B15F invertiert automatisch den port
 
     std::stringstream str;
     str << bitstring;
