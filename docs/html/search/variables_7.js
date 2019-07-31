@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['start_5fx',['start_x',['../classView.html#a9fc9f3b0c876d063e6f57dee320a43fe',1,'View']]],
-  ['start_5fy',['start_y',['../classView.html#ac424db4c13776c3ce9d33f9074dfcfaa',1,'View']]]
+  ['reconnect_5ftimeout',['RECONNECT_TIMEOUT',['../classB15F.html#a040951746fbfd632e12bd1ad14578816',1,'B15F']]],
+  ['reconnect_5ftries',['RECONNECT_TRIES',['../classB15F.html#a6c4895bdbcd71ff6743becf97985c2dc',1,'B15F']]]
 ];

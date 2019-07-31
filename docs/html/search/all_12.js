@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['_7edriverexception',['~DriverException',['../classDriverException.html#a4e62b528e9a6c1a776b1a08487fac340',1,'DriverException']]],
-  ['_7etimeoutexception',['~TimeoutException',['../classTimeoutException.html#a2f686b262d2ccffa0090fda9b44ab540',1,'TimeoutException']]],
-  ['_7eusart',['~USART',['../classUSART.html#a0c8eb1a939ca00921e22f6cbcc7bb749',1,'USART']]],
-  ['_7eusartexception',['~USARTException',['../classUSARTException.html#a0e008b3cb4974859e6bc8c8f8eb480be',1,'USARTException']]],
-  ['_7eview',['~View',['../classView.html#a450dfab3f21a52edc03db4310593412f',1,'View']]]
+  ['wdt_5ftimeout',['WDT_TIMEOUT',['../classB15F.html#a158d13bc84aed6430cdede1396384e06',1,'B15F']]],
+  ['what',['what',['../classDriverException.html#a781362760bcd75b1bd5448629df58446',1,'DriverException::what()'],['../classTimeoutException.html#a97eaf01fc39ddb94b060020b42fefd6e',1,'TimeoutException::what()'],['../classUSARTException.html#a2af5e3c00cd0585c7427c2e0420a8f15',1,'USARTException::what()']]],
+  ['width',['width',['../classView.html#ae039aa744b085db819ae149705b2c32b',1,'View']]],
+  ['win',['win',['../classView.html#a5ddee2bf0b26dbcfa7780be17ff33dd7',1,'View']]],
+  ['writetofile',['writeToFile',['../classPlottyFile.html#a82c348e7fade2edcbc907e7c2bc2e305',1,'PlottyFile']]]
 ];

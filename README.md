@@ -1,7 +1,7 @@
 # B15F - Board 15 Famulus Edition
 
-**Hinweis:**  
-Die Projekt-Dokumentation befindet sich unter [github pages](https://devfix.github.io/b15f/).
+## Dokumentation
+Die **Projekt-Dokumentation** befindet sich hier: [https://devfix.github.io/b15f/](https://devfix.github.io/b15f/).
 
 ## TODO / Ideen
 - [X] CLI: Exception catchen, set global error message, raise SIGINT --> ncurses wird richtig beendet

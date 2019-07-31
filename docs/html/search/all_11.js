@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['wdt_5ftimeout',['WDT_TIMEOUT',['../classB15F.html#a158d13bc84aed6430cdede1396384e06',1,'B15F']]],
-  ['what',['what',['../classDriverException.html#a781362760bcd75b1bd5448629df58446',1,'DriverException::what()'],['../classTimeoutException.html#a97eaf01fc39ddb94b060020b42fefd6e',1,'TimeoutException::what()'],['../classUSARTException.html#a2af5e3c00cd0585c7427c2e0420a8f15',1,'USARTException::what()']]],
-  ['width',['width',['../classView.html#ae039aa744b085db819ae149705b2c32b',1,'View']]],
-  ['win',['win',['../classView.html#a5ddee2bf0b26dbcfa7780be17ff33dd7',1,'View']]],
-  ['writetofile',['writeToFile',['../classPlottyFile.html#a82c348e7fade2edcbc907e7c2bc2e305',1,'PlottyFile']]]
+  ['view',['View',['../classView.html',1,'View'],['../classView.html#a0a9be6e5fb588412aab31cacf5e43b04',1,'View::View()']]],
+  ['viewinfo',['ViewInfo',['../classViewInfo.html',1,'ViewInfo'],['../classViewInfo.html#a95a3a81de65ef42615bbe5a843e8d5f6',1,'ViewInfo::ViewInfo()']]],
+  ['viewmonitor',['ViewMonitor',['../classViewMonitor.html',1,'']]],
+  ['viewpromt',['ViewPromt',['../classViewPromt.html',1,'']]],
+  ['viewselection',['ViewSelection',['../classViewSelection.html',1,'']]]
 ];

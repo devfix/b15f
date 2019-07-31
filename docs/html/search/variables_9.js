@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['wdt_5ftimeout',['WDT_TIMEOUT',['../classB15F.html#a158d13bc84aed6430cdede1396384e06',1,'B15F']]],
-  ['width',['width',['../classView.html#ae039aa744b085db819ae149705b2c32b',1,'View']]],
-  ['win',['win',['../classView.html#a5ddee2bf0b26dbcfa7780be17ff33dd7',1,'View']]]
+  ['text',['text',['../classViewInfo.html#ac392a569ef16af3dc11ee659f3fa1eb4',1,'ViewInfo']]],
+  ['text_5foffset_5fx',['text_offset_x',['../classViewInfo.html#a4681a8138f17ea229aca02e6db7357cd',1,'ViewInfo']]],
+  ['text_5foffset_5fy',['text_offset_y',['../classViewInfo.html#a34a9239c8954a0c27a22cf44d112f5b8',1,'ViewInfo']]],
+  ['title',['title',['../classView.html#a80441aa81b52e04677a2aa2bd9c47753',1,'View']]]
 ];
