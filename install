@@ -124,14 +124,18 @@ fi
 rm "$path/install"
 
 
-# Wenn die Datei $mcu_cfg nicht exístiert, frage Nutzer nach MCU von diesem
-# Arbeitsplatz und erzeuge sie neu.
+# Wenn die Datei $mcu_cfg nicht existiert, wird sie neu angelegt
 if [ ! -f "$mcu_cfg" ]; then
-    msg "Wichtiger Hinweis: atmega1284p ist nicht gleich atmega1284"
-    out "Bitte geben Sie die MCU für diesen Arbeitsplatz an:"
-    read -e -p " MCU = " -i "atmega1284p" mcu
-    echo "$mcu" > "$mcu_cfg"
+    echo "atmega1284p" > "$mcu_cfg"
 fi
+
+
+# frage Nutzer nach MCU von diesem Arbeitsplatz
+msg "Wichtiger Hinweis: atmega1284p ist nicht gleich atmega1284"
+out "Bitte geben Sie die MCU für diesen Arbeitsplatz an:"
+read -e -p " MCU = " -i "$mcu" mcu
+echo "$mcu" > "$mcu_cfg"
+
 
 # Lies die MCU aus der Datei $mcu_cfg aus
 out "Prüfe $mcu_cfg"
