@@ -130,6 +130,10 @@ if [ ! -f "$mcu_cfg" ]; then
 fi
 
 
+# Lese aktuell eingestellte MCU aus
+mcu=`cat "$mcu_cfg"`
+
+
 # frage Nutzer nach MCU von diesem Arbeitsplatz
 msg "Wichtiger Hinweis: atmega1284p ist nicht gleich atmega1284"
 out "Bitte geben Sie die MCU für diesen Arbeitsplatz an:"
