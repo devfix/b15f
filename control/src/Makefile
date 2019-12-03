@@ -3,7 +3,7 @@
 # Author: Tristan Krause
 # Creation Date: 2019-03-22
 
-# Änderungen veröffentlichen, vorher nochmal: make clean && make && make doc && make clean && make doc && make 
+# Änderungen veröffentlichen, vorher nochmal: make clean && make && make doc && make clean && make doc && make
 
 # Environment
 PATH_COMPILER = g++
