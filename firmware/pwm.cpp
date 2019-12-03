@@ -5,8 +5,8 @@ const uint8_t PWM::PRESCALER_COUNT = sizeof(PRESCALERS) / sizeof(uint16_t);
 void PWM::init() const volatile
 {
     // fast pwm mode, top = OCR0A, non inverting mode
-    TCCR0A = _BV(COM0B1) | _BV(WGM00) | _BV(WGM01);
-    TCCR0B =  _BV(WGM02);
+    TCCR0A = _BV(WGM00) | _BV(WGM01);
+    TCCR0B = _BV(WGM02);
     
     // output signal on PB4
     DDRB |= _BV(PB4);
@@ -23,7 +23,14 @@ void PWM::setFrequency(uint32_t freq) const volatile
 
 void PWM::setValue(uint8_t value) const volatile
 {
-    OCR0B = value;
+    if(value)
+    {
+        OCR0B = value;
+        TCCR0A |= _BV(COM0B1);
+    } else
+    {
+        TCCR0A &= ~_BV(COM0B1);
+    }
 }
 
 uint8_t PWM::getTop() const volatile
